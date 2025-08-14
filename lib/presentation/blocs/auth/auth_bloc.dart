@@ -81,7 +81,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final isSuccess = await loginUsecase.execute(event.username, event.password);
       if (isSuccess) {
-        add(LoggedIn(password: event.password, username: event.username));
+        emit(Authenticated(username: event.username, password: event.password));
       } else {
         emit(AuthFailure(message: 'Invalid credentials'));
       }
