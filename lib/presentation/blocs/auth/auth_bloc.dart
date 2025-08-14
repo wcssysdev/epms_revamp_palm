@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:epms_tech/domain/repository/auth_repository.dart';
+import 'package:epms_tech/domain/repository/auth_repository_impl.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +19,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //     Authenticated
   //     Unauthenticated
   //    */
+  // final AuthRepository authRepository;
+
   AuthBloc() : super(AuthInitial()) {
     // AuthInitial -> state awal saat UI Bloc tampil
     on<AppStarted>((event, emit) async {
@@ -69,10 +73,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
   on<LoginRequested>((event, emit) async {
+  final AuthRepository authRepository = AuthRepositoryImpl(baseUrl: 'http://192.168.72.129/epms_bia/api/v1_1/auth/login');
     emit(AuthLoading());
     try {
       final isSuccess = await authRepository.login(event.username, event.password);
-
+      print(isSuccess);
       if(isSuccess) {
         add(LoggedIn(token: 'dumyToken', username: event.username));
       } else {
