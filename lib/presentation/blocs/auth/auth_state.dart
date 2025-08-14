@@ -14,6 +14,13 @@ abstract class AuthState extends Equatable{
 
 class AuthInitial extends AuthState{}
 class AuthLoading extends AuthState{}
+class AuthFailure extends AuthState{
+  final String message;
+  AuthFailure({required this.message});// constructor
+
+  @override
+  List<Object?> get props => [message];
+}
 class Authenticated extends AuthState{
   final String username;
   final String password;

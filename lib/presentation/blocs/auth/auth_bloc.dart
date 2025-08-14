@@ -68,6 +68,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+  on<LoginRequested>((event, emit) async {
+    emit(AuthLoading());
+    try {
+      final isSuccess = await authRepository.login(event.username, event.password);
+
+      if(isSuccess) {
+        add(LoggedIn(token: 'dumyToken', username: event.username));
+      } else {
+        emit(AuthFailure(message: 'Invalid credentials'));
+      }
+    } catch (e) {
+      emit(AuthFailure(message: e.toString()));
+    }
+  });
   }
 }
 

@@ -80,8 +80,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 16),
                         SubmitButtonSection(
-                          label: "Save",
-                          onPressed: () => {print('cari tau dulu')},
+                          label: "LOGIN",
+                          onPressed: () {
+                            final username = usernameController.text.trim();
+                            final password = passwordController.text.trim();
+                            context.read<AuthBloc>().add(
+                              LoginRequested(username: username, password: password)
+                            );
+                          },
                         ),
                       ],
                     );
