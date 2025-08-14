@@ -25,8 +25,10 @@ class Authenticated extends AuthState{
   final String username;
   final String password;
 
-  Authenticated({required this.username, required this.password});
+  Authenticated({required this.username, required this.password}); // CONSTRUCTOR
+  // fungsi ini saat pertama kali dipanggil akan ngecek 2 parameter (mis saat buat state baru Authenticated)
   Authenticated copyWith({String? username, String? password}) {
+    // WAJIB DI DEFINE untuk ubah field username dan password diatas
     // copyWith = menerima parameter dan akan menggantikan value dari variable username
     /*
     final auth1 = Authenticated(username: 'AuthA');

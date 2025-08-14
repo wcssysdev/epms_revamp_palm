@@ -5,6 +5,9 @@ class LoginUsecase {
   LoginUsecase(this.repository); // usecase ini butuh parameter
 
   Future<bool> execute(String username, String password) async {
+    if(username.isEmpty || password.isEmpty) {
+      return false;
+    }
     return repository.login(username, password);
   }
 }

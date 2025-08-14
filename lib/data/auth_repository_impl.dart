@@ -10,9 +10,7 @@ class AuthRepositoryImpl implements AuthRepository{
   
   @override
   Future<bool> login(String username, String password) async {
-    print('B URL  == $baseUrl, u= $username, p= $password');
     final url = Uri.parse(baseUrl);
-    print('URL == $url');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -25,7 +23,7 @@ class AuthRepositoryImpl implements AuthRepository{
         'is_empty' : '1'
       },
     );
-
+    print('response ${response.statusCode}');
     if(response.statusCode == 200) {
       final data = jsonDecode(response.body);
       return data['success'] == true;

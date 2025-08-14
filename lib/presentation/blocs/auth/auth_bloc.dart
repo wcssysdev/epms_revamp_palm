@@ -1,7 +1,4 @@
-import 'dart:math';
-
-import 'package:epms_tech/domain/repository/auth_repository.dart';
-import 'package:epms_tech/domain/repository/auth_repository_impl.dart';
+import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,83 +16,77 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //     Authenticated
   //     Unauthenticated
   //    */
-  // final AuthRepository authRepository;
+  final LoginUsecase loginUsecase;
 
-  AuthBloc() : super(AuthInitial()) {
-    // AuthInitial -> state awal saat UI Bloc tampil
-    on<AppStarted>((event, emit) async {
-      emit(AuthLoading());
-      final prefs = await SharedPreferences.getInstance();
-      bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-      if(isLoggedIn) {
-        String username = prefs.getString('username') ?? '';
-        String password = prefs.getString('password') ?? '';
-        emit(Authenticated(username: username, password: password));
-      } else {
-        emit(Unauthenticated());
-      }
-    });
+  AuthBloc(this.loginUsecase) : super(AuthInitial()) {
+    // AuthBloc(this.loginUsecase) = nerima objec loginUsecase dan simpan di property class
+    on<AppStarted>(_onAppStarted);
+    on<LoggedIn>(_onLoggedIn);
+    on<LoggedOut>(_onLoggedOut);
+    on<UsernameChanged>(_onUsernameChanged);
+    on<PasswordChanged>(_onPasswordChanged);
+    on<LoginRequested>(_onLoginRequested);
+  }
 
-    on<LoggedIn>((event, emit) async {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', true);
-      if(event is LoggedIn) { // is setara dengan ==
-        await prefs.setString('username', event.username);
-        emit(Authenticated(username: event.username, password: event.username));
-      } else {
-        emit(Authenticated(username: '', password: ''));
-      }
-    });
+  Future<void> _onAppStarted(AppStarted event, Emitter<AuthState> emit) async {
+    // AppStarted = saat applikasi pertama kali dibuka dan langsun jalanin ini 
+    // termasuk cek token di storage 
+    // Emitter = alat flutter_bloc tuk kirim state baru
+    // emit = alat tuk ubah state di BLoC
 
-    on<LoggedOut>((event, emit)async {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', false);
-      await prefs.remove('username');
-      emit(Unauthenticated());
-    });
+    emit(AuthLoading());
+    final prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    if(isLoggedIn) {
+      String username = prefs.getString('username') ?? '';
+      String password = prefs.getString('password') ?? '';
+      emit(Authenticated(username: username, password: password));// dari AuthState
+    } else {
+      emit(Unauthenticated());// dari AuthState
+    }
+  }
 
-    on<UsernameChanged>((event, emit) {
-      if (state is Authenticated) {
-        final currentState = state as Authenticated;
-        print(event.username);
-        emit(currentState.copyWith(username: event.username));
-      } else {
-        print('belum ter authentikasi ==');
-      }
-    });
+  Future<void> _onLoggedIn(LoggedIn event, Emitter<AuthState> emit) async {
+    // LoggedIn = nama event
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
+    await prefs.setString('username', event.username);
+    emit(Authenticated(username: event.username, password: event.password));
+  }
 
-    on<PasswordChanged>((event, emit) {
-      if (state is Authenticated) {
-        final currentState = state as Authenticated;
-        print('== ${event.password}');
-        emit(currentState.copyWith(password: event.password));
-      }
-    });
+  Future<void> _onLoggedOut(LoggedOut event, Emitter<AuthState> emit) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', false);
+    await prefs.remove('username');
+    emit(Unauthenticated());
+  }
 
-  on<LoginRequested>((event, emit) async {
-  final AuthRepository authRepository = AuthRepositoryImpl(baseUrl: 'http://192.168.72.129/epms_bia/api/v1_1/auth/login');
+  void _onUsernameChanged(UsernameChanged event, Emitter<AuthState> emit) {
+    if(state is Authenticated) {
+      final currentState = state as Authenticated;
+      // harus di define dengan Authenticated karena pada AuthState untuk username di set pada Authenticated
+      emit(currentState.copyWith(username: event.username));
+    }
+  }
+
+  void _onPasswordChanged(PasswordChanged event, Emitter<AuthState> emit) {
+    if(state is Authenticated) {
+      final currentState = state as Authenticated;
+      emit(currentState.copyWith(password: event.password));
+    }
+  }
+
+  Future<void> _onLoginRequested(LoginRequested event, Emitter<AuthState>emit) async {
     emit(AuthLoading());
     try {
-      final isSuccess = await authRepository.login(event.username, event.password);
-      print(isSuccess);
-      if(isSuccess) {
-        add(LoggedIn(token: 'dumyToken', username: event.username));
+      final isSuccess = await loginUsecase.execute(event.username, event.password);
+      if (isSuccess) {
+        add(LoggedIn(password: event.password, username: event.username));
       } else {
         emit(AuthFailure(message: 'Invalid credentials'));
       }
     } catch (e) {
       emit(AuthFailure(message: e.toString()));
     }
-  });
   }
 }
-
-/*
-FINAL ALUR KERJA SEDERHANA
-1. Applikasi di buka -> kirim event AppStarted
-2. Bloc baca status login dari SharedPreferences
-3. Sudah login - state jadi Authenticated -> misal belum -> Unauthenticated
-4. Saat login berhasil -> kirim event LoggedIn -> langsung Authenticated
-5. Saat logout => kirim event LoggedOut -> langsung Unauthenticated
-
- */

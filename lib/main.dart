@@ -1,14 +1,20 @@
+import 'package:epms_tech/data/auth_repository_impl.dart';
+import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
-import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
 import 'package:epms_tech/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  final authRepository = AuthRepositoryImpl(
+    baseUrl: 'http://192.168.0.100/epms_bia/api/v1_1/auth/login',
+  );
+  final loginUsecase = LoginUsecase(authRepository);
+
   runApp(
     BlocProvider(
-      create: (_) => AuthBloc()..add(AppStarted()), 
+      create: (_) => AuthBloc(loginUsecase), 
       child: const MyApp(),
       ), 
     );
@@ -63,8 +69,17 @@ class MyApp extends StatelessWidget {
 pelajarin
 lib/
   ├── core/                # Konstanta, utils, theme, dll
+          └── theme/
+                ├── app_button_styles.dart
+                ├── app_colors.dart
   ├── data/                # Data source, API, model, repository impl
+          └── repository/
+                ├── auth_repository_impl.dart
   ├── domain/              # Entity, abstract repository, use case
+  |       └── repository/
+                ├── auth_repository.dart
+          └── usecases/
+                ├── login_usecase.dart
   └── presentation/
       ├── blocs/           # State management (BLoC/Cubit)
       │    └── auth/
