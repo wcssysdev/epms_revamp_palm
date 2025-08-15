@@ -1,12 +1,16 @@
-import 'package:epms_tech/data/auth_repository_impl.dart';
+import 'package:epms_tech/data/repository/auth_repository_impl.dart';
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
 import 'package:epms_tech/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+
   final authRepository = AuthRepositoryImpl(
     baseUrl: 'http://10.7.129.108/epms_bia/api/v1_1/auth/login',
   );
@@ -68,6 +72,8 @@ lib/
           └── theme/
                 ├── app_button_styles.dart
                 ├── app_colors.dart
+          └── utils/
+                ├── json_parser.dart
   ├── data/                # Data source, API, model, repository impl
           └── repository/
                 ├── auth_repository_impl.dart
@@ -85,3 +91,15 @@ lib/
       ├── screens/         # Semua UI screen
       └── widgets/         # Reusable widget
  */
+
+/*
+parsing JSON pakai compute() lalu simpan ke Hive.
+Alurnya :
+LoginUseCase → panggil AuthRepository.
+AuthRepositoryImpl → request API login, ambil JSON besar, parsing di compute().
+AuthRepositoryImpl → simpan hasil parsing ke Hive.
+AuthBloc → ubah state ke Authenticated kalau berhasil.
+UI → ambil data dari Hive untuk ditampilkan.
+
+
+*/
