@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   final authRepository = AuthRepositoryImpl(
-    baseUrl: 'http://192.168.0.100/epms_bia/api/v1_1/auth/login',
+    baseUrl: 'http://10.7.129.108/epms_bia/api/v1_1/auth/login',
   );
   final loginUsecase = LoginUsecase(authRepository);
 
@@ -49,11 +49,7 @@ class MyApp extends StatelessWidget {
          */ 
 
         builder: (context, state) {
-          if(state is AuthLoading) {
-            return const Scaffold(
-              body: Center(child: CircularProgressIndicator())
-            );
-          } else if (state is Authenticated) {
+          if (state is Authenticated) {
             return const LoginScreen();//HomeScreen();
           } else {
             return const LoginScreen();

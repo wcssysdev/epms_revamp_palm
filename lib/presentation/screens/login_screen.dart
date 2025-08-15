@@ -50,7 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     // menerima context dan state terbaru dan
                     // update UI
                     // AuthBloc updated --> builder kepanggil
-
+                    if (state is AuthLoading) {
+                      return CircularProgressIndicator();
+                    }
                     return Column(
                       children: [
                         TextInputSection(
