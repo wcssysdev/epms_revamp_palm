@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           mengeluarkan state (AuthState) terbaru
         AuthState = representasi state (current state dan updated state)
         BlocBuilder<AuthBloc, AuthState> = widget yg build UI otomatis saat state di AuthBloc berubah
-         */ 
+       */ 
 
         builder: (context, state) {
           if (state is Authenticated) {
@@ -66,9 +66,11 @@ class MyApp extends StatelessWidget {
 }
 
 /*
-pelajarin
+
 lib/
   ├── core/                # Konstanta, utils, theme, dll
+          └── constants/
+                └── app_constants.dart
           └── theme/
                 ├── app_button_styles.dart
                 ├── app_colors.dart
@@ -89,7 +91,12 @@ lib/
       │         ├── auth_event.dart
       │         └── auth_state.dart
       ├── screens/         # Semua UI screen
+          └── login_screen.dart
       └── widgets/         # Reusable widget
+          └── logo_section.dart
+          └── submit_button_section.dart
+          └── text_input_section.dart
+
  */
 
 /*
