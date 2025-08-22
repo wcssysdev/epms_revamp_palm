@@ -1,7 +1,9 @@
 import 'package:epms_tech/core/constants/app_constants.dart';
-import 'package:epms_tech/core/utils/hive_helper.dart';
+import 'package:hive/hive.dart';
+
 class AuthLocalDatasource {
   Future<void> saveSchemas(Map<String, dynamic> parsedData) async {
+  var box = await Hive.openBox('epms_data');
 
     final mVraDocumentSchema = AppConstants.mVraDocumentSchema;
     final mVraTypeSchema = AppConstants.mVraTypeSchema;
@@ -37,7 +39,8 @@ class AuthLocalDatasource {
     for (final key in schemaKeys) {
       try {
         final value = parsedData['global'][key];
-        await onHiveHandler(HiveMethod.put, key, value);
+        // await box.put( key, value);
+        await box.put(key, value);
         print('global schma done: $key');
       } catch (e) {
         print('Error save in $key = $e');
@@ -45,18 +48,18 @@ class AuthLocalDatasource {
     }
 
     if(parsedData['global'][mVraDocumentSchema] != null) {
-      await onHiveHandler(HiveMethod.put, mVraDocumentSchema, parsedData['global'][mVraDocumentSchema]);
+      await box.put( mVraDocumentSchema, parsedData['global'][mVraDocumentSchema]);
     }
     if(parsedData['global'][mVraTypeSchema] != null) {
-      await onHiveHandler(HiveMethod.put, mVraTypeSchema, parsedData['global'][mVraTypeSchema]);
+      await box.put( mVraTypeSchema, parsedData['global'][mVraTypeSchema]);
 
     }
     if(parsedData['global'][mUomSchema] != null) {
-      await onHiveHandler(HiveMethod.put, mUomSchema, parsedData['global'][mUomSchema]);
+      await box.put( mUomSchema, parsedData['global'][mUomSchema]);
 
     }
     if(parsedData['global'][mNpMaterialSchema].length > 0) {
-      await onHiveHandler(HiveMethod.put, mNpMaterialSchema, parsedData['global'][mNpMaterialSchema]);
+      await box.put( mNpMaterialSchema, parsedData['global'][mNpMaterialSchema]);
       
     }
 
@@ -87,7 +90,7 @@ class AuthLocalDatasource {
         try {
           final value = parsedData['harvest_clerk'][key];
           // await box.put(key, value); // simpan satu-satu, biar stabil
-          await onHiveHandler(HiveMethod.put, key, value);
+          await box.put( key, value);
           print('Harvest clerk done: $key');
         } catch (e) {
           print('Error save in $key = $e');
@@ -110,7 +113,7 @@ class AuthLocalDatasource {
       for (final key in transporterSchemaKeys) {
         try {
           final value = parsedData['transport_clerk'][key];
-          await onHiveHandler(HiveMethod.put, key, value);
+          await box.put( key, value);
           print('TRANSPORT clerk done: $key');
         } catch (e) {
           print('Error save in $key = $e');
@@ -130,7 +133,7 @@ class AuthLocalDatasource {
       for (final key in fieldStaffSchemaKeys) {
         try {
           final value = parsedData['field_staff'][key];
-          await onHiveHandler(HiveMethod.put, key, value);
+          await box.put( key, value);
           print('FIELD STAFF clerk done: $key');
         } catch (e) {
           print('Error save in $key = $e');
