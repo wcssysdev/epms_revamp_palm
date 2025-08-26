@@ -16,9 +16,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   //     Authenticated
   //     Unauthenticated
   //    */
-  final LoginUsecase loginUsecase;
+  final LoginUsecase loginUsecase;// domain/usecases/login_usecase.dart
 
   AuthBloc(this.loginUsecase) : super(AuthInitial()) {
+    // AuthBloc di define di main.dart -> usecase + API request main.dart
     // AuthBloc(this.loginUsecase) = nerima objec loginUsecase dan simpan di property class
     on<AppStarted>(_onAppStarted);
     on<LoggedIn>(_onLoggedIn);

@@ -22,10 +22,11 @@ class TextInputSection extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: const TextStyle(fontSize: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8)
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20)
       ),
     );
   }

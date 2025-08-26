@@ -3,6 +3,8 @@ import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
 import 'package:epms_tech/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository{
+  // dipanggil di main.dart -> parameter baseUrl
+
   final AuthRemoteDatasource remoteDatasource;
   final AuthLocalDatasource localDatasource;
   final String baseUrl;
