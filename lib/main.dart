@@ -2,6 +2,7 @@ import 'package:epms_tech/data/repository/auth_repository_impl.dart';
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
+import 'package:epms_tech/presentation/blocs/ip_server/ip_server_bloc.dart';
 import 'package:epms_tech/presentation/screens/ip_server_screen.dart';
 import 'package:epms_tech/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
     MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => AuthBloc(loginUsecase)),
-          // BlocProvider(create: (_) => ProductBloc(productUsecase)),
+          BlocProvider(create: (_) => IpServerBloc()),
           // BlocProvider(create: (_) => ProfileBloc(profileUsecase)),
         ],
         child: const MyApp(),
@@ -79,6 +80,10 @@ lib/
       │         ├── auth_bloc.dart
       │         ├── auth_event.dart
       │         └── auth_state.dart
+            └── ip_server/
+      │         ├── ip_server_bloc.dart
+      │         ├── ip_server_event.dart
+      │         └── ip_server_state.dart
       ├── screens/         # Semua UI screen
           └── login_screen.dart
           └── ip_server_screen.dart
@@ -87,7 +92,7 @@ lib/
           └── submit_button_section.dart
           └── text_input_section.dart
           └── text_pressable_section.dart
-
+          └── app_bar_section.dart
  */
 
 /*
