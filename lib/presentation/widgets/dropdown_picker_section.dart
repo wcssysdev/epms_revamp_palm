@@ -2,7 +2,7 @@ import 'package:epms_tech/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class DropdownPickerSection<T> extends StatelessWidget{
+class DropdownPickerSection<T> extends StatelessWidget {
   final String? label;
   final String? hint;
   final T? value;
@@ -16,7 +16,7 @@ class DropdownPickerSection<T> extends StatelessWidget{
   final Widget? prefixIcon;
   final EdgeInsets contentPadding;
 
-  @override 
+  @override
   const DropdownPickerSection({
     super.key,
     required this.items,
@@ -30,7 +30,10 @@ class DropdownPickerSection<T> extends StatelessWidget{
     this.enabled = false,
     this.isLoading = false,
     this.prefixIcon,
-    this.contentPadding = const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+    this.contentPadding = const EdgeInsets.symmetric(
+      horizontal: 12,
+      vertical: 12,
+    ),
   });
 
   @override
@@ -47,29 +50,32 @@ class DropdownPickerSection<T> extends StatelessWidget{
                 )
                 .toList();
 
-    return DropdownButtonFormField<T>(
-      value: value,
-      items: effectiveItems,
-      onChanged: (enabled && !isLoading) ? onChanged : null,
-      isExpanded: isExpanded,
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: prefixIcon,
-        contentPadding: contentPadding,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        suffixIcon:
-            isLoading
-                ? Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                )
-                : null,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: DropdownButtonFormField<T>(
+        value: value,
+        items: effectiveItems,
+        onChanged: (enabled && !isLoading) ? onChanged : null,
+        isExpanded: isExpanded,
+        validator: validator,
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          prefixIcon: prefixIcon,
+          contentPadding: contentPadding,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          suffixIcon:
+              isLoading
+                  ? Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  )
+                  : null,
+        ),
       ),
     );
   }
