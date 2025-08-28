@@ -55,7 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     // AuthBloc updated --> builder kepanggil
                     if (state is AuthLoading) {
                       return CircularProgressIndicator();
-                    }
+                    } 
+                    
                     return Column(
                       children: [
                         TextFieldSection(
@@ -90,7 +91,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             final username = usernameController.text.trim();
                             final password = passwordController.text.trim();
                             context.read<AuthBloc>().add(
-                              LoginRequestedEvent(username: username, password: password)
+                              LoginRequestedEvent(
+                                username: username, 
+                                password: password, 
+                                ipAddress: state.ipAddress
+                              )
                             );
                           },
                         ),
@@ -100,7 +105,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             Navigator.pushNamed(context, 'ip_server');
                           }
-                        )
+                        ),
+                        const SizedBox(height: 16),
+                        TextPressableSection(
+                          label: 'Cek cek', 
+                          onPressed: () {
+                            print('ip == ${state.ipAddress}');
+                          }
+                        ),
                       ],
                     );
                   },

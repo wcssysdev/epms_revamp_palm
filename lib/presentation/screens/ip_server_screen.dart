@@ -21,7 +21,7 @@ class _IpServerScreenState extends State<IpServerScreen> {
   @override
   void initState() {
     super.initState();
-    final ipAddress = context.read<AuthBloc>().state.ipAddress;
+    final ipAddress = context.read<AuthBloc>().state.ipAddress;// auth state DON'T DELETE
     ipController = TextEditingController(text: ipAddress);
   }
 

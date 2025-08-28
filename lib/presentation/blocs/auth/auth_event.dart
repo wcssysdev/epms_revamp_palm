@@ -37,10 +37,12 @@ class PasswordChanged extends AuthEvent{
 class LoginRequestedEvent extends AuthEvent {
   final String username;
   final String password;
+  final String ipAddress;
 
   LoginRequestedEvent({
     required this.username,
     required this.password,
+    required this.ipAddress
   });
 
   @override

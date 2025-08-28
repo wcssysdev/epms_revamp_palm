@@ -72,15 +72,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLoginRequested(LoginRequestedEvent event, Emitter<AuthState>emit) async {
     emit(AuthLoading());
     try {
-      final currentIp = state.ipAddress;
-      final isSuccess = await loginUsecase.execute(event.username, event.password, ipAddress: currentIp);
+      final isSuccess = await loginUsecase.execute(
+        event.username,
+        event.password,
+        ipAddress: event.ipAddress
+      );
       if (isSuccess) {
         emit(Authenticated(username: event.username, password: event.password));
       } else {
-        emit(AuthFailure(message: 'Invalid credentials'));
+        emit(AuthFailure(message: 'Invalid credentials', ipAddress: event.ipAddress));// untuk tetap update IP super state class JANGAN HAPUS
       }
     } catch (e) {
-      emit(AuthFailure(message: e.toString()));
+      emit(AuthFailure(message: e.toString(), ipAddress: event.ipAddress));// untuk tetap update IP super state class JANGAN HAPUS
     }
   }
 

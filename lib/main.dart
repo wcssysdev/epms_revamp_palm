@@ -22,7 +22,7 @@ Future<void> main() async {
   await Hive.initFlutter();
 
 
-  final authRepository = AuthRepositoryImpl(baseUrl: 'http://10.7.129.108/epms_bia/api/v1_1/auth/login' );// wajib di define 
+  final authRepository = AuthRepositoryImpl(baseUrl: 'http://222.7.129.108/epms_bia/api/v1_1' );// wajib di define 
   final loginUsecase = LoginUsecase(authRepository);
   runApp(
       MultiBlocProvider(

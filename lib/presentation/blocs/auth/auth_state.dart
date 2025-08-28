@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
   final String ipAddress;
-  const AuthState({this.ipAddress = 'http://10.7.129.108/epms_bia/api/v1_1'});
+  const AuthState({this.ipAddress = 'http://333.7.129.108/epms_bia/api/v1_1'});
   // di set di parent AuthState agar semua state child bisa consume
   // harus di pilih child class yg bisa melakukan perubahan ipAddress; {super.ipAddress} <-- syarat tuk ubah ipAddress pada child class
 
@@ -20,8 +20,9 @@ class AuthLoading extends AuthState {
 
 class AuthFailure extends AuthState {
   final String message;
-  const AuthFailure({required this.message});
-
+  const AuthFailure({required this.message, super.ipAddress});
+  // CASE GAGAL TETAP UPDATE IP - DON'T DELETE
+  
   @override
   List<Object?> get props => [message];
 }
@@ -53,7 +54,7 @@ class Unauthenticated extends AuthState {
 }
 
 class AuthIpSavedSuccess extends AuthState {
-  // const AuthIpSavedSuccess({required String ipAddress}) : super(ipAddress : ipAddress);// JANGAN DI HAPUS
+    // const AuthIpSavedSuccess({required String ipAddress}) : super(ipAddress : ipAddress);// JANGAN DI HAPUS
   const AuthIpSavedSuccess({required super.ipAddress});// bentuk shorthand untuk update parent class
 }
 
