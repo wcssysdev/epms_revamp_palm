@@ -6,17 +6,16 @@ import 'package:epms_tech/data/repository/auth_repository.dart';
 class AuthRepositoryImpl implements AuthRepository{// IMPLEMENTASI KONTRAK INTERFACE - JANGAN DI HAPUS
   final AuthRemoteDatasource remoteDatasource;
   final AuthLocalDatasource localDatasource;
-  final String baseUrl;
 
-  AuthRepositoryImpl({ required this.baseUrl })
+  AuthRepositoryImpl({ required String baseUrl })
     :remoteDatasource = AuthRemoteDatasource(baseUrl: baseUrl),
     localDatasource = AuthLocalDatasource();
 
   @override
-  Future<bool> login(String username, String password) async {
-    AuthRemoteDatasource(baseUrl: baseUrl);
-
-    final parsedData = await remoteDatasource.login(username, password);
+  Future<bool> login(String username, String password, {String? ipAddress}) async {
+    final effectiveBaseUrl = ipAddress ?? remoteDatasource.baseUrl;
+    final remote = AuthRemoteDatasource(baseUrl: effectiveBaseUrl);
+    final parsedData = await remote.login(username, password);
     await localDatasource.saveSchemas(parsedData);
 
     return true;

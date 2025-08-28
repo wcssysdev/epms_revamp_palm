@@ -21,28 +21,18 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
 
-  final authRepository = AuthRepositoryImpl(
-    baseUrl: 'http://10.7.129.108/epms_bia/api/v1_1/auth/login',
-  );
 
+  final authRepository = AuthRepositoryImpl(baseUrl: 'http://10.7.129.108/epms_bia/api/v1_1/auth/login' );// wajib di define 
   final loginUsecase = LoginUsecase(authRepository);
-
   runApp(
-    MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<AuthRepository>(
-          create: (_) => authRepository,
-          )
-      ],
-      child: MultiBlocProvider(
+      MultiBlocProvider(
         providers: [
-          BlocProvider (
-            create: (_) => AuthBloc(LoginUsecase(authRepository), authRepository),
-          )
-        ], 
-        child: const MyApp()
-      )
-    )
+          BlocProvider(
+            create: (_) => AuthBloc(loginUsecase, authRepository),
+          ),
+        ],
+        child: const MyApp(),
+      ),
     );
 }
 
@@ -59,7 +49,7 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthBloc, AuthState> (
         builder: (context, state) {
           if (state is Authenticated) {
-            return const LoginScreen(); //HomeScreen();
+            return const IpServerScreen(); //HomeScreen();
           } else {
             return const LoginScreen();
           }
