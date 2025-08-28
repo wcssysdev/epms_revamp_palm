@@ -1,48 +1,72 @@
-// abstract class AuthState {}
-
-// class AuthInitial extends AuthState{}
-// class AuthLoading extends AuthState{}
-// class Authenticated extends AuthState{}
-// class Unauthenticated extends AuthState{}
-
 import 'package:equatable/equatable.dart';
 
-abstract class AuthState extends Equatable{
+abstract class AuthState extends Equatable {
+  final String ipAddress;
+  const AuthState({this.ipAddress = 'http://10.7.129.108/epms_bia/api/v1_1'});
+  // di set di parent AuthState agar semua state child bisa consume
+  // harus di pilih child class yg bisa melakukan perubahan ipAddress; {super.ipAddress} <-- syarat tuk ubah ipAddress pada child class
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [ipAddress];
 }
 
-class AuthInitial extends AuthState{}
-class AuthLoading extends AuthState{}
-class AuthFailure extends AuthState{
+class AuthInitial extends AuthState {
+  const AuthInitial();
+}
+
+class AuthLoading extends AuthState {
+  const AuthLoading();
+}
+
+class AuthFailure extends AuthState {
   final String message;
-  AuthFailure({required this.message});// constructor
+  const AuthFailure({required this.message});
 
   @override
   List<Object?> get props => [message];
 }
-class Authenticated extends AuthState{
+
+class Authenticated extends AuthState {
   final String username;
   final String password;
 
-  Authenticated({required this.username, required this.password}); // CONSTRUCTOR
-  // fungsi ini saat pertama kali dipanggil akan ngecek 2 parameter (mis saat buat state baru Authenticated)
-  Authenticated copyWith({String? username, String? password}) {
-    // WAJIB DI DEFINE untuk ubah field username dan password diatas
-    // copyWith = menerima parameter dan akan menggantikan value dari variable username
-    /*
-    final auth1 = Authenticated(username: 'AuthA');
-    final auth2 = auth1.copyWith(username: 'AuthB');
-    final auth3 = auth1.copyWith();
+  const Authenticated({
+    required this.username,
+    required this.password,
+    super.ipAddress,
+  });
 
-    auth1.username = 'AuthA'
-    auth2.username = 'AuthB'
-    auth3.username = 'AuthA'
-     */
-    return Authenticated(username: username ?? this.username, password: password ?? this.password);
+  Authenticated copyWith({String? username, String? password, String? ipAddress}) {
+    return Authenticated(
+      username: username ?? this.username,
+      password: password ?? this.password,
+      ipAddress: ipAddress ?? this.ipAddress,
+    );
   }
 
   @override
-  List<Object?> get props => [username];
+  List<Object?> get props => [username, password, ipAddress];
 }
-class Unauthenticated extends AuthState{}
+
+class Unauthenticated extends AuthState {
+  const Unauthenticated();
+}
+
+class AuthIpSavedSuccess extends AuthState {
+  // const AuthIpSavedSuccess({required String ipAddress}) : super(ipAddress : ipAddress);// JANGAN DI HAPUS
+  const AuthIpSavedSuccess({required super.ipAddress});// bentuk shorthand untuk update parent class
+}
+
+/*
+CATATAN
+copyWith = menerima parameter dan akan menggantikan value dari variable username
+
+  final auth1 = Authenticated(username: 'AuthA');
+  final auth2 = auth1.copyWith(username: 'AuthB');
+  final auth3 = auth1.copyWith();
+
+  auth1.username = 'AuthA'
+  auth2.username = 'AuthB'
+  auth3.username = 'AuthA'
+
+ */

@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             final username = usernameController.text.trim();
                             final password = passwordController.text.trim();
                             context.read<AuthBloc>().add(
-                              LoginRequested(username: username, password: password)
+                              LoginRequestedEvent(username: username, password: password)
                             );
                           },
                         ),

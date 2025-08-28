@@ -1,12 +1,21 @@
-import 'package:epms_tech/data/repository/auth_repository_impl.dart';
-import 'package:epms_tech/domain/usecases/login_usecase.dart';
-import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
-import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
-import 'package:epms_tech/presentation/screens/ip_server_screen.dart';
-import 'package:epms_tech/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+// repository & impl
+import 'package:epms_tech/data/repository/auth_repository_impl.dart';
+import 'package:epms_tech/data/repository/auth_repository.dart';
+
+// usecase
+import 'package:epms_tech/domain/usecases/login_usecase.dart';
+
+// bloc
+import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
+import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
+
+// screen
+import 'package:epms_tech/presentation/screens/ip_server_screen.dart';
+import 'package:epms_tech/presentation/screens/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,13 +24,25 @@ Future<void> main() async {
   final authRepository = AuthRepositoryImpl(
     baseUrl: 'http://10.7.129.108/epms_bia/api/v1_1/auth/login',
   );
+
   final loginUsecase = LoginUsecase(authRepository);
 
   runApp(
-    BlocProvider(
-      create: (_) => AuthBloc(loginUsecase), 
-      child: const MyApp(),
-      ), 
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(
+          create: (_) => authRepository,
+          )
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider (
+            create: (_) => AuthBloc(LoginUsecase(authRepository), authRepository),
+          )
+        ], 
+        child: const MyApp()
+      )
+    )
     );
 }
 
@@ -53,6 +74,9 @@ class MyApp extends StatelessWidget {
 }
 
 /*
+CODE UI -> handle Input data User, dan trigger event ke BLoC
+CODE BLoC -> logic, validasi, simpan data ke Hive/API/Repository, emit state baru
+CODE Repository / data source -> detail proses akses API, database, dll
 
 lib/
   ├── core/                # Konstanta, utils, theme, dll
@@ -66,9 +90,8 @@ lib/
   ├── data/                # Data source, API, model, repository impl
           └── repository/
                 ├── auth_repository_impl.dart
-  ├── domain/              # Entity, abstract repository, use case
-  |       └── repository/
                 ├── auth_repository.dart
+  ├── domain/
           └── usecases/
                 ├── login_usecase.dart
   └── presentation/

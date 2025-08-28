@@ -1,17 +1,39 @@
+import 'dart:math';
+
 import 'package:epms_tech/core/utils/hive_helper.dart';
+import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
+import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
+import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
 import 'package:epms_tech/presentation/widgets/app_bar_section.dart';
 import 'package:epms_tech/presentation/widgets/submit_button_section.dart';
 import 'package:epms_tech/presentation/widgets/text_field_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class IpServerScreen extends StatefulWidget {
-  IpServerScreen({super.key});
+  const IpServerScreen({super.key});
 
   @override
   State<IpServerScreen> createState() => _IpServerScreenState();
 }
+
 class _IpServerScreenState extends State<IpServerScreen> {
-  final TextEditingController ipController = TextEditingController(text: 'http://10.7.129.108/epms_bia/api/v1_1');
+  late TextEditingController ipController;
+  String currentIp = '';
+
+  @override
+  void initState() {
+    super.initState();
+    final ipAddress = context.read<AuthBloc>().state.ipAddress;
+    ipController = TextEditingController(text: ipAddress);
+  }
+
+  @override
+  void dispose() {
+    ipController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,35 +43,51 @@ class _IpServerScreenState extends State<IpServerScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Enter IP Server Address:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            TextFieldSection( 
-              controller: ipController, 
-              onChanged: (value) {
-                setState((){
-                  ipController.text = value;
-                });
-              },
-            ),
-            SizedBox(height: 32),
-            SubmitButtonSection(
-              label: "SAVE",
-              onPressed: () {
-                final ipAddress = ipController.text.trim();
-                onHivePut('ip_address', ipAddress)
-                .then((_) {
+            BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthIpSavedSuccess) {
+                  Navigator.pop(context);
+                } else if (state is AuthFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('IP Address saved: $ipAddress')),
+                    SnackBar(content: Text('Error: ${state.message}')),
                   );
-                });
+                }
               },
+              child: BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return Column(
+                    children: [
+                      Text(
+                        'Enter IP Server Address:',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      TextFieldSection(
+                        controller:
+                            ipController, // otomatis update setelah user selesai input JANGAN HAPUS
+                        onChanged:(_) {}, // tidak perlu diisi - DONE HANDLED automatically in controller
+                      ),
+                      SizedBox(height: 32),
+                      SubmitButtonSection(
+                        label: 'SAVE',
+                        onPressed: () {
+                          final ipAddress = ipController.text.trim();
+                          context.read<AuthBloc>().add(
+                            SaveIpAddressEvent(ipAddress: ipAddress),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
-          ]
-        )
-      )
+          ],
+        ),
+      ),
     );
   }
 }

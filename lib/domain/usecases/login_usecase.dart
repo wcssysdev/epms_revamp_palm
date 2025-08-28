@@ -1,4 +1,4 @@
-import 'package:epms_tech/domain/repository/auth_repository.dart';
+import 'package:epms_tech/data/repository/auth_repository.dart';
 
 class LoginUsecase {
   final AuthRepository repository; // di defenisikan ulang;

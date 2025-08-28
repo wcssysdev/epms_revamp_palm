@@ -34,15 +34,23 @@ class PasswordChanged extends AuthEvent{
   List<Object?> get props => [password];
 }
 
-class LoginRequested extends AuthEvent {
+class LoginRequestedEvent extends AuthEvent {
   final String username;
   final String password;
 
-  LoginRequested({
+  LoginRequestedEvent({
     required this.username,
     required this.password,
   });
 
   @override
   List<Object?> get props => [username, password];
+}
+
+class SaveIpAddressEvent extends AuthEvent  {
+  final String ipAddress;
+  SaveIpAddressEvent({required this.ipAddress});
+
+  @override
+  List<Object?> get props => [ipAddress];
 }
