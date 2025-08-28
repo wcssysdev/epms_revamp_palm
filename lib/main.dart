@@ -2,6 +2,7 @@ import 'package:epms_tech/data/repository/auth_repository_impl.dart';
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
+import 'package:epms_tech/presentation/screens/ip_server_screen.dart';
 import 'package:epms_tech/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,31 +36,17 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: BlocBuilder<AuthBloc, AuthState> (
-        /*
-        AuthBloc = Bloc dipakai untuk atur login/logout
-        AuthState = State menggambarkan kondisi login saat ini
-          AuthInitial
-          AuthLoading
-          Authenticated
-          Unauthenticated
-
-        ringkasan:
-        AuthBloc = mengelola state terkait authentikasi
-          menerima event (AuthEvent)
-          poses logic (cek token, login/logout, update mis username)
-          mengeluarkan state (AuthState) terbaru
-        AuthState = representasi state (current state dan updated state)
-        BlocBuilder<AuthBloc, AuthState> = widget yg build UI otomatis saat state di AuthBloc berubah
-       */ 
-
         builder: (context, state) {
           if (state is Authenticated) {
-            return const LoginScreen();//HomeScreen();
+            return const LoginScreen(); //HomeScreen();
           } else {
             return const LoginScreen();
           }
         },
         ),
+        routes: {
+        'ip_server': (context) => IpServerScreen(),
+      },
     );
 
   }
@@ -99,6 +86,24 @@ lib/
 
  */
 
+  /*
+  AuthBloc = Bloc dipakai untuk atur login/logout
+  AuthState = State menggambarkan kondisi login saat ini
+    AuthInitial
+    AuthLoading
+    Authenticated
+    Unauthenticated
+
+  ringkasan:
+  AuthBloc = mengelola state terkait authentikasi
+    menerima event (AuthEvent)
+    poses logic (cek token, login/logout, update mis username)
+    mengeluarkan state (AuthState) terbaru
+  AuthState = representasi state (current state dan updated state)
+  BlocBuilder<AuthBloc, AuthState> = widget yg build UI otomatis saat state di AuthBloc berubah
+  */ 
+
+
 /*
 parsing JSON pakai compute() lalu simpan ke Hive.
 Alurnya :
@@ -107,6 +112,4 @@ AuthRepositoryImpl → request API login, ambil JSON besar, parsing di compute()
 AuthRepositoryImpl → simpan hasil parsing ke Hive.
 AuthBloc → ubah state ke Authenticated kalau berhasil.
 UI → ambil data dari Hive untuk ditampilkan.
-
-
 */

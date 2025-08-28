@@ -23,7 +23,7 @@ class SubmitButtonSection extends StatelessWidget {
           onPressed: onPressed,
           child: Text(
             label,
-            style: TextStyle(fontSize: 18, color: AppColors.textSubmitButton),
+            style: TextStyle(fontSize: 18, color: AppColors.white),
           ),
         ),
       ),

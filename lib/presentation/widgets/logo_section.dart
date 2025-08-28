@@ -4,7 +4,7 @@ class LogoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      'assets/epms_logo.png',
+      'assets/bia-fixed.png',
       width: MediaQuery.of(context).size.width * 0.7,
       height: 120,
     );

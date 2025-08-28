@@ -16,7 +16,7 @@ class AppButtonStyles {
   );
 
   static final ButtonStyle submitButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: AppColors.submitButton,
+    backgroundColor: AppColors.primary,
     padding: const EdgeInsets.symmetric(vertical: 12),
     shape: RoundedRectangleBorder(borderRadius: defaultRadius),
     elevation: 0, // bayangan pakai boxShadow

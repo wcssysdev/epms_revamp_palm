@@ -1,17 +1,18 @@
+import 'package:epms_tech/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class TextInputSection extends StatelessWidget {
-  final String label;
+class TextFieldSection extends StatelessWidget {
+  final String? label;
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
   final bool obscureText;
 
-  const TextInputSection({
+  const TextFieldSection({
     super.key,
-    required this.label,
+    this.label,
     required this.controller,
     required this.onChanged,
-    required this.obscureText,
+    this.obscureText = false,
   });
 
   @override
@@ -20,12 +21,16 @@ class TextInputSection extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       onChanged: onChanged,
+      style: const TextStyle(color: AppColors.textRegular),
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8)
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: AppColors.primary, width: 2)
+        ),
       ),
     );
   }

@@ -3,7 +3,8 @@ import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
 import 'package:epms_tech/presentation/widgets/logo_section.dart';
 import 'package:epms_tech/presentation/widgets/submit_button_section.dart';
-import 'package:epms_tech/presentation/widgets/text_input_section.dart';
+import 'package:epms_tech/presentation/widgets/text_field_section.dart';
+import 'package:epms_tech/presentation/widgets/text_pressable_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     usernameController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -33,13 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 LogoSection(),
+                SizedBox(height: 64),
                 BlocBuilder<AuthBloc, AuthState>(
                   // <BlocType, BlocState>
                   // BLocBuilder = widget dari flutter_bloc
@@ -55,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return Column(
                       children: [
-                        TextInputSection(
+                        TextFieldSection(
                           label: 'Username',
                           controller: usernameController,
                           onChanged: (value) {
@@ -69,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           obscureText: false,
                         ),
-                        const SizedBox(height: 16),
-                        TextInputSection(
+                        const SizedBox(height: 32),
+                        TextFieldSection(
                           label: 'Password',
                           controller: passwordController,
                           onChanged: (value) {
@@ -80,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           obscureText: true,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 32),
                         SubmitButtonSection(
                           label: "LOGIN",
                           onPressed: () {
@@ -91,6 +94,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                         ),
+                        const SizedBox(height: 32),
+                        TextPressableSection(
+                          label: 'Ip Server Setup', 
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'ip_server');
+                          }
+                        )
                       ],
                     );
                   },
