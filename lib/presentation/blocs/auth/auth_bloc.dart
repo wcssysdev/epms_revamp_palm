@@ -72,7 +72,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLoginRequested(LoginRequestedEvent event, Emitter<AuthState>emit) async {
     emit(AuthLoading());
     try {
-      final isSuccess = await loginUsecase.execute(event.username, event.password);
+      final currentIp = state.ipAddress;
+      final isSuccess = await loginUsecase.execute(event.username, event.password, ipAddress: currentIp);
       if (isSuccess) {
         emit(Authenticated(username: event.username, password: event.password));
       } else {
@@ -88,7 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     try {
       await authRepository.saveIpAddress(event.ipAddress); // simpan ip address lewat repository -> HIVE JANGAN DI HAPUS
-      emit(AuthIpSavedSuccess(ipAddress: event.ipAddress));
+      emit(AuthIpSavedSuccess(ipAddress:  event.ipAddress));
     } catch (e) {
       emit(AuthFailure(message: 'Failed to save IP Address: $e'));
       return;
