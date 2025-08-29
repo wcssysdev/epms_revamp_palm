@@ -7,9 +7,12 @@ class AuthRepositoryImpl implements AuthRepository{// IMPLEMENTASI KONTRAK INTER
   final AuthRemoteDatasource remoteDatasource;
   final AuthLocalDatasource localDatasource;
 
-  AuthRepositoryImpl({ required String baseUrl })
+  AuthRepositoryImpl({ 
+      required String baseUrl,
+      AuthLocalDatasource? local,
+    })
     :remoteDatasource = AuthRemoteDatasource(baseUrl: baseUrl),
-    localDatasource = AuthLocalDatasource();
+    localDatasource = local ?? AuthLocalDatasource();
 
   @override
   Future<bool> login(String username, String password, {String? ipAddress}) async {
@@ -22,7 +25,8 @@ class AuthRepositoryImpl implements AuthRepository{// IMPLEMENTASI KONTRAK INTER
   }
 
   @override
-  Future<void> saveIpAddress(String ipAddress) async {
-    await onHivePut("ip_address", ipAddress);// Helper Global
-  }
+  Future<void> saveIpAddress(String ipAddress) => localDatasource.saveIpAddress(ipAddress); // Local Datasource
+
+  @override
+  Future<String?> getIpAddress() => localDatasource.getIpAddress();
 }

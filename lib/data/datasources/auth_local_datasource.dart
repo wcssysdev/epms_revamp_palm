@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 class AuthLocalDatasource {
   Future<void> saveSchemas(Map<String, dynamic> parsedData) async {
-  var box = await Hive.openBox('epms_data');
+    var box = await Hive.openBox('epms_data');
 
     final mVraDocumentSchema = AppConstants.mVraDocumentSchema;
     final mVraTypeSchema = AppConstants.mVraTypeSchema;
@@ -142,8 +142,19 @@ class AuthLocalDatasource {
     }
   } 
 
-  // Future<dynamic> getData(String schemaName) async {
-  //   var box = await Hive.openBox('epms_data');
-  //   return box.get(schemaName);
-  // }
+  static const _boxName = 'app_settings';
+  static const _ipKey = 'ip_address';
+  Future<dynamic> saveIpAddress(String ip) async {
+    var box = await Hive.openBox(_boxName);
+    return box.put(_ipKey, ip);
+  }
+
+  Future<String?> getIpAddress() async {
+    var box = await Hive.openBox(_boxName);
+    final value = box.get(_ipKey);
+    if (value is String && value.trim().isNotEmpty) {
+      return value.trim();
+    }
+    return null;
+  }
 }

@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 enum HiveMethod {get, delete, clear }
 
-Future<dynamic> onHiveGetDeleteHandler(HiveMethod method, String keyName, dynamic data) async {
+Future<dynamic> onHiveGetDeleteHandler(HiveMethod method, String keyName) async {
   var box = await Hive.openBox('epms_data');
   /*
   [] = artinya bersifat opsional

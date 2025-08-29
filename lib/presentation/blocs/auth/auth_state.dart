@@ -24,7 +24,7 @@ class AuthFailure extends AuthState {
   // CASE GAGAL TETAP UPDATE IP - DON'T DELETE
   
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, ipAddress];
 }
 
 class Authenticated extends AuthState {
@@ -50,7 +50,15 @@ class Authenticated extends AuthState {
 }
 
 class Unauthenticated extends AuthState {
-  const Unauthenticated();
+  const Unauthenticated({super.ipAddress});
+
+  Unauthenticated copyWith({String? ipAddress}) {
+    return Unauthenticated(
+      ipAddress: ipAddress ?? this.ipAddress,
+    );
+  }
+  // @override
+  // List<Object?> get props => [ipAddress];
 }
 
 class AuthIpSavedSuccess extends AuthState {

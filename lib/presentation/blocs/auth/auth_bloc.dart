@@ -21,24 +21,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SaveIpAddressEvent>(_onSaveIpAddress);
   }
 
-  Future<void> _onAppStarted(AppStarted event, Emitter<AuthState> emit) async {
-    // AppStarted = saat applikasi pertama kali dibuka dan langsun jalanin ini 
-    // termasuk cek token di storage 
-    // Emitter = alat flutter_bloc tuk kirim state baru
-    // emit = alat tuk ubah state di BLoC
-
-    emit(AuthLoading());
-    final prefs = await SharedPreferences.getInstance();
-    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-    if(isLoggedIn) {
-      String username = prefs.getString('username') ?? '';
-      String password = prefs.getString('password') ?? '';
-      emit(Authenticated(username: username, password: password));// dari AuthState
-    } else {
-      emit(Unauthenticated());// dari AuthState
-    }
-  }
-
   Future<void> _onLoggedIn(LoggedIn event, Emitter<AuthState> emit) async {
     // LoggedIn = nama event
     final prefs = await SharedPreferences.getInstance();
@@ -78,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ipAddress: event.ipAddress
       );
       if (isSuccess) {
-        emit(Authenticated(username: event.username, password: event.password));
+        emit(Authenticated(username: event.username, password: event.password, ipAddress: event.ipAddress));
       } else {
         emit(AuthFailure(message: 'Invalid credentials', ipAddress: event.ipAddress));// untuk tetap update IP super state class JANGAN HAPUS
       }
@@ -99,6 +81,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     
   } 
+
+  Future<void> _onAppStarted(AppStarted event, Emitter<AuthState> emit) async {
+    // AppStarted bawaan dari BLoC event
+    // AppStarted = saat applikasi pertama kali dibuka dan langsun jalanin ini 
+    // termasuk cek token di storage 
+    // Emitter = alat flutter_bloc tuk kirim state baru
+    // emit = alat tuk ubah state di BLoC
+    print('AppStarted Event Triggered');
+
+    emit(AuthLoading());
+
+    try {
+      final savedIp = await authRepository.getIpAddress();
+      print(' Saved IP Address: $savedIp ');
+      final ipAddress = (savedIp != null && savedIp.trim().isNotEmpty)
+        ? savedIp.trim()
+        : state.ipAddress;
+      print(' Effective IP Address: $ipAddress ');
+
+      final prefs = await SharedPreferences.getInstance();
+      final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+      if (isLoggedIn) {
+        final username = prefs.getString('username') ?? '';
+        final password = prefs.getString('password') ?? '';
+
+        emit(Authenticated(
+          username: username, 
+          password: password, 
+          ipAddress: ipAddress
+        ));
+
+      } else {
+        emit(Unauthenticated(ipAddress: ipAddress));
+      }
+    } catch (e) {
+      emit(AuthFailure(
+        message: 'Error during app start: $e', 
+        ipAddress: state.ipAddress
+      ));
+    }
+  }
 }
 
     /*

@@ -20,7 +20,7 @@ import 'package:epms_tech/presentation/screens/login_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-
+  await Hive.openBox('app_settings');
 
   final authRepository = AuthRepositoryImpl(baseUrl: 'http://222.7.129.108/epms_bia/api/v1_1' );// wajib di define 
   final loginUsecase = LoginUsecase(authRepository);

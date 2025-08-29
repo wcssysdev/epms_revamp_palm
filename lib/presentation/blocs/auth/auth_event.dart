@@ -46,7 +46,7 @@ class LoginRequestedEvent extends AuthEvent {
   });
 
   @override
-  List<Object?> get props => [username, password];
+  List<Object?> get props => [username, password, ipAddress];
 }
 
 class SaveIpAddressEvent extends AuthEvent  {
