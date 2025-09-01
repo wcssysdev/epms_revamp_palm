@@ -1,3 +1,4 @@
+import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -22,13 +23,13 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox('app_settings');
 
-  final authRepository = AuthRepositoryImpl(baseUrl: 'http://222.7.129.108/epms_bia/api/v1_1' );// wajib di define 
+  final authRepository = AuthRepositoryImpl(baseUrl: '' );// wajib di define 
   final loginUsecase = LoginUsecase(authRepository);
   runApp(
       MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => AuthBloc(loginUsecase, authRepository),
+            create: (_) => AuthBloc(loginUsecase, authRepository)..add(AppStarted()),// tuk trigger Hive Ip Address
           ),
         ],
         child: const MyApp(),
@@ -92,6 +93,7 @@ lib/
       │         └── auth_state.dart
       ├── screens/         # Semua UI screen
           └── login_screen.dart
+          └── ip_server_screen.dart
       └── widgets/         # Reusable widget
           └── logo_section.dart
           └── submit_button_section.dart

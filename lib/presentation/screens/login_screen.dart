@@ -106,13 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.pushNamed(context, 'ip_server');
                           }
                         ),
-                        const SizedBox(height: 16),
-                        TextPressableSection(
-                          label: 'Cek cek', 
-                          onPressed: () {
-                            print('ip == ${state.ipAddress}');
-                          }
-                        ),
                       ],
                     );
                   },
