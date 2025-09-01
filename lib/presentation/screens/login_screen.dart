@@ -1,3 +1,4 @@
+import 'package:epms_tech/core/utils/snackbar_ui.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
@@ -43,72 +44,79 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 LogoSection(),
                 SizedBox(height: 64),
-                BlocBuilder<AuthBloc, AuthState>(
-                  // <BlocType, BlocState>
-                  // BLocBuilder = widget dari flutter_bloc
-                  // listen akan State dan akan update UI
-                  // AuthBLoc = tipe BLoC yang akan di listen
-                  // AuthState = tipe state yang di hasilkan
-                  builder: (context, state) {
-                    // menerima context dan state terbaru dan
-                    // update UI
-                    // AuthBloc updated --> builder kepanggil
-                    if (state is AuthLoading) {
-                      return CircularProgressIndicator();
-                    } 
-                    
-                    return Column(
-                      children: [
-                        TextFieldSection(
-                          label: 'Username',
-                          controller: usernameController,
-                          onChanged: (value) {
-                            // callback function -> tiap user ketik akan call ini
-                            context.read<AuthBloc>().add(
-                              // mengambil instance BLoC (AuthBloc)
-                              // .add() = method di BLoC untuk kirim event ke BLoC
-                              UsernameChanged(value),
-                              // nama event
-                            );
-                          },
-                          obscureText: false,
-                        ),
-                        const SizedBox(height: 32),
-                        TextFieldSection(
-                          label: 'Password',
-                          controller: passwordController,
-                          onChanged: (value) {
-                            context.read<AuthBloc>().add(
-                              PasswordChanged(value),
-                            );
-                          },
-                          obscureText: true,
-                        ),
-                        const SizedBox(height: 32),
-                        SubmitButtonSection(
-                          label: "LOGIN",
-                          onPressed: () {
-                            final username = usernameController.text.trim();
-                            final password = passwordController.text.trim();
-                            context.read<AuthBloc>().add(
-                              LoginRequestedEvent(
-                                username: username, 
-                                password: password, 
-                                ipAddress: state.ipAddress
-                              )
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 32),
-                        TextPressableSection(
-                          label: 'Ip Server Setup', 
-                          onPressed: () {
-                            Navigator.pushNamed(context, 'ip_server');
-                          }
-                        ),
-                      ],
-                    );
+                BlocListener<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthFailure) {
+                      showErrorSnackbar(context, state.message);
+                    }
                   },
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    // <BlocType, BlocState>
+                    // BLocBuilder = widget dari flutter_bloc
+                    // listen akan State dan akan update UI
+                    // AuthBLoc = tipe BLoC yang akan di listen
+                    // AuthState = tipe state yang di hasilkan
+                    builder: (context, state) {
+                      // menerima context dan state terbaru dan
+                      // update UI
+                      // AuthBloc updated --> builder kepanggil
+                      if (state is AuthLoading) {
+                        return CircularProgressIndicator();
+                      }
+
+                      return Column(
+                        children: [
+                          TextFieldSection(
+                            label: 'Username',
+                            controller: usernameController,
+                            onChanged: (value) {
+                              // callback function -> tiap user ketik akan call ini
+                              context.read<AuthBloc>().add(
+                                // mengambil instance BLoC (AuthBloc)
+                                // .add() = method di BLoC untuk kirim event ke BLoC
+                                UsernameChanged(value),
+                                // nama event
+                              );
+                            },
+                            obscureText: false,
+                          ),
+                          const SizedBox(height: 32),
+                          TextFieldSection(
+                            label: 'Password',
+                            controller: passwordController,
+                            onChanged: (value) {
+                              context.read<AuthBloc>().add(
+                                PasswordChanged(value),
+                              );
+                            },
+                            obscureText: true,
+                          ),
+                          const SizedBox(height: 32),
+                          SubmitButtonSection(
+                            label: "LOGIN",
+                            onPressed: () {
+                              final username = usernameController.text.trim();
+                              final password = passwordController.text.trim();
+                              context.read<AuthBloc>().add(
+                                LoginRequestedEvent(
+                                  username: username,
+                                  password: password,
+                                  ipAddress: state.ipAddress,
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 32),
+                          TextPressableSection(
+                            label: 'Ip Server Setup',
+                            onPressed: () {
+                              Navigator.pushNamed(context, 'ip_server');
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
