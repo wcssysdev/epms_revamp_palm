@@ -2,6 +2,7 @@ import 'package:epms_tech/presentation/blocs/auth/auth_bloc.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
 import 'package:epms_tech/presentation/widgets/app_bar_section.dart';
+import 'package:epms_tech/presentation/widgets/check_box_section.dart';
 import 'package:epms_tech/presentation/widgets/submit_button_section.dart';
 import 'package:epms_tech/presentation/widgets/text_field_section.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +17,17 @@ class IpServerScreen extends StatefulWidget {
 
 class _IpServerScreenState extends State<IpServerScreen> {
   late TextEditingController ipController;
+
   String currentIp = '';
+  bool fdnWithoutCp = true;
 
   @override
   void initState() {
     super.initState();
     final ipAddress = context.read<AuthBloc>().state.ipAddress;// auth state DON'T DELETE
+    final parentFdnWithoutCp = context.read<AuthBloc>().state.fdnWithoutCp;
     ipController = TextEditingController(text: ipAddress);
+    fdnWithoutCp = parentFdnWithoutCp;
   }
 
   @override
@@ -67,15 +72,35 @@ class _IpServerScreenState extends State<IpServerScreen> {
                             ipController, // otomatis update setelah user selesai input JANGAN HAPUS
                         onChanged:(_) {}, // tidak perlu diisi - DONE HANDLED automatically in controller
                       ),
+                      SizedBox(height: 10),
+                      CheckboxSection(
+                        isChecked: fdnWithoutCp,
+                        label: 'FDN without CP',
+                        onChanged: (value) => {// return value dari widget
+                          if(value) {
+                            setState(() {
+                              fdnWithoutCp = true;
+                            })
+                          } else {
+                            setState(() {
+                              fdnWithoutCp = false;
+                            })
+                          }
+                        }
+                      ),
                       SizedBox(height: 32),
                       SubmitButtonSection(
                         label: 'SAVE',
                         onPressed: () {
                           final ipAddress = ipController.text.trim();
                           context.read<AuthBloc>().add(
-                            SaveIpAddressEvent(ipAddress: ipAddress),
+                            SaveIpAddressEvent(ipAddress: ipAddress, fdnWithoutCp: fdnWithoutCp),
                           );
                         },
+                      ),
+                      Text(
+                        'Current FDN: ${fdnWithoutCp ? "Without CP" : "With CP"}',
+                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                       ),
                     ],
                   );

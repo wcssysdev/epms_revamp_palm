@@ -1,5 +1,6 @@
 abstract class AuthRepository { // KONTRAK INTERFACE - JANGAN DI HAPUS
   Future<bool> login(String username, String password, {String? ipAddress});
-  Future<void> saveIpAddress(String ipAddress);
+  Future<void> saveIpAddress(String ipAddress, bool fdnWithoutCp);
   Future<String?> getIpAddress();
+  Future<bool?> getFdnWithoutCp();
 }

@@ -25,8 +25,11 @@ class AuthRepositoryImpl implements AuthRepository{// IMPLEMENTASI KONTRAK INTER
   }
 
   @override
-  Future<void> saveIpAddress(String ipAddress) => localDatasource.saveIpAddress(ipAddress); // Local Datasource
+  Future<void> saveIpAddress(String ipAddress, bool fdnWithoutCp) => localDatasource.saveIpAddress(ipAddress, fdnWithoutCp); // Local Datasource
 
   @override
   Future<String?> getIpAddress() => localDatasource.getIpAddress();
+
+  @override
+  Future<bool?> getFdnWithoutCp() => localDatasource.getFdnWithoutCp();
 }

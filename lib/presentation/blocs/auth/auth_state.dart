@@ -2,7 +2,12 @@ import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
   final String ipAddress;
-  const AuthState({this.ipAddress = 'http://333.7.129.108/epms_bia/api/v1_1'});
+  final bool fdnWithoutCp;
+
+  const AuthState({
+    this.ipAddress = 'http://333.7.129.108/epms_bia/api/v1_1',
+    this.fdnWithoutCp = true,
+  });
   // di set di parent AuthState agar semua state child bisa consume
   // harus di pilih child class yg bisa melakukan perubahan ipAddress; {super.ipAddress} <-- syarat tuk ubah ipAddress pada child class
 
@@ -20,11 +25,11 @@ class AuthLoading extends AuthState {
 
 class AuthFailure extends AuthState {
   final String message;
-  const AuthFailure({required this.message, super.ipAddress});
+  const AuthFailure({required this.message, super.ipAddress, super.fdnWithoutCp});
   // CASE GAGAL TETAP UPDATE IP - DON'T DELETE
   
   @override
-  List<Object?> get props => [message, ipAddress];
+  List<Object?> get props => [message, ipAddress, fdnWithoutCp];
 }
 
 class Authenticated extends AuthState {
@@ -35,26 +40,29 @@ class Authenticated extends AuthState {
     required this.username,
     required this.password,
     super.ipAddress,
+    super.fdnWithoutCp,
   });
 
-  Authenticated copyWith({String? username, String? password, String? ipAddress}) {
+  Authenticated copyWith({String? username, String? password, String? ipAddress, bool? fdnWithoutCp}) {
     return Authenticated(
       username: username ?? this.username,
       password: password ?? this.password,
       ipAddress: ipAddress ?? this.ipAddress,
+      fdnWithoutCp: fdnWithoutCp ?? this.fdnWithoutCp, // biar gak ke reset
     );
   }
 
   @override
-  List<Object?> get props => [username, password, ipAddress];
+  List<Object?> get props => [username, password, ipAddress, fdnWithoutCp];
 }
 
 class Unauthenticated extends AuthState {
-  const Unauthenticated({super.ipAddress});
+  const Unauthenticated({super.ipAddress, super.fdnWithoutCp});
 
-  Unauthenticated copyWith({String? ipAddress}) {
+  Unauthenticated copyWith({String? ipAddress, bool? fdnWithoutCp}) {
     return Unauthenticated(
       ipAddress: ipAddress ?? this.ipAddress,
+      fdnWithoutCp: fdnWithoutCp ?? this.fdnWithoutCp,
     );
   }
   // @override
@@ -63,7 +71,7 @@ class Unauthenticated extends AuthState {
 
 class AuthIpSavedSuccess extends AuthState {
     // const AuthIpSavedSuccess({required String ipAddress}) : super(ipAddress : ipAddress);// JANGAN DI HAPUS
-  const AuthIpSavedSuccess({required super.ipAddress});// bentuk shorthand untuk update parent class
+  const AuthIpSavedSuccess({required super.ipAddress, required super.fdnWithoutCp});// bentuk shorthand untuk update parent class
 }
 
 /*

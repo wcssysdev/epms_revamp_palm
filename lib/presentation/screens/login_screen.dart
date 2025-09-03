@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 64),
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
+                    print('+++ ${state.fdnWithoutCp}');
                     if (state is AuthFailure) {
                       showErrorSnackbar(context, state.message);
                     }
@@ -111,6 +112,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             label: 'Ip Server Setup',
                             onPressed: () {
                               Navigator.pushNamed(context, 'ip_server');
+                            },
+                          ),
+                          const SizedBox(height: 32),
+                          TextPressableSection(
+                            label: state.fdnWithoutCp.toString(),
+                            onPressed: () {
+                              context.read<AuthBloc>().add(
+                                SaveIpAddressEvent(
+                                  ipAddress: state.ipAddress ?? '',
+                                  fdnWithoutCp: !state.fdnWithoutCp,
+                                ),
+                              );
                             },
                           ),
                         ],

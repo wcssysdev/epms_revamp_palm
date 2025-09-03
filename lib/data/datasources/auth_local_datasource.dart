@@ -144,9 +144,13 @@ class AuthLocalDatasource {
 
   static const _boxName = 'app_settings';
   static const _ipKey = 'ip_address';
-  Future<dynamic> saveIpAddress(String ip) async {
+  static const _fdnWithoutCp = 'fdn_without_cp';
+
+  Future<dynamic> saveIpAddress(String ip, bool fdnWithoutCp) async {
     var box = await Hive.openBox(_boxName);
-    return box.put(_ipKey, ip);
+    await box.put(_ipKey, ip);
+    await box.put(_fdnWithoutCp, fdnWithoutCp);
+    return true;
   }
 
   Future<String?> getIpAddress() async {
@@ -157,4 +161,14 @@ class AuthLocalDatasource {
     }
     return null;
   }
+
+  Future<bool?> getFdnWithoutCp() async {
+    var box = await Hive.openBox(_boxName);
+    final value = box.get(_fdnWithoutCp);
+    if (value is bool && value != null) {
+      return value;
+    }
+    return true;
+  }
+
 }

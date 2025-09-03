@@ -51,8 +51,9 @@ class LoginRequestedEvent extends AuthEvent {
 
 class SaveIpAddressEvent extends AuthEvent  {
   final String ipAddress;
-  SaveIpAddressEvent({required this.ipAddress});
+  final bool fdnWithoutCp;
+  SaveIpAddressEvent({required this.ipAddress, required this.fdnWithoutCp});
 
   @override
-  List<Object?> get props => [ipAddress];
+  List<Object?> get props => [ipAddress, fdnWithoutCp];
 }

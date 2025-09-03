@@ -1,4 +1,3 @@
-import 'package:epms_tech/data/repository/auth_repository_impl.dart';
 import 'package:epms_tech/data/repository/auth_repository.dart';
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
@@ -13,28 +12,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.loginUsecase, this.authRepository) : super(AuthInitial()) {
     // AuthBloc(this.loginUsecase) = nerima objec loginUsecase dan simpan di property class
     on<AppStarted>(_onAppStarted);
-    on<LoggedIn>(_onLoggedIn);
-    on<LoggedOut>(_onLoggedOut);
+    // on<LoggedIn>(_onLoggedIn);
+    // on<LoggedOut>(_onLoggedOut);
     on<UsernameChanged>(_onUsernameChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<LoginRequestedEvent>(_onLoginRequested);
     on<SaveIpAddressEvent>(_onSaveIpAddress);
   }
 
-  Future<void> _onLoggedIn(LoggedIn event, Emitter<AuthState> emit) async {
-    // LoggedIn = nama event
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', true);
-    await prefs.setString('username', event.username);
-    emit(Authenticated(username: event.username, password: event.password));
-  }
+  // Future<void> _onLoggedIn(LoggedIn event, Emitter<AuthState> emit) async {
+  //   // LoggedIn = nama event
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setBool('isLoggedIn', true);
+  //   await prefs.setString('username', event.username);
+  //   emit(Authenticated(username: event.username, password: event.password));
+  // }
 
-  Future<void> _onLoggedOut(LoggedOut event, Emitter<AuthState> emit) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', false);
-    await prefs.remove('username');
-    emit(Unauthenticated());
-  }
+  // Future<void> _onLoggedOut(LoggedOut event, Emitter<AuthState> emit) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setBool('isLoggedIn', false);
+  //   await prefs.remove('username');
+  //   emit(Unauthenticated());
+  // }
 
   void _onUsernameChanged(UsernameChanged event, Emitter<AuthState> emit) {
     if(state is Authenticated) {
@@ -73,8 +72,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
 
     try {
-      await authRepository.saveIpAddress(event.ipAddress); // simpan ip address lewat repository -> HIVE JANGAN DI HAPUS
-      emit(AuthIpSavedSuccess(ipAddress:  event.ipAddress));
+      await authRepository.saveIpAddress(event.ipAddress, event.fdnWithoutCp); // simpan ip address lewat repository -> HIVE JANGAN DI HAPUS
+      emit(AuthIpSavedSuccess(ipAddress:  event.ipAddress, fdnWithoutCp: event.fdnWithoutCp)); // emit state baru
     } catch (e) {
       emit(AuthFailure(message: 'Failed to save IP Address: $e'));
       return;
@@ -88,16 +87,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // termasuk cek token di storage 
     // Emitter = alat flutter_bloc tuk kirim state baru
     // emit = alat tuk ubah state di BLoC
-    print('AppStarted Event Triggered');
 
     emit(AuthLoading());
 
     try {
       final savedIp = await authRepository.getIpAddress();
+      final savedFdnWithoutCp = await authRepository.getFdnWithoutCp();
+
+      print(' Saved FDN CP: $savedFdnWithoutCp ');
       print(' Saved IP Address: $savedIp ');
       final ipAddress = (savedIp != null && savedIp.trim().isNotEmpty)
         ? savedIp.trim()
         : state.ipAddress;
+      final fdnWithoutCp = savedFdnWithoutCp ?? state.fdnWithoutCp; // null || boolean
+      print(' Effective FDN CP: $fdnWithoutCp ');
       print(' Effective IP Address: $ipAddress ');
 
       final prefs = await SharedPreferences.getInstance();
@@ -110,16 +113,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Authenticated(
           username: username, 
           password: password, 
-          ipAddress: ipAddress
+          ipAddress: ipAddress,
+          fdnWithoutCp: fdnWithoutCp
         ));
 
       } else {
-        emit(Unauthenticated(ipAddress: ipAddress));
+        emit(Unauthenticated(ipAddress: ipAddress, fdnWithoutCp: fdnWithoutCp));
       }
     } catch (e) {
       emit(AuthFailure(
         message: 'Error during app start: $e', 
-        ipAddress: state.ipAddress
+        ipAddress: state.ipAddress,
+        fdnWithoutCp: state.fdnWithoutCp
       ));
     }
   }
