@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 // repository & impl
 import 'package:epms_tech/data/repository/auth_repository_impl.dart';
-import 'package:epms_tech/data/repository/auth_repository.dart';
+import 'package:epms_tech/domain/repositories/auth_repository.dart';
 
 // usecase
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
@@ -81,10 +81,15 @@ lib/
   ├── data/                # Data source, API, model, repository impl
           └── repository/
                 ├── auth_repository_impl.dart
-                ├── auth_repository.dart
+                ├── master_data_repository_impl.dart
   ├── domain/
           └── usecases/
                 ├── login_usecase.dart
+          └── repositories/
+                ├── auth_repository.dart
+                └── master_data_repository.dart
+          └── entities/
+                └── harvestingMethod.dart
   └── presentation/
       ├── blocs/           # State management (BLoC/Cubit)
       │    └── auth/

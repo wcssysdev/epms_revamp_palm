@@ -26,9 +26,10 @@ class AuthRemoteDatasource {
           )
           .timeout(Duration(seconds: 4));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200) {// SUKSES
         return await parseJsonInBackground(response.body);
-      } else if (response.statusCode == 400) {
+      } 
+      else if (response.statusCode == 400) {
         final Map<String, dynamic> body = jsonDecode(response.body);
         final errorMsg = body['message'] ?? 'Invalid credentials';
         throw Exception('Login Failed: $errorMsg');
