@@ -23,7 +23,10 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<MasterDataRepository>(
     () => MasterDataRepositoryImpl(box: sl<Box>()),
   );
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(baseUrl: ''),);
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
+    baseUrl: '',
+    masterDataRepository: sl<MasterDataRepository>(),
+    ),);
 
   // 3. Register Usecases 
   // function login

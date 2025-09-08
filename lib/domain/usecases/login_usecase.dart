@@ -4,7 +4,7 @@ class LoginUsecase {
   final AuthRepository repository; // di defenisikan ulang;
   LoginUsecase(this.repository); // usecase ini butuh parameter
 
-  Future<bool> execute(String username, String password, {required String ipAddress}) async {
+  Future<bool> execute(String username, String password, {String? ipAddress}) async {
     if(username.isEmpty || password.isEmpty) {
       return false;
     }
