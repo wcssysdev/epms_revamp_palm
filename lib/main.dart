@@ -29,6 +29,9 @@ Future<void> main() async {
 
   final box = await Hive.openBox('epms_data');
   final MasterDataRepository masterDataRepository = MasterDataRepositoryImpl(box: box);//???
+  
+  // masterDataRepository = interface bukan implementasi langsung
+  // MasterDataRepositoryImpl = implementasi konkrit Interface dengan Konstruktor yg butuh Hive Box
 
   final authRepository = AuthRepositoryImpl(baseUrl: '', masterDataRepository: masterDataRepository );// wajib di define 
   final loginUsecase = LoginUsecase(authRepository);
