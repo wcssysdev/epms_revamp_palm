@@ -6,6 +6,7 @@ import 'package:epms_tech/domain/repositories/auth_repository.dart';
 import 'package:hive/hive.dart';
 
 class AuthRepositoryImpl implements AuthRepository{// IMPLEMENTASI dari INTERFACE  - JANGAN DI HAPUS
+  // MAIN API RESPONDS - JANGAN HAPUS
   final AuthRemoteDatasource remoteDatasource;
   final AuthLocalDatasource localDatasource;
 

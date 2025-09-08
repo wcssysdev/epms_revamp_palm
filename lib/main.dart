@@ -1,3 +1,4 @@
+import 'package:epms_tech/core/di/service_locator.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,8 @@ import 'package:epms_tech/presentation/screens/login_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox('app_settings');
+  await Hive.openBox('app_settings'); // ip server dan fdn +/- CP
+  await initDependencies(); // 'epms_data' hasil API login;
 
   final authRepository = AuthRepositoryImpl(baseUrl: '' );// wajib di define 
   final loginUsecase = LoginUsecase(authRepository);
@@ -88,8 +90,9 @@ lib/
           └── repositories/
                 ├── auth_repository.dart
                 └── master_data_repository.dart
-          └── entities/
-                └── harvestingMethod.dart
+          └── model/
+                └── harvestingMethod.dart // ENTITIES
+                └── employee.dart // ENTITIES
   └── presentation/
       ├── blocs/           # State management (BLoC/Cubit)
       │    └── auth/
@@ -104,7 +107,33 @@ lib/
           └── submit_button_section.dart
           └── text_input_section.dart
 
+Teori Dependency Injection (DI)
+- tidak boleh action langsung pada data/repository/MasterDataRepositoryImpl
+- Sistem DI yang menyuntikkan ke repository via instance
+
+Package DI: (Pilih 1)
+get_it, or
+riverpod, or
+provider
+
+=========
+GET_IT
+lib/core/di/service_locator.dart (SL)
+tujuan : 1. Proses Register Hive box (initDependencies)
+         2. register hive
+         3. Define detail 'save' dan 'get' schema dan di set pada 'sl" (master_data_repository_impl.dart)
+         32. set sl untuk AuthRepositoryImpl
+         4. set function hasil login 
+
+main.dart
+  await initDependencies()
+
+auth_bloc
+final LoginUsecase loginUsecase = sl<LoginUsecase>();
+
+  =======
  */
+
 
   /*
   AuthBloc = Bloc dipakai untuk atur login/logout

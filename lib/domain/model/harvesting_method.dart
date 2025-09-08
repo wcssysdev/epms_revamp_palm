@@ -1,4 +1,4 @@
-class HarvestingMethod {
+class HarvestingMethod { // entity HarvestingMethod
   int mhmId;
   String mhmIndicator;
   String mhmAbbreviation;

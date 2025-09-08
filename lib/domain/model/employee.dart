@@ -1,5 +1,5 @@
 
-class Employee {
+class Employee { // entity Employee
   int employeeId;
   String employeeCode;
   String employeeName;
@@ -15,5 +15,4 @@ class Employee {
     required this.employeeProfile,
     required this.employeeGangAllotmentCode,
   });
-
 }

@@ -4,7 +4,8 @@ import 'package:epms_tech/domain/model/harvesting_method.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:hive/hive.dart';
 
-class MasterDataRepositoryImpl implements MasterDataRepository {// implementasi domain - model JANGAN HAPUS
+class MasterDataRepositoryImpl implements MasterDataRepository {
+  // implementasi Repository - model JANGAN HAPUS
   final Box box;
 
   MasterDataRepositoryImpl({required this.box});
