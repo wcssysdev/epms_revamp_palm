@@ -1,4 +1,6 @@
 import 'package:epms_tech/core/di/service_locator.dart';
+import 'package:epms_tech/data/repository/master_data_repository_impl.dart';
+import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +27,10 @@ Future<void> main() async {
   await Hive.openBox('app_settings'); // ip server dan fdn +/- CP
   await initDependencies(); // 'epms_data' hasil API login;
 
-  final authRepository = AuthRepositoryImpl(baseUrl: '' );// wajib di define 
+  final box = await Hive.openBox('epms_data');
+  final MasterDataRepository masterDataRepository = MasterDataRepositoryImpl(box: box);//???
+
+  final authRepository = AuthRepositoryImpl(baseUrl: '', masterDataRepository: masterDataRepository );// wajib di define 
   final loginUsecase = LoginUsecase(authRepository);
   runApp(
       MultiBlocProvider(
