@@ -13,14 +13,14 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
 
   @override
   Future<void> saveHarvestMethods(
-    List<HarvestingMethod> harvestingMethod,
+    List<HarvestingMethod> harvestingMethods,
   ) async {
     // List<Map<String, dynamic>>  = expected akan return List[{}]
     // Map<String, dynamic> = data Object dengan String key dan Dynamic value
     // [{key:value, key:value}] => List of Map
 
     final List<Map<String, dynamic>> dataToStore =
-        harvestingMethod.map((method) {
+        harvestingMethods.map((method) {
           return {
             'mhm_id': method.mhmId,
             'mhm_indicator': method.mhmIndicator,
