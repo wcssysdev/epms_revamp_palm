@@ -17,7 +17,7 @@ class HarvestingMethodModel implements HarvestingMethod { // entity HarvestingMe
 
   @override
   @HiveField(2)
-  final mhmAbbreviation;
+  final String mhmAbbreviation;
 
   @override
   @HiveField(3)
