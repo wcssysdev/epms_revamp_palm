@@ -1,18 +1,6 @@
-# epms_tech
+run build runner
+untuk run pertama 
+--> flutter packages pub run build_runner build
 
-lib/
-  ├── core/                # Konstanta, utils, theme, dll
-  |     ├── theme
-  |         ├── app_colors.dart
-  ├── data/                # Data source, API, model, repository impl
-  ├── domain/              # Entity, abstract repository, use case
-  └── presentation/
-      ├── blocs/           # State management (BLoC/Cubit)
-      │    └── auth/
-      │         ├── auth_bloc.dart
-      │         ├── auth_event.dart
-      │         └── auth_state.dart
-      ├── screens/
-      |         ├── login_screen.dart
-      └── widgets/
-                ├── submit_button_section.dart      
+untuk update existin
+--> flutter pub run build_runner watch
