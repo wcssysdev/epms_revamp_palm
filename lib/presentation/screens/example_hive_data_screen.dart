@@ -11,6 +11,11 @@ class ExampleHiveDataScreen extends StatelessWidget {
   Future<List<CropType>> _load() =>
     sl<MasterDataRepository>().getCropType();
 
+  // Future<List<HarvestingMethod>> _load() =>
+  //   sl<MasterDataRepository>().getHarvestMethods();
+  // Future<List<Employee>> _load() =>
+  //   sl<MasterDataRepository>().getEmployee();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
