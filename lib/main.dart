@@ -2,6 +2,7 @@ import 'package:epms_tech/core/di/service_locator.dart';
 import 'package:epms_tech/data/repository/master_data_repository_impl.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
+import 'package:epms_tech/presentation/screens/example_hive_data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthBloc, AuthState> (
         builder: (context, state) {
           if (state is Authenticated) {
-            return const IpServerScreen(); //HomeScreen();
+            return const ExampleHiveDataScreen(); //HomeScreen();
           } else {
             return const LoginScreen();
           }
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
         'ip_server': (context) => IpServerScreen(),
+        'example': (context) => ExampleHiveDataScreen(),
       },
     );
 

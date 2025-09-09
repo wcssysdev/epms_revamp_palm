@@ -110,15 +110,13 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
     final data = box.get(AppConstants.mCropTypeSchema, defaultValue: []);
     final cropTypes = (data as List).cast<Map<String, dynamic>>();
 
-    return cropTypes
-        .map(
-          (item) => CropType(
-            cropTypeCode: item['croptypecode'],
-            cropTypeName: item['croptypename'],
-            description: item['description'],
-            canHarvest: item['canharvest'],
-          ),
-        )
-        .toList();
+     return cropTypes.map((item) {
+      return CropType(
+        cropTypeCode: item['croptypecode'] ?? '',
+        cropTypeName: item['croptypename'] ?? '',
+        description: item['description'] ?? '',
+        canHarvest: item['canharvest'],
+      );
+    }).toList();
   }
 }

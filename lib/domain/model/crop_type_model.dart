@@ -17,7 +17,7 @@ class CropTypeModel implements CropType {
   String description;
    @override
   @HiveField(3)
-  bool canHarvest;
+  String canHarvest;
   
   CropTypeModel({
     required this.cropTypeCode,

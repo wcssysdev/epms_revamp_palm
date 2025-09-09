@@ -2,7 +2,7 @@ class CropType {
   final String cropTypeCode;
   final String cropTypeName;
   final String description;
-  final bool canHarvest;
+  final String canHarvest;
   
   CropType({
     required this.cropTypeCode,

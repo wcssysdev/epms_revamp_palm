@@ -20,7 +20,7 @@ class CropTypeModelAdapter extends TypeAdapter<CropTypeModel> {
       cropTypeCode: fields[0] as String,
       cropTypeName: fields[1] as String,
       description: fields[2] as String,
-      canHarvest: fields[3] as bool,
+      canHarvest: fields[3] as String,
     );
   }
 
