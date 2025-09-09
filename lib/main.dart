@@ -93,16 +93,20 @@ lib/
   ├── domain/
           └── usecases/
                 ├── login_usecase.dart
+          └── entities/
+                ├── crop_type.dart
+                ├── employee.dart
+                ├── harvesting_method.dart
           └── repositories/
                 ├── auth_repository.dart
                 └── master_data_repository.dart
           └── model/
-                └── harvesting_method.dart // ENTITIES
-                └── harvesting_method.g.dart // ADAPTER
-                └── crop_type.dart // ENTITIES
-                └── crop_type.g.dart // ADAPTER
-                └── employee.dart // ENTITIES
-                └── employee.g.dart // ADAPTER
+                └── harvesting_method_model.dart // ENTITIES
+                └── harvesting_method_model.g.dart // ADAPTER
+                └── crop_type_model.dart // ENTITIES
+                └── crop_type_model.g.dart // ADAPTER
+                └── employee_model.dart // ENTITIES
+                └── employee_model.g.dart // ADAPTER
   └── presentation/
       ├── blocs/           # State management (BLoC/Cubit)
       │    └── auth/
