@@ -1,8 +1,9 @@
 class AppConstants {
   // static const String baseUrl = "https://example.com/api/login";
   static const String rolesSchema = 'Roles_Schema';
-  static const String mConfigSchema = 'M_Config_Schema';
   static const String mAttendanceSchema = 'M_Attendance_Schema';
+  static const String mCropTypeSchema = 'M_Crop_type_Schema';
+  static const String mConfigSchema = 'M_Config_Schema';
   static const String tAttendanceSchema = 'T_Attendance_Schema';
   static const String mEstateSchema = 'M_Estate_Schema';
   static const String mDivisionSchema = 'M_Division_Schema';

@@ -1,41 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'harvesting_method.dart';
+part of 'crop_type_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class HarvestingMethodAdapter extends TypeAdapter<HarvestingMethod> {
+class CropTypeModelAdapter extends TypeAdapter<CropTypeModel> {
   @override
   final int typeId = 1;
 
   @override
-  HarvestingMethod read(BinaryReader reader) {
+  CropTypeModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return HarvestingMethod(
-      mhmId: fields[0] as int,
-      mhmIndicator: fields[1] as String,
-      mhmAbbreviation: fields[2] as String,
-      mhmDescription: fields[3] as String,
+    return CropTypeModel(
+      cropTypeCode: fields[0] as String,
+      cropTypeName: fields[1] as String,
+      description: fields[2] as String,
+      canHarvest: fields[3] as bool,
     );
   }
 
   @override
-  void write(BinaryWriter writer, HarvestingMethod obj) {
+  void write(BinaryWriter writer, CropTypeModel obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.mhmId)
+      ..write(obj.cropTypeCode)
       ..writeByte(1)
-      ..write(obj.mhmIndicator)
+      ..write(obj.cropTypeName)
       ..writeByte(2)
-      ..write(obj.mhmAbbreviation)
+      ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.mhmDescription);
+      ..write(obj.canHarvest);
   }
 
   @override
@@ -44,7 +44,7 @@ class HarvestingMethodAdapter extends TypeAdapter<HarvestingMethod> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HarvestingMethodAdapter &&
+      other is CropTypeModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -23,6 +23,8 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<MasterDataRepository>(
     () => MasterDataRepositoryImpl(box: sl<Box>()),
   );
+
+  // Proses Authentikasi lain (bukan return API) contoh FDN +- CP; Ip Address
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
     baseUrl: '',
     masterDataRepository: sl<MasterDataRepository>(),
@@ -32,4 +34,3 @@ Future<void> initDependencies() async {
   // function login
   sl.registerLazySingleton(() => LoginUsecase(sl<AuthRepository>()));
 }
-

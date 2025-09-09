@@ -24,7 +24,7 @@ class AuthRemoteDatasource {
               'is_empty': '1',
             },
           )
-          .timeout(Duration(seconds: 4));
+          .timeout(Duration(seconds: 30));
 
       if (response.statusCode == 200) {// SUKSES
         return await parseJsonInBackground(response.body);

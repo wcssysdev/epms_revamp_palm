@@ -8,8 +8,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 // repository & impl
 import 'package:epms_tech/data/repository/auth_repository_impl.dart';
-import 'package:epms_tech/domain/repositories/auth_repository.dart';
-
 // usecase
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 
@@ -99,8 +97,12 @@ lib/
                 ├── auth_repository.dart
                 └── master_data_repository.dart
           └── model/
-                └── harvestingMethod.dart // ENTITIES
+                └── harvesting_method.dart // ENTITIES
+                └── harvesting_method.g.dart // ADAPTER
+                └── crop_type.dart // ENTITIES
+                └── crop_type.g.dart // ADAPTER
                 └── employee.dart // ENTITIES
+                └── employee.g.dart // ADAPTER
   └── presentation/
       ├── blocs/           # State management (BLoC/Cubit)
       │    └── auth/
