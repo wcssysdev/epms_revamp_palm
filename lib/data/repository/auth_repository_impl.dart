@@ -2,6 +2,7 @@ import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
 import 'package:epms_tech/domain/model/activity_model.dart';
+import 'package:epms_tech/domain/model/attendance_model.dart';
 import 'package:epms_tech/domain/model/crop_type_model.dart';
 import 'package:epms_tech/domain/model/division_model.dart';
 import 'package:epms_tech/domain/model/employee_model.dart';
@@ -9,6 +10,7 @@ import 'package:epms_tech/domain/model/estate_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 import 'package:epms_tech/domain/model/master_block_model.dart';
 import 'package:epms_tech/domain/model/vendor_model.dart';
+import 'package:epms_tech/domain/model/vra_model.dart';
 import 'package:epms_tech/domain/model/work_center_model.dart';
 import 'package:epms_tech/domain/model/work_type_model.dart';
 import 'package:epms_tech/domain/repositories/auth_repository.dart';
@@ -96,6 +98,17 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveAcitvity(
       (masterDataGlobal[AppConstants.mActivitySchema] as List)
       .map((json) => ActivityModel.fromJson(json))
+      .toList(),
+    );
+    await masterDataRepository.saveAttendance(
+      (masterDataGlobal[AppConstants.mAttendanceSchema] as List)
+      .map((json) => AttendanceModel.fromJson(json))
+      .toList(),
+    );
+
+    await masterDataRepository.saveVra(
+      (masterDataGlobal[AppConstants.mVraSchema] as List)
+      .map((json) => VraModel.fromJson(json))
       .toList(),
     );
 

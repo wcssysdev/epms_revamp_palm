@@ -27,10 +27,10 @@ class VendorModel implements Vendor{
 
   factory VendorModel.fromJson(Map<String, dynamic> json) {
     return VendorModel(
-      vendorId: json['vendor_id'],
-      vendorCode: json['vendor_code'],
-      vendorName: json['vendor_name'],
-      vendorPlantCode: json['vendor_plant_code'],
+      vendorId: json['vendor_id'] ?? 0,
+      vendorCode: json['vendor_code'] ?? '',
+      vendorName: json['vendor_name'] ?? '',
+      vendorPlantCode: json['vendor_plant_code'] ?? '',
     );
   }
 

@@ -31,11 +31,11 @@ class DivisionModel implements Division{
 
   factory DivisionModel.fromJson(Map<String, dynamic> json) {
     return DivisionModel(
-      divisionId: json['division_id'],
-      divisionCompanyCode: json['division_company_code'], 
-      divisionEstateCode: json['division_estate_code'], 
-      divisionCode: json['division_code'], 
-      divisionName: json['division_name']
+      divisionId: json['division_id'] ?? 0,
+      divisionCompanyCode: json['division_company_code'] ?? '', 
+      divisionEstateCode: json['division_estate_code'] ?? '', 
+      divisionCode: json['division_code'] ?? '', 
+      divisionName: json['division_name'] ?? ''
     );
   }
 

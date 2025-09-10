@@ -32,11 +32,11 @@ class EstateModel implements Estate {
 
   factory EstateModel.fromJson(Map<String, dynamic> json) {
     return EstateModel(
-      estateId: json['estate_id'],
-      estateCompanyCode: json['estate_company_code'],
-      estateCode: json['estate_code'],
-      estateName: json['estate_name'],
-      estatePlantCode: json['estate_plant_code'],
+      estateId: json['estate_id'] ?? 0,
+      estateCompanyCode: json['estate_company_code'] ?? '',
+      estateCode: json['estate_code'] ?? '',
+      estateName: json['estate_name'] ?? '',
+      estatePlantCode: json['estate_plant_code'] ?? '',
     );
   }
 

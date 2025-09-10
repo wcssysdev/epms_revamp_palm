@@ -41,13 +41,13 @@ class WorkCenterModel implements WorkCenter {
 
   factory WorkCenterModel.fromJson(Map<String, dynamic> json) {
     return WorkCenterModel(
-      workCenterId: json['work_center_id'], 
-      workCenterCode: json['work_center_code'], 
-      workCenterName: json['work_center_name'], 
-      workCenterCompanyCode: json['work_center_company_code'], 
-      workCenterPlantCode: json['work_center_plant_code'], 
-      workCenterEstateCode: json['work_center_estate_code'], 
-      workCenterDivisionCode: json['work_center_division_code']
+      workCenterId: json['work_center_id'] ?? 0, 
+      workCenterCode: json['work_center_code'] ?? '', 
+      workCenterName: json['work_center_name'] ?? '', 
+      workCenterCompanyCode: json['work_center_company_code'] ?? '', 
+      workCenterPlantCode: json['work_center_plant_code'] ?? '', 
+      workCenterEstateCode: json['work_center_estate_code'] ?? '', 
+      workCenterDivisionCode: json['work_center_division_code'] ?? ''
       );
   }
 

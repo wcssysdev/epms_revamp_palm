@@ -1,5 +1,6 @@
 import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/domain/entities/activity.dart';
+import 'package:epms_tech/domain/entities/attendance.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/division.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
@@ -7,6 +8,7 @@ import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
 import 'package:epms_tech/domain/entities/master_block.dart';
 import 'package:epms_tech/domain/entities/vendor.dart';
+import 'package:epms_tech/domain/entities/vra.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
@@ -378,6 +380,74 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
             activityUomName: item['activity_uom_name'] ?? '',
             activityGroupCode: item['activity_group_code'] ?? '',
             activityIsWbsRequired: item['activity_is_wbs_required'] ?? '',
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveAttendance(List<Attendance> attendances) async {
+    final List<Map<String, dynamic>> dataToStore =
+        attendances.map((item) {
+          return {
+            "attendance_id": item.attendanceId,
+            "attendance_code": item.attendanceCode,
+            "attendance_desc": item.attendanceDesc,
+          };
+        }).toList();
+    await box.put(AppConstants.mAttendanceSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Attendance>> getAttendance() async {
+    final data = box.get(AppConstants.mAttendanceSchema, defaultValue: []);
+    final attendances = (data as List).cast<Map<String, dynamic>>();
+    return attendances
+        .map(
+          (item) => Attendance(
+            attendanceId: item['attendance_id'],
+            attendanceCode: item['attendance_code'],
+            attendanceDesc: item['attendance_desc'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveVra(List<Vra> vra) async {
+    final List<Map<String, dynamic>> dataToStore =
+        vra.map((item) {
+          return {
+            'vra_id': item.vraId,
+            'vra_license_number': item.vraLicenseNumber,
+            'vra_order_number': item.vraOrderNumber,
+            'vra_equipment_code': item.vraEquipmentCode,
+            'vra_object_type': item.vraObjectType,
+            'vra_plant_code': item.vraPlantCode,
+            'vra_meas_unit': item.vraMeasUnit,
+            'vra_meas_point': item.vraMeasPoint,
+            'vra_equipment': item.vraEquipment,
+          };
+        }).toList();
+    await box.put(AppConstants.mVraSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Vra>> getVra() async {
+    final data = box.get(AppConstants.mVraSchema, defaultValue: []);
+    final vra = (data as List).cast<Map<String, dynamic>>();
+    return vra
+        .map(
+          (item) => Vra(
+            vraId: item['vra_id'] ?? 0,
+            vraLicenseNumber: item['vra_license_number'] ?? '',
+            vraOrderNumber: item['vra_order_number'] ?? '',
+            vraEquipmentCode: item['vra_equipment_code'] ?? '',
+            vraObjectType: item['vra_object_type'] ?? '',
+            vraPlantCode: item['vra_plant_code'] ?? '',
+            vraMeasUnit: item['vra_meas_unit'] ?? '',
+            vraMeasPoint: item['vra_meas_point'] ?? '',
+            vraEquipment: item['vra_equipment'] ?? '',
           ),
         )
         .toList();

@@ -1,4 +1,5 @@
 import 'package:epms_tech/domain/entities/activity.dart';
+import 'package:epms_tech/domain/entities/attendance.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/division.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
@@ -6,6 +7,7 @@ import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
 import 'package:epms_tech/domain/entities/master_block.dart';
 import 'package:epms_tech/domain/entities/vendor.dart';
+import 'package:epms_tech/domain/entities/vra.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
 // import 'package:epms_tech/domain/model/harvesting_method_model.dart';
@@ -41,4 +43,11 @@ abstract class MasterDataRepository { // INTERFACE
 
   Future<void> saveAcitvity(List<Activity> workCenter);
   Future<List<Activity>> getActivity();
+
+  Future<void> saveAttendance(List<Attendance> workCenter);
+  Future<List<Attendance>> getAttendance();
+  
+  Future<void> saveVra(List<Vra> vra);
+  Future<List<Vra>> getVra();
+  
 }

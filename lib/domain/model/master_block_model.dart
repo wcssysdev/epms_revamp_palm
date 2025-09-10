@@ -48,15 +48,15 @@ class MasterBlockModel implements MasterBlock {
 
   factory MasterBlockModel.fromJson(Map<String, dynamic> json) {
     return MasterBlockModel(
-      blockId: json['block_id'],
-      blockCompanyCode: json['block_company_code'],
-      blockEstateCode: json['block_estate_code'],
-      blockDivisionCode: json['block_division_code'],
-      blockCode: json['block_code'],
-      blockName: json['block_name'],
-      blockHectarage: json['block_hectarage'],
-      blockState: json['block_state'],
-      blockCropType: json['block_crop_type'],
+      blockId: json['block_id'] ?? 0,
+      blockCompanyCode: json['block_company_code'] ?? '',
+      blockEstateCode: json['block_estate_code'] ?? '',
+      blockDivisionCode: json['block_division_code'] ?? '',
+      blockCode: json['block_code'] ?? '',
+      blockName: json['block_name'] ?? '',
+      blockHectarage: json['block_hectarage'] ?? '',
+      blockState: json['block_state'] ?? '',
+      blockCropType: json['block_crop_type'] ?? '',
     );
   }
 

@@ -9,4 +9,6 @@ class GlobalAnnotationSchema {
   static const int mEmployeeAnnotation = 10;
   static const int mVendorAnnotation = 11;
   static const int mActivityAnnotation = 13;
+  static const int mAttendanceAnnotation = 15;
+  static const int mVraAnnotation = 16;
 }
