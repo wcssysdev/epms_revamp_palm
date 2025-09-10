@@ -1,11 +1,14 @@
 import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
+import 'package:epms_tech/domain/model/activity_model.dart';
 import 'package:epms_tech/domain/model/crop_type_model.dart';
 import 'package:epms_tech/domain/model/division_model.dart';
 import 'package:epms_tech/domain/model/employee_model.dart';
 import 'package:epms_tech/domain/model/estate_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
+import 'package:epms_tech/domain/model/master_block_model.dart';
+import 'package:epms_tech/domain/model/vendor_model.dart';
 import 'package:epms_tech/domain/model/work_center_model.dart';
 import 'package:epms_tech/domain/model/work_type_model.dart';
 import 'package:epms_tech/domain/repositories/auth_repository.dart';
@@ -77,6 +80,22 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveDivision(
       (masterDataGlobal[AppConstants.mDivisionSchema] as List)
       .map((json) => DivisionModel.fromJson(json))
+      .toList(),
+    );
+
+    await masterDataRepository.saveMasterBlock(
+      (masterDataGlobal[AppConstants.mBlockSchema] as List)
+      .map((json) => MasterBlockModel.fromJson(json))
+      .toList(),
+    );
+    await masterDataRepository.saveVendor(
+      (masterDataGlobal[AppConstants.mVendorSchema] as List)
+      .map((json) => VendorModel.fromJson(json))
+      .toList(),
+    );
+    await masterDataRepository.saveAcitvity(
+      (masterDataGlobal[AppConstants.mActivitySchema] as List)
+      .map((json) => ActivityModel.fromJson(json))
       .toList(),
     );
 

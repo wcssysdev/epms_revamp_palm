@@ -1,9 +1,12 @@
 import 'package:epms_tech/core/constants/app_constants.dart';
+import 'package:epms_tech/domain/entities/activity.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/division.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
+import 'package:epms_tech/domain/entities/master_block.dart';
+import 'package:epms_tech/domain/entities/vendor.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
@@ -251,6 +254,130 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
             divisionEstateCode: item['division_estate_code'],
             divisionCode: item['division_code'],
             divisionName: item['division_name'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveMasterBlock(List<MasterBlock> blocks) async {
+    final List<Map<String, dynamic>> dataToStore =
+        blocks.map((item) {
+          return {
+            "block_id": item.blockId,
+            "block_company_code": item.blockCompanyCode,
+            "block_estate_code": item.blockEstateCode,
+            "block_division_code": item.blockDivisionCode,
+            "block_code": item.blockCode,
+            "block_name": item.blockName,
+            "block_hectarage": item.blockHectarage,
+            "block_state": item.blockState,
+            "block_crop_type": item.blockCropType,
+          };
+        }).toList();
+    await box.put(AppConstants.mBlockSchema, dataToStore);
+  }
+
+  @override
+  Future<List<MasterBlock>> getMasterBlock() async {
+    final data = box.get(AppConstants.mBlockSchema, defaultValue: []);
+    final blocks = (data as List).cast<Map<String, dynamic>>();
+    return blocks
+        .map(
+          (item) => MasterBlock(
+            blockId: item['block_id'],
+            blockCompanyCode: item['block_company_code'],
+            blockEstateCode: item['block_estate_code'],
+            blockDivisionCode: item['block_division_code'],
+            blockCode: item['block_code'],
+            blockName: item['block_name'],
+            blockHectarage: item['block_hectarage'],
+            blockState: item['block_state'],
+            blockCropType: item['block_crop_type'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveVendor(List<Vendor> vendors) async {
+    final List<Map<String, dynamic>> dataToStore =
+        vendors.map((item) {
+          return {
+            "vendor_id": item.vendorId,
+            "vendor_code": item.vendorCode,
+            "vendor_name": item.vendorName,
+            "vendor_plant_code": item.vendorPlantCode,
+          };
+        }).toList();
+    await box.put(AppConstants.mVendorSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Vendor>> getVendor() async {
+    final data = box.get(AppConstants.mVendorSchema, defaultValue: []);
+    final vendors = (data as List).cast<Map<String, dynamic>>();
+    return vendors
+        .map(
+          (item) => Vendor(
+            vendorId: item['vendor_id'],
+            vendorCode: item['vendor_code'],
+            vendorName: item['vendor_name'],
+            vendorPlantCode: item['vendor_plant_code'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveAcitvity(List<Activity> activities) async {
+    final List<Map<String, dynamic>> dataToStore =
+        activities.map((item) {
+          return {
+            "activity_id": item.activityId,
+            "activity_code": item.activityCode,
+            "activity_name": item.activityName,
+            "activity_uom": item.activityUom,
+            "activity_cost_by_block": item.activityCostByBlock,
+            "activity_cost_by_auc": item.activityCostByAuc,
+            "activity_cost_by_order_number": item.activityCostByOrderNumber,
+            "activity_cost_by_cost_center": item.activityCostByCostCenter,
+            "activity_block_is_lc": item.activityBlockIsLc,
+            "activity_block_is_immature": item.activityBlockIsImmature,
+            "activity_block_is_mature": item.activityBlockIsMature,
+            "activity_block_is_scout": item.activityBlockIsScout,
+            "activity_uom_name": item.activityUomName,
+            "activity_group_code": item.activityGroupCode,
+            "activity_is_wbs_required": item.activityIsWbsRequired,
+          };
+        }).toList();
+    await box.put(AppConstants.mActivitySchema, dataToStore);
+  }
+
+  @override
+  Future<List<Activity>> getActivity() async {
+    final data = box.get(AppConstants.mActivitySchema, defaultValue: []);
+    final activities = (data as List).cast<Map<String, dynamic>>();
+    return activities
+        .map(
+          (item) => Activity(
+            activityId: item['activity_id'] ?? 0,
+            activityCode: item['activity_code'] ?? '',
+            activityName: item['activity_name'] ?? '',
+            activityUom: item['activity_uom'] ?? '',
+            activityCostByBlock: item['activity_cost_by_block'] ?? '',
+            activityCostByAuc: item['activity_cost_by_auc'] ?? '',
+            activityCostByOrderNumber:
+                item['activity_cost_by_order_number'] ?? '',
+            activityCostByCostCenter:
+                item['activity_cost_by_cost_center'] ?? '',
+            activityBlockIsLc: item['activity_block_is_lc'] ?? '',
+            activityBlockIsImmature: item['activity_block_is_immature'] ?? '',
+            activityBlockIsMature: item['activity_block_is_mature'] ?? '',
+            activityBlockIsScout: item['activity_block_is_scout'] ?? '',
+            activityUomName: item['activity_uom_name'] ?? '',
+            activityGroupCode: item['activity_group_code'] ?? '',
+            activityIsWbsRequired: item['activity_is_wbs_required'] ?? '',
           ),
         )
         .toList();

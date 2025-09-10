@@ -1,8 +1,11 @@
+import 'package:epms_tech/domain/entities/activity.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/division.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
+import 'package:epms_tech/domain/entities/master_block.dart';
+import 'package:epms_tech/domain/entities/vendor.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
 // import 'package:epms_tech/domain/model/harvesting_method_model.dart';
@@ -30,4 +33,12 @@ abstract class MasterDataRepository { // INTERFACE
   Future<void> saveDivision(List<Division> workCenter);
   Future<List<Division>> getDivision();
 
+  Future<void> saveMasterBlock(List<MasterBlock> workCenter);
+  Future<List<MasterBlock>> getMasterBlock();
+
+  Future<void> saveVendor(List<Vendor> workCenter);
+  Future<List<Vendor>> getVendor();
+
+  Future<void> saveAcitvity(List<Activity> workCenter);
+  Future<List<Activity>> getActivity();
 }
