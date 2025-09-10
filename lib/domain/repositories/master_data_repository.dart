@@ -1,6 +1,7 @@
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
+import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
 // import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 
@@ -17,5 +18,8 @@ abstract class MasterDataRepository { // INTERFACE
 
   Future<void> saveWorkType(List<WorkType> workType);
   Future<List<WorkType>> getWorkType();
+
+  Future<void> saveWorkCenter(List<WorkCenter> workCenter);
+  Future<List<WorkCenter>> getWorkCenter();
 
 }

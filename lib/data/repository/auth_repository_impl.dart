@@ -4,6 +4,7 @@ import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
 import 'package:epms_tech/domain/model/crop_type_model.dart';
 import 'package:epms_tech/domain/model/employee_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
+import 'package:epms_tech/domain/model/work_center_model.dart';
 import 'package:epms_tech/domain/model/work_type_model.dart';
 import 'package:epms_tech/domain/repositories/auth_repository.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
@@ -20,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
     AuthLocalDatasource? local,
     required this.masterDataRepository,
   }) : remoteDatasource = AuthRemoteDatasource(baseUrl: baseUrl),
-       localDatasource = local ?? AuthLocalDatasource();
+        localDatasource = local ?? AuthLocalDatasource();
 
   @override
   Future<bool> login(
@@ -56,6 +57,12 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveWorkType(
       (masterDataGlobal[AppConstants.mWorkTypeSchema] as List)
       .map((json) => WorkTypeModel.fromJson(json))
+      .toList(),
+    );
+
+    await masterDataRepository.saveWorkCenter(
+      (masterDataGlobal[AppConstants.mWorkCenterSchema] as List)
+      .map((json) => WorkCenterModel.fromJson(json))
       .toList(),
     );
 

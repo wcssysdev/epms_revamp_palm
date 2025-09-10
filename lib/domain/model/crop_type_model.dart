@@ -9,16 +9,16 @@ class CropTypeModel implements CropType {
   @override
   @HiveField(0)
   String cropTypeCode;
-   @override
+  @override
   @HiveField(1)
   String cropTypeName;
-   @override
+  @override
   @HiveField(2)
   String description;
-   @override
+  @override
   @HiveField(3)
   String canHarvest;
-  
+
   CropTypeModel({
     required this.cropTypeCode,
     required this.cropTypeName,

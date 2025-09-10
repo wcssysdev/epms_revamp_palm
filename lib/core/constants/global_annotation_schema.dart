@@ -3,4 +3,5 @@ class GlobalAnnotationSchema {
   static const int mHarvestingMethodAnnotation = 2;
   static const int mEmployeeAnnotation = 10;
   static const int mWorkTypeAnnotation = 4;
+  static const int mWorkCenterAnnotation = 5;
 }
