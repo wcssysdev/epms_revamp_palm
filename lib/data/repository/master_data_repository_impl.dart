@@ -1,5 +1,6 @@
 import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
+import 'package:epms_tech/domain/entities/division.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
@@ -217,6 +218,39 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
             estateCode: item['estate_code'],
             estateName: item['estate_name'],
             estatePlantCode: item['estate_plant_code'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveDivision(List<Division> divisions) async {
+    final List<Map<String, dynamic>> dataToStore =
+        divisions.map((item) {
+          return {
+            "division_id": item.divisionId,
+            "division_company_code": item.divisionCompanyCode,
+            "division_estate_code": item.divisionEstateCode,
+            "division_code": item.divisionCode,
+            "division_name": item.divisionName,
+          };
+        }).toList();
+    await box.put(AppConstants.mDivisionSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Division>> getDivision() async {
+    final data = box.get(AppConstants.mDivisionSchema, defaultValue: []);
+    final divisions = (data as List).cast<Map<String, dynamic>>();
+
+    return divisions
+        .map(
+          (item) => Division(
+            divisionId: item['division_id'],
+            divisionCompanyCode: item['division_company_code'],
+            divisionEstateCode: item['division_estate_code'],
+            divisionCode: item['division_code'],
+            divisionName: item['division_name'],
           ),
         )
         .toList();

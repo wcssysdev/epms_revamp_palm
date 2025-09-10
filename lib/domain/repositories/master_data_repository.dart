@@ -1,4 +1,5 @@
 import 'package:epms_tech/domain/entities/crop_type.dart';
+import 'package:epms_tech/domain/entities/division.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
@@ -25,5 +26,8 @@ abstract class MasterDataRepository { // INTERFACE
 
   Future<void> saveEstate(List<Estate> workCenter);
   Future<List<Estate>> getEstate();
+
+  Future<void> saveDivision(List<Division> workCenter);
+  Future<List<Division>> getDivision();
 
 }

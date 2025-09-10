@@ -2,6 +2,7 @@ import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
 import 'package:epms_tech/domain/model/crop_type_model.dart';
+import 'package:epms_tech/domain/model/division_model.dart';
 import 'package:epms_tech/domain/model/employee_model.dart';
 import 'package:epms_tech/domain/model/estate_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
@@ -70,6 +71,12 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveEstate(
       (masterDataGlobal[AppConstants.mEstateSchema] as List)
       .map((json) => EstateModel.fromJson(json))
+      .toList(),
+    );
+
+    await masterDataRepository.saveDivision(
+      (masterDataGlobal[AppConstants.mDivisionSchema] as List)
+      .map((json) => DivisionModel.fromJson(json))
       .toList(),
     );
 
