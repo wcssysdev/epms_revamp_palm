@@ -18,7 +18,8 @@ class AppConstants {
   static const String mDestinationSchema = 'M_Destination_Schema';
   static const String mVraSchema = 'M_VRA_Schema';
   static const String mVraDocumentSchema = 'M_VRA_DOCUMENT_Schema';
-  static const String mVraTypeSchema = 'M_Vra_Type_Schema';
+  static const String mVraTypeSchema = 'M_VRA_Type_Schema';
+  static const String mReceivingPointSchema = 'M_Receiving_Point_Schema';
   static const String mVendorSchema = 'M_Vendor_Schema';
   static const String mUomSchema = 'M_UOM_Schema';
   static const String mNpMaterialSchema = 'M_NP_Material_Schema';

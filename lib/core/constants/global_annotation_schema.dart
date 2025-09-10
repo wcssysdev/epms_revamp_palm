@@ -11,4 +11,6 @@ class GlobalAnnotationSchema {
   static const int mActivityAnnotation = 13;
   static const int mAttendanceAnnotation = 15;
   static const int mVraAnnotation = 16;
+  static const int mVraTypeAnnotation = 17;
+  static const int mReceivingPointAnnotation = 17;
 }

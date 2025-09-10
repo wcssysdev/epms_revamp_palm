@@ -6,10 +6,13 @@ import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
 import 'package:epms_tech/domain/entities/master_block.dart';
+import 'package:epms_tech/domain/entities/receiving_point.dart';
 import 'package:epms_tech/domain/entities/vendor.dart';
 import 'package:epms_tech/domain/entities/vra.dart';
+import 'package:epms_tech/domain/entities/vra_type.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
+import 'package:epms_tech/domain/model/receiving_point_model.dart';
 // import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 
 abstract class MasterDataRepository { // INTERFACE
@@ -49,5 +52,11 @@ abstract class MasterDataRepository { // INTERFACE
   
   Future<void> saveVra(List<Vra> vra);
   Future<List<Vra>> getVra();
+  
+  Future<void> saveVraType(List<VraType> vraType);
+  Future<List<VraType>> getVraType();
+
+  Future<void> saveReceivingPoint(List<RecevingPoint> receivingPoints);
+  Future<List<RecevingPoint>> getReceivingPoint();
   
 }

@@ -7,8 +7,10 @@ import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
 import 'package:epms_tech/domain/entities/master_block.dart';
+import 'package:epms_tech/domain/entities/receiving_point.dart';
 import 'package:epms_tech/domain/entities/vendor.dart';
 import 'package:epms_tech/domain/entities/vra.dart';
+import 'package:epms_tech/domain/entities/vra_type.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
@@ -448,6 +450,58 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
             vraMeasUnit: item['vra_meas_unit'] ?? '',
             vraMeasPoint: item['vra_meas_point'] ?? '',
             vraEquipment: item['vra_equipment'] ?? '',
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveVraType(List<VraType> vraTypes) async {
+    final List<Map<String, dynamic>> dataToStore =
+        vraTypes.map((item) {
+          return {
+            "vra_object_type": item.vraObjectType,
+            "type_id": item.typeId,
+          };
+        }).toList();
+    await box.put(AppConstants.mVraTypeSchema, dataToStore);
+  }
+
+  @override
+  Future<List<VraType>> getVraType() async {
+    final data = box.get(AppConstants.mVraTypeSchema, defaultValue: []);
+    final vraTypes = (data as List).cast<Map<String, dynamic>>();
+    return vraTypes
+        .map(
+          (item) => VraType(
+            vraObjectType: item['vra_object_type'],
+            typeId: item['type_id'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveReceivingPoint(List<RecevingPoint> receivingPoint) async {
+    final List<Map<String, dynamic>> dataToStore =
+        receivingPoint.map((item) {
+          return {
+            "receiving_point_id": item.receivingPointId,
+            "receiving_point_code": item.receivingPointCode,
+          };
+        }).toList();
+    await box.put(AppConstants.mReceivingPointSchema, dataToStore);
+  }
+
+  @override
+  Future<List<RecevingPoint>> getReceivingPoint() async {
+    final data = box.get(AppConstants.mReceivingPointSchema, defaultValue: []);
+    final receivingPoints = (data as List).cast<Map<String, dynamic>>();
+    return receivingPoints
+        .map(
+          (item) => RecevingPoint(
+            receivingPointId: item['receiving_point_id'],
+            receivingPointCode: item['receiving_point_code'],
           ),
         )
         .toList();

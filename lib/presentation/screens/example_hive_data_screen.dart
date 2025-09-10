@@ -1,4 +1,8 @@
+import 'package:epms_tech/domain/entities/attendance.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
+import 'package:epms_tech/domain/entities/receiving_point.dart';
+import 'package:epms_tech/domain/entities/vra.dart';
+import 'package:epms_tech/domain/entities/vra_type.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +13,8 @@ final sl = GetIt.instance;
 class ExampleHiveDataScreen extends StatelessWidget {
   const ExampleHiveDataScreen({super.key});
 
-  Future<List<WorkType>> _load() => // set here JANGAN HAPUS
-    sl<MasterDataRepository>().getWorkType();
+  Future<List<RecevingPoint>> _load() => // set here JANGAN HAPUS
+    sl<MasterDataRepository>().getReceivingPoint();
 
   // Future<List<CropType>> _load() =>
   //   sl<MasterDataRepository>().getCropType();
@@ -24,7 +28,7 @@ class ExampleHiveDataScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Hive Data Local')),
-      body: FutureBuilder<List<WorkType>>(// set here JANGAN HAPUS
+      body: FutureBuilder<List<RecevingPoint>>(// set here JANGAN HAPUS
         future: _load(), 
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
@@ -40,8 +44,8 @@ class ExampleHiveDataScreen extends StatelessWidget {
             itemBuilder: (context, i) {
               final c = items[i];
               return ListTile(
-                title: Text(c.workTypeName),
-                subtitle: Text('${c.workTypeCode} • ${c.workTypeId}'),
+                title: Text(c.receivingPointId.toString()),
+                subtitle: Text('${c.receivingPointCode} • ${c.receivingPointCode}'),
                 // trailing: Icon(
                 //   c.canHarvest == 'false' ? Icons.cancel : Icons.check_circle,
                 // ),

@@ -9,8 +9,10 @@ import 'package:epms_tech/domain/model/employee_model.dart';
 import 'package:epms_tech/domain/model/estate_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 import 'package:epms_tech/domain/model/master_block_model.dart';
+import 'package:epms_tech/domain/model/receiving_point_model.dart';
 import 'package:epms_tech/domain/model/vendor_model.dart';
 import 'package:epms_tech/domain/model/vra_model.dart';
+import 'package:epms_tech/domain/model/vra_type_model.dart';
 import 'package:epms_tech/domain/model/work_center_model.dart';
 import 'package:epms_tech/domain/model/work_type_model.dart';
 import 'package:epms_tech/domain/repositories/auth_repository.dart';
@@ -109,6 +111,18 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveVra(
       (masterDataGlobal[AppConstants.mVraSchema] as List)
       .map((json) => VraModel.fromJson(json))
+      .toList(),
+    );
+
+    await masterDataRepository.saveVraType(
+      (masterDataGlobal[AppConstants.mVraTypeSchema] as List)
+      .map((json) => VraTypeModel.fromJson(json))
+      .toList(),
+    );
+
+    await masterDataRepository.saveReceivingPoint(
+      (masterDataGlobal[AppConstants.mReceivingPointSchema] as List)
+      .map((json) => ReceivingPointModel.fromJson(json))
       .toList(),
     );
 
