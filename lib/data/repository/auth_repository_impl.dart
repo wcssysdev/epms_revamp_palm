@@ -4,6 +4,7 @@ import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
 import 'package:epms_tech/domain/model/crop_type_model.dart';
 import 'package:epms_tech/domain/model/employee_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
+import 'package:epms_tech/domain/model/work_type_model.dart';
 import 'package:epms_tech/domain/repositories/auth_repository.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 
@@ -49,6 +50,12 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveCropType(
       (masterDataGlobal[AppConstants.mCropTypeSchema] as List)
       .map((json) => CropTypeModel.fromJson(json))
+      .toList(),
+    );
+
+    await masterDataRepository.saveWorkType(
+      (masterDataGlobal[AppConstants.mWorkTypeSchema] as List)
+      .map((json) => WorkTypeModel.fromJson(json))
       .toList(),
     );
 

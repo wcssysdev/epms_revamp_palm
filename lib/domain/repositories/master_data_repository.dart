@@ -1,6 +1,7 @@
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
+import 'package:epms_tech/domain/entities/work_type.dart';
 // import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 
 abstract class MasterDataRepository { // INTERFACE
@@ -13,5 +14,8 @@ abstract class MasterDataRepository { // INTERFACE
   // M_Crop_type_Schema
   Future<void> saveCropType(List<CropType> cropType);
   Future<List<CropType>> getCropType();
-  
+
+  Future<void> saveWorkType(List<WorkType> workType);
+  Future<List<WorkType>> getWorkType();
+
 }

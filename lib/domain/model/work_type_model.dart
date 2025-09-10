@@ -1,9 +1,10 @@
 import 'package:epms_tech/core/constants/global_annotation_schema.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
 import 'package:hive/hive.dart';
+
 part 'work_type_model.g.dart';
 
-@HiveType(typeId: GlobalAnnotationSchema.mWorkType)
+@HiveType(typeId: GlobalAnnotationSchema.mWorkTypeAnnotation)
 class WorkTypeModel implements WorkType{
   @override
   @HiveField(0)

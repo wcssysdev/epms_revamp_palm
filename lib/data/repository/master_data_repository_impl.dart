@@ -2,6 +2,7 @@ import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
+import 'package:epms_tech/domain/entities/work_type.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:hive/hive.dart';
 
@@ -110,12 +111,39 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
     final data = box.get(AppConstants.mCropTypeSchema, defaultValue: []);
     final cropTypes = (data as List).cast<Map<String, dynamic>>();
 
-     return cropTypes.map((item) {
+    return cropTypes.map((item) {
       return CropType(
         cropTypeCode: item['croptypecode'] ?? '',
         cropTypeName: item['croptypename'] ?? '',
         description: item['description'] ?? '',
         canHarvest: item['canharvest'],
+      );
+    }).toList();
+  }
+
+  @override
+  Future<void> saveWorkType(List<WorkType> workTypes) async {
+    final List<Map<String, dynamic>> dataToStore =
+        workTypes.map((item) {
+          return {
+            'work_type_id': item.workTypeId,
+            'work_type_code': item.workTypeCode,
+            'work_type_name': item.workTypeName,
+          };
+        }).toList();
+    await box.put(AppConstants.mWorkTypeSchema, dataToStore);
+  }
+
+  @override
+  Future<List<WorkType>> getWorkType() async {
+    final data = box.get(AppConstants.mWorkTypeSchema, defaultValue: []);
+    final worktypes = (data as List).cast<Map<String, dynamic>>();
+
+    return worktypes.map((item) {
+      return WorkType(
+        workTypeId: item['work_type_id'],
+        workTypeCode: item['work_type_code'],
+        workTypeName: item['work_type_name'],
       );
     }).toList();
   }

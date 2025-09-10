@@ -1,4 +1,5 @@
 import 'package:epms_tech/domain/entities/crop_type.dart';
+import 'package:epms_tech/domain/entities/work_type.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -8,8 +9,11 @@ final sl = GetIt.instance;
 class ExampleHiveDataScreen extends StatelessWidget {
   const ExampleHiveDataScreen({super.key});
 
-  Future<List<CropType>> _load() =>
-    sl<MasterDataRepository>().getCropType();
+  Future<List<WorkType>> _load() => // set here JANGAN HAPUS
+    sl<MasterDataRepository>().getWorkType();
+
+  // Future<List<CropType>> _load() =>
+  //   sl<MasterDataRepository>().getCropType();
 
   // Future<List<HarvestingMethod>> _load() =>
   //   sl<MasterDataRepository>().getHarvestMethods();
@@ -19,11 +23,10 @@ class ExampleHiveDataScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Crop Types')),
-      body: FutureBuilder<List<CropType>>(
+      appBar: AppBar(title: const Text('Hive Data Local')),
+      body: FutureBuilder<List<WorkType>>(// set here JANGAN HAPUS
         future: _load(), 
         builder: (context, snap) {
-          print('*** $snap');
           if (snap.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -37,11 +40,11 @@ class ExampleHiveDataScreen extends StatelessWidget {
             itemBuilder: (context, i) {
               final c = items[i];
               return ListTile(
-                title: Text(c.cropTypeName),
-                subtitle: Text('${c.cropTypeCode} • ${c.description}'),
-                trailing: Icon(
-                  c.canHarvest == 'false' ? Icons.cancel : Icons.check_circle,
-                ),
+                title: Text(c.workTypeName),
+                subtitle: Text('${c.workTypeCode} • ${c.workTypeId}'),
+                // trailing: Icon(
+                //   c.canHarvest == 'false' ? Icons.cancel : Icons.check_circle,
+                // ),
               );
             },
           );
