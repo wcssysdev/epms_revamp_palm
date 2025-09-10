@@ -3,6 +3,7 @@ import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
 import 'package:epms_tech/domain/model/crop_type_model.dart';
 import 'package:epms_tech/domain/model/employee_model.dart';
+import 'package:epms_tech/domain/model/estate_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 import 'package:epms_tech/domain/model/work_center_model.dart';
 import 'package:epms_tech/domain/model/work_type_model.dart';
@@ -63,6 +64,12 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveWorkCenter(
       (masterDataGlobal[AppConstants.mWorkCenterSchema] as List)
       .map((json) => WorkCenterModel.fromJson(json))
+      .toList(),
+    );
+
+    await masterDataRepository.saveEstate(
+      (masterDataGlobal[AppConstants.mEstateSchema] as List)
+      .map((json) => EstateModel.fromJson(json))
       .toList(),
     );
 

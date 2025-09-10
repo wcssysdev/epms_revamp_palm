@@ -1,6 +1,7 @@
 import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
+import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
@@ -183,6 +184,39 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
             workCenterPlantCode: item['work_center_plant_code'],
             workCenterEstateCode: item['work_center_estate_code'],
             workCenterDivisionCode: item['work_center_division_code'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveEstate(List<Estate> estates) async {
+    final List<Map<String, dynamic>> dataToStore =
+        estates.map((item) {
+          return {
+            'estate_id': item.estateId,
+            'estate_company_code': item.estateCompanyCode,
+            'estate_code': item.estateCode,
+            'estate_name': item.estateName,
+            'estate_plant_code': item.estatePlantCode,
+          };
+        }).toList();
+    await box.put(AppConstants.mEstateSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Estate>> getEstate() async {
+    final data = box.get(AppConstants.mEstateSchema, defaultValue: []);
+    final estates = (data as List).cast<Map<String, dynamic>>();
+
+    return estates
+        .map(
+          (item) => Estate(
+            estateId: item['estate_id'],
+            estateCompanyCode: item['estate_company_code'],
+            estateCode: item['estate_code'],
+            estateName: item['estate_name'],
+            estatePlantCode: item['estate_plant_code'],
           ),
         )
         .toList();
