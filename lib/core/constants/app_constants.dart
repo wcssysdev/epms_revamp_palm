@@ -11,8 +11,8 @@ class AppConstants {
   static const String mTphSchema = 'M_TPH_Schema';
   static const String mEmployeeSchema = 'M_Employee_Schema';
   static const String tUserAssignmentSchema = 'T_User_Assignment_Schema';
-  static const String mcOphCardSchema = 'MC_OPH_Card_Schema';
-  static const String mcSpbCardSchema = 'MC_SPB_Card_Schema';
+  static const String mOphCardSchema = 'MC_OPH_Card_Schema';
+  static const String mSpbCardSchema = 'MC_SPB_Card_Schema';
   static const String mActivitySchema = 'M_Activity_Schema';
   static const String mMaterialSchema = 'M_Material_Schema';
   static const String mDestinationSchema = 'M_Destination_Schema';

@@ -8,7 +8,10 @@ import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
 import 'package:epms_tech/domain/entities/master_block.dart';
 import 'package:epms_tech/domain/entities/material_schema.dart';
+import 'package:epms_tech/domain/entities/oph_card.dart';
 import 'package:epms_tech/domain/entities/receiving_point.dart';
+import 'package:epms_tech/domain/entities/spb_card.dart';
+import 'package:epms_tech/domain/entities/tph.dart';
 import 'package:epms_tech/domain/entities/user_assignment.dart';
 import 'package:epms_tech/domain/entities/vendor.dart';
 import 'package:epms_tech/domain/entities/vra.dart';
@@ -72,4 +75,13 @@ abstract class MasterDataRepository {
 
   Future<void> saveUserAssignment(List<UserAssignment> userAssignments);
   Future<List<UserAssignment>> getUserAssignment();
+
+  Future<void> saveTph(List<Tph> userAssignments);
+  Future<List<Tph>> getTph();
+
+  Future<void> saveOphCard(List<OphCard> userAssignments);
+  Future<List<OphCard>> getOphCard();
+
+  Future<void> saveSpbCard(List<SpbCard> userAssignments);
+  Future<List<SpbCard>> getSpbCard();
 }

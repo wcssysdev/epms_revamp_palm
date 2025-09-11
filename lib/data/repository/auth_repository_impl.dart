@@ -11,7 +11,10 @@ import 'package:epms_tech/domain/model/estate_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 import 'package:epms_tech/domain/model/master_block_model.dart';
 import 'package:epms_tech/domain/model/material_schema_model.dart';
+import 'package:epms_tech/domain/model/oph_card_model.dart';
 import 'package:epms_tech/domain/model/receiving_point_model.dart';
+import 'package:epms_tech/domain/model/spb_card_model.dart';
+import 'package:epms_tech/domain/model/tph_model.dart';
 import 'package:epms_tech/domain/model/user_assignment_model.dart';
 import 'package:epms_tech/domain/model/vendor_model.dart';
 import 'package:epms_tech/domain/model/vra_model.dart';
@@ -144,6 +147,24 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveUserAssignment(
       (masterDataGlobal[AppConstants.tUserAssignmentSchema] as List)
           .map((json) => UserAssignmentModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveTph(
+      (masterDataGlobal[AppConstants.mTphSchema] as List)
+          .map((json) => TphModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveOphCard(
+      (masterDataGlobal[AppConstants.mOphCardSchema] as List)
+          .map((json) => OphCardModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveSpbCard(
+      (masterDataGlobal[AppConstants.mSpbCardSchema] as List)
+          .map((json) => SpbCardModel.fromJson(json))
           .toList(),
     );
 

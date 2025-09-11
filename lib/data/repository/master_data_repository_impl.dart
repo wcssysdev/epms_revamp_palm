@@ -9,7 +9,10 @@ import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
 import 'package:epms_tech/domain/entities/master_block.dart';
 import 'package:epms_tech/domain/entities/material_schema.dart';
+import 'package:epms_tech/domain/entities/oph_card.dart';
 import 'package:epms_tech/domain/entities/receiving_point.dart';
+import 'package:epms_tech/domain/entities/spb_card.dart';
+import 'package:epms_tech/domain/entities/tph.dart';
 import 'package:epms_tech/domain/entities/user_assignment.dart';
 import 'package:epms_tech/domain/entities/vendor.dart';
 import 'package:epms_tech/domain/entities/vra.dart';
@@ -582,7 +585,6 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   Future<void> saveUserAssignment(List<UserAssignment> userAssignments) async {
     final List<Map<String, dynamic>> dataToStore =
         userAssignments.map((item) {
-          print('---- $item');
           return {
             "mandor_id": item.mandorId,
             "profile_name": item.profileName,
@@ -608,6 +610,100 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
             mandorEmployeeName: item['mandor_employee_name'],
             employeeCode: item['employee_code'],
             employeeName: item['employee_name'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveTph(List<Tph> tph) async {
+    final List<Map<String, dynamic>> dataToStore =
+        tph.map((item) {
+          return {
+            "tph_id": item.tphId,
+            "tph_company_code": item.tphCompanyCode,
+            "tph_estate_code": item.tphEstateCode,
+            "tph_division_code": item.tphDivisionCode,
+            "tph_block_code": item.tphBlockCode,
+            "tph_section_code": item.tphSectionCode,
+            "tph_code": item.tphCode,
+            "tph_latitude": item.tphLatitude,
+            "tph_longitude": item.tphLongitude,
+            "tph_palm_total": item.tphPalmTotal,
+          };
+        }).toList();
+    await box.put(AppConstants.mTphSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Tph>> getTph() async {
+    final data = box.get(AppConstants.mTphSchema, defaultValue: []);
+    final tph = (data as List).cast<Map<String, dynamic>>();
+    return tph
+        .map(
+          (item) => Tph(
+            tphId: item['tph_id'],
+            tphCompanyCode: item['tph_company_code'],
+            tphEstateCode: item['tph_estate_code'],
+            tphDivisionCode: item['tph_division_code'],
+            tphBlockCode: item['tph_block_code'],
+            tphSectionCode: item['tph_section_code'],
+            tphCode: item['tph_code'],
+            tphLatitude: item['tph_latitude'],
+            tphLongitude: item['tph_longitude'],
+            tphPalmTotal: item['tph_palm_total'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveOphCard(List<OphCard> ophCards) async {
+    final List<Map<String, dynamic>> dataToStore =
+        ophCards.map((item) {
+          return {
+            "oph_card_id": item.ophCardId,
+            "oph_card_division": item.ophCardDivision,
+          };
+        }).toList();
+    await box.put(AppConstants.mOphCardSchema, dataToStore);
+  }
+
+  @override
+  Future<List<OphCard>> getOphCard() async {
+    final data = box.get(AppConstants.mOphCardSchema, defaultValue: []);
+    final ophCards = (data as List).cast<Map<String, dynamic>>();
+    return ophCards
+        .map(
+          (item) => OphCard(
+            ophCardId: item['oph_card_id'],
+            ophCardDivision: item['oph_card_division'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveSpbCard(List<SpbCard> spbCards) async {
+    final List<Map<String, dynamic>> dataToStore =
+        spbCards.map((item) {
+          return {
+            "fdn_card_id": item.fdnCardId,
+            "fdn_card_division": item.fdnCardDivision,
+          };
+        }).toList();
+    await box.put(AppConstants.mSpbCardSchema, dataToStore);
+  }
+
+  @override
+  Future<List<SpbCard>> getSpbCard() async {
+    final data = box.get(AppConstants.mSpbCardSchema, defaultValue: []);
+    final sphCards = (data as List).cast<Map<String, dynamic>>();
+    return sphCards
+        .map(
+          (item) => SpbCard(
+            fdnCardId: item['fdn_card_id'],
+            fdnCardDivision: item['fdn_card_division'],
           ),
         )
         .toList();
