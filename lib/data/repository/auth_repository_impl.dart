@@ -4,12 +4,15 @@ import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
 import 'package:epms_tech/domain/model/activity_model.dart';
 import 'package:epms_tech/domain/model/attendance_model.dart';
 import 'package:epms_tech/domain/model/crop_type_model.dart';
+import 'package:epms_tech/domain/model/destination_model.dart';
 import 'package:epms_tech/domain/model/division_model.dart';
 import 'package:epms_tech/domain/model/employee_model.dart';
 import 'package:epms_tech/domain/model/estate_model.dart';
 import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 import 'package:epms_tech/domain/model/master_block_model.dart';
+import 'package:epms_tech/domain/model/material_schema_model.dart';
 import 'package:epms_tech/domain/model/receiving_point_model.dart';
+import 'package:epms_tech/domain/model/user_assignment_model.dart';
 import 'package:epms_tech/domain/model/vendor_model.dart';
 import 'package:epms_tech/domain/model/vra_model.dart';
 import 'package:epms_tech/domain/model/vra_type_model.dart';
@@ -30,7 +33,7 @@ class AuthRepositoryImpl implements AuthRepository {
     AuthLocalDatasource? local,
     required this.masterDataRepository,
   }) : remoteDatasource = AuthRemoteDatasource(baseUrl: baseUrl),
-        localDatasource = local ?? AuthLocalDatasource();
+       localDatasource = local ?? AuthLocalDatasource();
 
   @override
   Future<bool> login(
@@ -59,71 +62,89 @@ class AuthRepositoryImpl implements AuthRepository {
 
     await masterDataRepository.saveCropType(
       (masterDataGlobal[AppConstants.mCropTypeSchema] as List)
-      .map((json) => CropTypeModel.fromJson(json))
-      .toList(),
+          .map((json) => CropTypeModel.fromJson(json))
+          .toList(),
     );
 
     await masterDataRepository.saveWorkType(
       (masterDataGlobal[AppConstants.mWorkTypeSchema] as List)
-      .map((json) => WorkTypeModel.fromJson(json))
-      .toList(),
+          .map((json) => WorkTypeModel.fromJson(json))
+          .toList(),
     );
 
     await masterDataRepository.saveWorkCenter(
       (masterDataGlobal[AppConstants.mWorkCenterSchema] as List)
-      .map((json) => WorkCenterModel.fromJson(json))
-      .toList(),
+          .map((json) => WorkCenterModel.fromJson(json))
+          .toList(),
     );
 
     await masterDataRepository.saveEstate(
       (masterDataGlobal[AppConstants.mEstateSchema] as List)
-      .map((json) => EstateModel.fromJson(json))
-      .toList(),
+          .map((json) => EstateModel.fromJson(json))
+          .toList(),
     );
 
     await masterDataRepository.saveDivision(
       (masterDataGlobal[AppConstants.mDivisionSchema] as List)
-      .map((json) => DivisionModel.fromJson(json))
-      .toList(),
+          .map((json) => DivisionModel.fromJson(json))
+          .toList(),
     );
 
     await masterDataRepository.saveMasterBlock(
       (masterDataGlobal[AppConstants.mBlockSchema] as List)
-      .map((json) => MasterBlockModel.fromJson(json))
-      .toList(),
+          .map((json) => MasterBlockModel.fromJson(json))
+          .toList(),
     );
     await masterDataRepository.saveVendor(
       (masterDataGlobal[AppConstants.mVendorSchema] as List)
-      .map((json) => VendorModel.fromJson(json))
-      .toList(),
+          .map((json) => VendorModel.fromJson(json))
+          .toList(),
     );
     await masterDataRepository.saveAcitvity(
       (masterDataGlobal[AppConstants.mActivitySchema] as List)
-      .map((json) => ActivityModel.fromJson(json))
-      .toList(),
+          .map((json) => ActivityModel.fromJson(json))
+          .toList(),
     );
     await masterDataRepository.saveAttendance(
       (masterDataGlobal[AppConstants.mAttendanceSchema] as List)
-      .map((json) => AttendanceModel.fromJson(json))
-      .toList(),
+          .map((json) => AttendanceModel.fromJson(json))
+          .toList(),
     );
 
     await masterDataRepository.saveVra(
       (masterDataGlobal[AppConstants.mVraSchema] as List)
-      .map((json) => VraModel.fromJson(json))
-      .toList(),
+          .map((json) => VraModel.fromJson(json))
+          .toList(),
     );
 
     await masterDataRepository.saveVraType(
       (masterDataGlobal[AppConstants.mVraTypeSchema] as List)
-      .map((json) => VraTypeModel.fromJson(json))
-      .toList(),
+          .map((json) => VraTypeModel.fromJson(json))
+          .toList(),
     );
 
     await masterDataRepository.saveReceivingPoint(
       (masterDataGlobal[AppConstants.mReceivingPointSchema] as List)
-      .map((json) => ReceivingPointModel.fromJson(json))
-      .toList(),
+          .map((json) => ReceivingPointModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveDestination(
+      (masterDataGlobal[AppConstants.mDestinationSchema] as List)
+          .map((json) => DestinationModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveMaterial(
+      (masterDataGlobal[AppConstants.mMaterialSchema] as List)
+          .map((json) => MaterialSchemaModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveUserAssignment(
+      (masterDataGlobal[AppConstants.tUserAssignmentSchema] as List)
+          .map((json) => UserAssignmentModel.fromJson(json))
+          .toList(),
     );
 
     return true;

@@ -1,35 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'receiving_point_model.dart';
+part of 'destination_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ReceivingPointModelAdapter extends TypeAdapter<ReceivingPointModel> {
+class DestinationModelAdapter extends TypeAdapter<DestinationModel> {
   @override
-  final int typeId = 18;
+  final int typeId = 19;
 
   @override
-  ReceivingPointModel read(BinaryReader reader) {
+  DestinationModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ReceivingPointModel(
-      receivingPointId: fields[0] as int,
-      receivingPointCode: fields[1] as String,
+    return DestinationModel(
+      destinationId: fields[0] as int,
+      destinationCode: fields[1] as String,
+      destinationName: fields[2] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, ReceivingPointModel obj) {
+  void write(BinaryWriter writer, DestinationModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.receivingPointId)
+      ..write(obj.destinationId)
       ..writeByte(1)
-      ..write(obj.receivingPointCode);
+      ..write(obj.destinationCode)
+      ..writeByte(2)
+      ..write(obj.destinationName);
   }
 
   @override
@@ -38,7 +41,7 @@ class ReceivingPointModelAdapter extends TypeAdapter<ReceivingPointModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ReceivingPointModelAdapter &&
+      other is DestinationModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

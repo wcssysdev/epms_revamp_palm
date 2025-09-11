@@ -2,12 +2,15 @@ import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/domain/entities/activity.dart';
 import 'package:epms_tech/domain/entities/attendance.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
+import 'package:epms_tech/domain/entities/destination.dart';
 import 'package:epms_tech/domain/entities/division.dart';
 import 'package:epms_tech/domain/entities/employee.dart';
 import 'package:epms_tech/domain/entities/estate.dart';
 import 'package:epms_tech/domain/entities/harvesting_method.dart';
 import 'package:epms_tech/domain/entities/master_block.dart';
+import 'package:epms_tech/domain/entities/material_schema.dart';
 import 'package:epms_tech/domain/entities/receiving_point.dart';
+import 'package:epms_tech/domain/entities/user_assignment.dart';
 import 'package:epms_tech/domain/entities/vendor.dart';
 import 'package:epms_tech/domain/entities/vra.dart';
 import 'package:epms_tech/domain/entities/vra_type.dart';
@@ -502,6 +505,109 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
           (item) => RecevingPoint(
             receivingPointId: item['receiving_point_id'],
             receivingPointCode: item['receiving_point_code'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveDestination(List<Destination> destinations) async {
+    final List<Map<String, dynamic>> dataToStore =
+        destinations.map((item) {
+          return {
+            "destination_id": item.destinationId,
+            "destination_code": item.destinationCode,
+            "destination_name": item.destinationName,
+          };
+        }).toList();
+    await box.put(AppConstants.mDestinationSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Destination>> getDestination() async {
+    final data = box.get(AppConstants.mDestinationSchema, defaultValue: []);
+    final destinations = (data as List).cast<Map<String, dynamic>>();
+    return destinations
+        .map(
+          (item) => Destination(
+            destinationId: item['destination_id'],
+            destinationCode: item['destination_code'],
+            destinationName: item['destination_name'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveMaterial(List<MaterialSchema> materials) async {
+    final List<Map<String, dynamic>> dataToStore =
+        materials.map((item) {
+          return {
+            "material_id": item.materialId,
+            "material_code": item.materialCode,
+            "material_name": item.materialName,
+            "material_uom": item.materialUom,
+            "material_plant_code": item.materialPlantCode,
+            "material_sloc": item.materialSloc,
+            "material_batch": item.materialBatch,
+            "material_group": item.materialGroup,
+            "material_type": item.materialType,
+          };
+        }).toList();
+    await box.put(AppConstants.mMaterialSchema, dataToStore);
+  }
+
+  @override
+  Future<List<MaterialSchema>> getMaterial() async {
+    final data = box.get(AppConstants.mMaterialSchema, defaultValue: []);
+    final materials = (data as List).cast<Map<String, dynamic>>();
+    return materials
+        .map(
+          (item) => MaterialSchema(
+            materialId: item['material_id'],
+            materialCode: item['material_code'],
+            materialName: item['material_name'],
+            materialUom: item['material_uom'],
+            materialPlantCode: item['material_plant_code'],
+            materialSloc: item['material_sloc'],
+            materialBatch: item['material_batch'],
+            materialGroup: item['material_group'],
+            materialType: item['material_type'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveUserAssignment(List<UserAssignment> userAssignments) async {
+    final List<Map<String, dynamic>> dataToStore =
+        userAssignments.map((item) {
+          print('---- $item');
+          return {
+            "mandor_id": item.mandorId,
+            "profile_name": item.profileName,
+            "mandor_employee_code": item.mandorEmployeeCode,
+            "mandor_employee_name": item.mandorEmployeeName,
+            "employee_code": item.employeeCode,
+            "employee_name": item.employeeName,
+          };
+        }).toList();
+    await box.put(AppConstants.tUserAssignmentSchema, dataToStore);
+  }
+
+  @override
+  Future<List<UserAssignment>> getUserAssignment() async {
+    final data = box.get(AppConstants.tUserAssignmentSchema, defaultValue: []);
+    final userAssignments = (data as List).cast<Map<String, dynamic>>();
+    return userAssignments
+        .map(
+          (item) => UserAssignment(
+            mandorId: item['mandor_id'],
+            profileName: item['profile_name'],
+            mandorEmployeeCode: item['mandor_employee_code'],
+            mandorEmployeeName: item['mandor_employee_name'],
+            employeeCode: item['employee_code'],
+            employeeName: item['employee_name'],
           ),
         )
         .toList();
