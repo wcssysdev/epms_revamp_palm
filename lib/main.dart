@@ -1,12 +1,14 @@
+import 'package:epms_tech/core/di/service_locator.dart';
+import 'package:epms_tech/data/repository/master_data_repository_impl.dart';
+import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
+import 'package:epms_tech/presentation/screens/example_hive_data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 // repository & impl
 import 'package:epms_tech/data/repository/auth_repository_impl.dart';
-import 'package:epms_tech/data/repository/auth_repository.dart';
-
 // usecase
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 
@@ -21,9 +23,16 @@ import 'package:epms_tech/presentation/screens/login_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox('app_settings');
+  await Hive.openBox('app_settings'); // ip server dan fdn +/- CP
+  await initDependencies(); // 'epms_data' hasil API login;
 
-  final authRepository = AuthRepositoryImpl(baseUrl: '' );// wajib di define 
+  final box = await Hive.openBox('epms_data');
+  final MasterDataRepository masterDataRepository = MasterDataRepositoryImpl(box: box);//???
+  
+  // masterDataRepository = interface bukan implementasi langsung
+  // MasterDataRepositoryImpl = implementasi konkrit Interface dengan Konstruktor yg butuh Hive Box
+
+  final authRepository = AuthRepositoryImpl(baseUrl: '', masterDataRepository: masterDataRepository );// wajib di define 
   final loginUsecase = LoginUsecase(authRepository);
   runApp(
       MultiBlocProvider(
@@ -50,7 +59,7 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthBloc, AuthState> (
         builder: (context, state) {
           if (state is Authenticated) {
-            return const IpServerScreen(); //HomeScreen();
+            return const ExampleHiveDataScreen(); //HomeScreen();
           } else {
             return const LoginScreen();
           }
@@ -58,6 +67,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
         'ip_server': (context) => IpServerScreen(),
+        'example': (context) => ExampleHiveDataScreen(),
       },
     );
 
@@ -81,10 +91,24 @@ lib/
   ├── data/                # Data source, API, model, repository impl
           └── repository/
                 ├── auth_repository_impl.dart
-                ├── auth_repository.dart
+                ├── master_data_repository_impl.dart
   ├── domain/
           └── usecases/
                 ├── login_usecase.dart
+          └── entities/
+                ├── crop_type.dart
+                ├── employee.dart
+                ├── harvesting_method.dart
+          └── repositories/
+                ├── auth_repository.dart
+                └── master_data_repository.dart
+          └── model/
+                └── harvesting_method_model.dart // ENTITIES
+                └── harvesting_method_model.g.dart // ADAPTER
+                └── crop_type_model.dart // ENTITIES
+                └── crop_type_model.g.dart // ADAPTER
+                └── employee_model.dart // ENTITIES
+                └── employee_model.g.dart // ADAPTER
   └── presentation/
       ├── blocs/           # State management (BLoC/Cubit)
       │    └── auth/
@@ -99,7 +123,33 @@ lib/
           └── submit_button_section.dart
           └── text_input_section.dart
 
+Teori Dependency Injection (DI)
+- tidak boleh action langsung pada data/repository/MasterDataRepositoryImpl
+- Sistem DI yang menyuntikkan ke repository via instance
+
+Package DI: (Pilih 1)
+get_it, or
+riverpod, or
+provider
+
+=========
+GET_IT
+lib/core/di/service_locator.dart (SL)
+tujuan : 1. Proses Register Hive box (initDependencies)
+         2. register hive
+         3. Define detail 'save' dan 'get' schema dan di set pada 'sl" (master_data_repository_impl.dart)
+         32. set sl untuk AuthRepositoryImpl
+         4. set function hasil login 
+
+main.dart
+  await initDependencies()
+
+auth_bloc
+final LoginUsecase loginUsecase = sl<LoginUsecase>();
+
+  =======
  */
+
 
   /*
   AuthBloc = Bloc dipakai untuk atur login/logout

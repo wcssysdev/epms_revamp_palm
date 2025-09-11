@@ -1,4 +1,4 @@
-import 'package:epms_tech/data/repository/auth_repository.dart';
+import 'package:epms_tech/domain/repositories/auth_repository.dart';
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_state.dart';
