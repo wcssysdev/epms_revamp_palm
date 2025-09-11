@@ -13,6 +13,7 @@ import 'package:epms_tech/domain/entities/oph_card.dart';
 import 'package:epms_tech/domain/entities/receiving_point.dart';
 import 'package:epms_tech/domain/entities/spb_card.dart';
 import 'package:epms_tech/domain/entities/tph.dart';
+import 'package:epms_tech/domain/entities/uom.dart';
 import 'package:epms_tech/domain/entities/user_assignment.dart';
 import 'package:epms_tech/domain/entities/vendor.dart';
 import 'package:epms_tech/domain/entities/vra.dart';
@@ -704,6 +705,34 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
           (item) => SpbCard(
             fdnCardId: item['fdn_card_id'],
             fdnCardDivision: item['fdn_card_division'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveUom(List<Uom> uom) async {
+    final List<Map<String, dynamic>> dataToStore =
+        uom.map((item) {
+          return {
+            "uom_id": item.uomId,
+            "uom_code": item.uomCode,
+            "uom_desc": item.uomDesc,
+          };
+        }).toList();
+    await box.put(AppConstants.mUomSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Uom>> getUom() async {
+    final data = box.get(AppConstants.mUomSchema, defaultValue: []);
+    final uom = (data as List).cast<Map<String, dynamic>>();
+    return uom
+        .map(
+          (item) => Uom(
+            uomId: item['uom_id'],
+            uomCode: item['uom_code'],
+            uomDesc: item['uom_desc'],
           ),
         )
         .toList();

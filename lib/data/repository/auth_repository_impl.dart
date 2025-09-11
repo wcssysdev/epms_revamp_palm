@@ -15,6 +15,7 @@ import 'package:epms_tech/domain/model/oph_card_model.dart';
 import 'package:epms_tech/domain/model/receiving_point_model.dart';
 import 'package:epms_tech/domain/model/spb_card_model.dart';
 import 'package:epms_tech/domain/model/tph_model.dart';
+import 'package:epms_tech/domain/model/uom_model.dart';
 import 'package:epms_tech/domain/model/user_assignment_model.dart';
 import 'package:epms_tech/domain/model/vendor_model.dart';
 import 'package:epms_tech/domain/model/vra_model.dart';
@@ -165,6 +166,12 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveSpbCard(
       (masterDataGlobal[AppConstants.mSpbCardSchema] as List)
           .map((json) => SpbCardModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveUom(
+      (masterDataGlobal[AppConstants.mUomSchema] as List)
+          .map((json) => UomModel.fromJson(json))
           .toList(),
     );
 

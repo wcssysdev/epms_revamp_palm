@@ -21,7 +21,7 @@ class AppConstants {
   static const String mVraTypeSchema = 'M_VRA_Type_Schema';
   static const String mReceivingPointSchema = 'M_Receiving_Point_Schema';
   static const String mVendorSchema = 'M_Vendor_Schema';
-  static const String mUomSchema = 'M_UOM_Schema';
+  static const String mUomSchema = 'M_Uom_Schema';
   static const String mNpMaterialSchema = 'M_NP_Material_Schema';
   static const String mHarvestingMethodSchema = 'M_Harvesting_Method_Schema';
   static const String mWorkTypeSchema = 'M_Work_Type_Schema';
