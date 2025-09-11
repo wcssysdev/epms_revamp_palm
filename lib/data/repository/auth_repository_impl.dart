@@ -1,31 +1,200 @@
-import 'package:epms_tech/core/utils/hive_helper.dart';
+import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
-import 'package:epms_tech/data/repository/auth_repository.dart';
+import 'package:epms_tech/domain/model/activity_model.dart';
+import 'package:epms_tech/domain/model/attendance_model.dart';
+import 'package:epms_tech/domain/model/config_model.dart';
+import 'package:epms_tech/domain/model/crop_type_model.dart';
+import 'package:epms_tech/domain/model/destination_model.dart';
+import 'package:epms_tech/domain/model/division_model.dart';
+import 'package:epms_tech/domain/model/employee_model.dart';
+import 'package:epms_tech/domain/model/estate_model.dart';
+import 'package:epms_tech/domain/model/harvesting_method_model.dart';
+import 'package:epms_tech/domain/model/master_block_model.dart';
+import 'package:epms_tech/domain/model/material_schema_model.dart';
+import 'package:epms_tech/domain/model/oph_card_model.dart';
+import 'package:epms_tech/domain/model/receiving_point_model.dart';
+import 'package:epms_tech/domain/model/roles_model.dart';
+import 'package:epms_tech/domain/model/spb_card_model.dart';
+import 'package:epms_tech/domain/model/tph_model.dart';
+import 'package:epms_tech/domain/model/uom_model.dart';
+import 'package:epms_tech/domain/model/user_assignment_model.dart';
+import 'package:epms_tech/domain/model/vendor_model.dart';
+import 'package:epms_tech/domain/model/vra_model.dart';
+import 'package:epms_tech/domain/model/vra_type_model.dart';
+import 'package:epms_tech/domain/model/work_center_model.dart';
+import 'package:epms_tech/domain/model/work_type_model.dart';
+import 'package:epms_tech/domain/repositories/auth_repository.dart';
+import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 
-class AuthRepositoryImpl implements AuthRepository{// IMPLEMENTASI KONTRAK INTERFACE - JANGAN DI HAPUS
+class AuthRepositoryImpl implements AuthRepository {
+  // IMPLEMENTASI dari INTERFACE  - JANGAN DI HAPUS
+  // MAIN API RESPONDS - JANGAN HAPUS
   final AuthRemoteDatasource remoteDatasource;
   final AuthLocalDatasource localDatasource;
+  final MasterDataRepository masterDataRepository;
 
-  AuthRepositoryImpl({ 
-      required String baseUrl,
-      AuthLocalDatasource? local,
-    })
-    :remoteDatasource = AuthRemoteDatasource(baseUrl: baseUrl),
-    localDatasource = local ?? AuthLocalDatasource();
+  AuthRepositoryImpl({
+    required String baseUrl,
+    AuthLocalDatasource? local,
+    required this.masterDataRepository,
+  }) : remoteDatasource = AuthRemoteDatasource(baseUrl: baseUrl),
+       localDatasource = local ?? AuthLocalDatasource();
 
   @override
-  Future<bool> login(String username, String password, {String? ipAddress}) async {
+  Future<bool> login(
+    String username,
+    String password, {
+    String? ipAddress,
+  }) async {
     final effectiveBaseUrl = ipAddress ?? remoteDatasource.baseUrl;
     final remote = AuthRemoteDatasource(baseUrl: effectiveBaseUrl);
     final parsedData = await remote.login(username, password);
-    await localDatasource.saveSchemas(parsedData);
+
+    final masterDataGlobal = parsedData['global'];
+
+    // penyimpanan menggunakan di - inject
+    await masterDataRepository.saveHarvestMethods(
+      (masterDataGlobal[AppConstants.mHarvestingMethodSchema] as List)
+          .map((json) => HarvestingMethodModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveEmployee(
+      (masterDataGlobal[AppConstants.mEmployeeSchema] as List)
+          .map((json) => EmployeeModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveCropType(
+      (masterDataGlobal[AppConstants.mCropTypeSchema] as List)
+          .map((json) => CropTypeModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveWorkType(
+      (masterDataGlobal[AppConstants.mWorkTypeSchema] as List)
+          .map((json) => WorkTypeModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveWorkCenter(
+      (masterDataGlobal[AppConstants.mWorkCenterSchema] as List)
+          .map((json) => WorkCenterModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveEstate(
+      (masterDataGlobal[AppConstants.mEstateSchema] as List)
+          .map((json) => EstateModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveDivision(
+      (masterDataGlobal[AppConstants.mDivisionSchema] as List)
+          .map((json) => DivisionModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveMasterBlock(
+      (masterDataGlobal[AppConstants.mBlockSchema] as List)
+          .map((json) => MasterBlockModel.fromJson(json))
+          .toList(),
+    );
+    await masterDataRepository.saveVendor(
+      (masterDataGlobal[AppConstants.mVendorSchema] as List)
+          .map((json) => VendorModel.fromJson(json))
+          .toList(),
+    );
+    await masterDataRepository.saveAcitvity(
+      (masterDataGlobal[AppConstants.mActivitySchema] as List)
+          .map((json) => ActivityModel.fromJson(json))
+          .toList(),
+    );
+    await masterDataRepository.saveAttendance(
+      (masterDataGlobal[AppConstants.mAttendanceSchema] as List)
+          .map((json) => AttendanceModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveVra(
+      (masterDataGlobal[AppConstants.mVraSchema] as List)
+          .map((json) => VraModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveVraType(
+      (masterDataGlobal[AppConstants.mVraTypeSchema] as List)
+          .map((json) => VraTypeModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveReceivingPoint(
+      (masterDataGlobal[AppConstants.mReceivingPointSchema] as List)
+          .map((json) => ReceivingPointModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveDestination(
+      (masterDataGlobal[AppConstants.mDestinationSchema] as List)
+          .map((json) => DestinationModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveMaterial(
+      (masterDataGlobal[AppConstants.mMaterialSchema] as List)
+          .map((json) => MaterialSchemaModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveUserAssignment(
+      (masterDataGlobal[AppConstants.tUserAssignmentSchema] as List)
+          .map((json) => UserAssignmentModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveTph(
+      (masterDataGlobal[AppConstants.mTphSchema] as List)
+          .map((json) => TphModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveOphCard(
+      (masterDataGlobal[AppConstants.mOphCardSchema] as List)
+          .map((json) => OphCardModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveSpbCard(
+      (masterDataGlobal[AppConstants.mSpbCardSchema] as List)
+          .map((json) => SpbCardModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveUom(
+      (masterDataGlobal[AppConstants.mUomSchema] as List)
+          .map((json) => UomModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveConfig(
+      (masterDataGlobal[AppConstants.mConfigSchema] as List)
+          .map((json) => ConfigModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveRole(
+      (masterDataGlobal[AppConstants.mRolesSchema] as List)
+          .map((json) => RolesModel.fromJson(json))
+          .toList(),
+    );
 
     return true;
   }
 
   @override
-  Future<void> saveIpAddress(String ipAddress, bool fdnWithoutCp) => localDatasource.saveIpAddress(ipAddress, fdnWithoutCp); // Local Datasource
+  Future<void> saveIpAddress(String ipAddress, bool fdnWithoutCp) =>
+      localDatasource.saveIpAddress(ipAddress, fdnWithoutCp); // Local Datasource
 
   @override
   Future<String?> getIpAddress() => localDatasource.getIpAddress();
