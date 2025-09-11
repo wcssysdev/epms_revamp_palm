@@ -1,5 +1,6 @@
 import 'package:epms_tech/domain/entities/activity.dart';
 import 'package:epms_tech/domain/entities/attendance.dart';
+import 'package:epms_tech/domain/entities/config.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/destination.dart';
 import 'package:epms_tech/domain/entities/division.dart';
@@ -88,4 +89,7 @@ abstract class MasterDataRepository {
 
   Future<void> saveUom(List<Uom> uom);
   Future<List<Uom>> getUom();
+
+  Future<void> saveConfig(List<Config> config);
+  Future<List<Config>> getConfig();
 }

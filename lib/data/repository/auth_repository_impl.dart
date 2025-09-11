@@ -3,6 +3,7 @@ import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
 import 'package:epms_tech/domain/model/activity_model.dart';
 import 'package:epms_tech/domain/model/attendance_model.dart';
+import 'package:epms_tech/domain/model/config_model.dart';
 import 'package:epms_tech/domain/model/crop_type_model.dart';
 import 'package:epms_tech/domain/model/destination_model.dart';
 import 'package:epms_tech/domain/model/division_model.dart';
@@ -172,6 +173,12 @@ class AuthRepositoryImpl implements AuthRepository {
     await masterDataRepository.saveUom(
       (masterDataGlobal[AppConstants.mUomSchema] as List)
           .map((json) => UomModel.fromJson(json))
+          .toList(),
+    );
+
+    await masterDataRepository.saveConfig(
+      (masterDataGlobal[AppConstants.mConfigSchema] as List)
+          .map((json) => ConfigModel.fromJson(json))
           .toList(),
     );
 

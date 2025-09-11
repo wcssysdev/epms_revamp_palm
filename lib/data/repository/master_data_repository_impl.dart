@@ -1,6 +1,7 @@
 import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/domain/entities/activity.dart';
 import 'package:epms_tech/domain/entities/attendance.dart';
+import 'package:epms_tech/domain/entities/config.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
 import 'package:epms_tech/domain/entities/destination.dart';
 import 'package:epms_tech/domain/entities/division.dart';
@@ -20,6 +21,7 @@ import 'package:epms_tech/domain/entities/vra.dart';
 import 'package:epms_tech/domain/entities/vra_type.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
+import 'package:epms_tech/domain/model/config_model.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:hive/hive.dart';
 
@@ -733,6 +735,86 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
             uomId: item['uom_id'],
             uomCode: item['uom_code'],
             uomDesc: item['uom_desc'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveConfig(List<Config> config) async {
+    print('888888888888 $config');
+    final List<Map<String, dynamic>> dataToStore =
+        config.map((item) {
+          return {
+            "config_id": item.configId,
+            "company_code": item.companyCode,
+            "company_name": item.companyName,
+            "profile_code": item.profileCode,
+            "profile_name": item.profileName,
+            "estate_code": item.estateCode,
+            "estate_name": item.estateName,
+            "plant_code": item.plantCode,
+            "attendance_default_value": item.attendanceDefaultValue,
+            "integration_type": item.integrationType,
+            "attendance_normal_default_value":
+                item.attendanceNormalDefaultValue,
+            "system_is_palm": item.systemIsPalm,
+            "daily_overtime_max_limit": item.dailyOvertimeMaxLimit,
+            "additional_settings": item.additionalSettings,
+            "attendance_unattendde_value": item.attendanceUnattenddeValue,
+            "attendance_unattended_value": item.attendanceUnattendedValue,
+            "token": item.token,
+            "employee_code": item.employeeCode,
+            "employee_name": item.employeeName,
+            "user_id": item.userId,
+            "allowed_attendance_codes_for_work_assignment":
+                item.allowedAttendanceCodeForWorkAssignment
+                    .map(
+                      (e) => AllowedAttendanceCodeModel.fromEntity(e).toJson(),// oanggil model JANGAN HAPUS
+                    )
+                    .toList(),
+            "login_device_id": item.loginDeviceId,
+          };
+        }).toList();
+    await box.put(AppConstants.mConfigSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Config>> getConfig() async {
+    final data = box.get(AppConstants.mConfigSchema, defaultValue: []);
+    final config = (data as List).cast<Map<String, dynamic>>();
+    return config
+        .map(
+          (item) => Config(
+            configId: item['config_id'],
+            companyCode: item['company_code'],
+            companyName: item['company_name'],
+            profileCode: item['profile_code'],
+            profileName: item['profile_name'],
+            estateCode: item['estate_code'],
+            estateName: item['estate_name'],
+            plantCode: item['plant_code'],
+            attendanceDefaultValue: item['attendance_default_value'],
+            integrationType: item['integration_type'],
+            attendanceNormalDefaultValue:
+                item['attendance_normal_default_value'],
+            systemIsPalm: item['system_is_palm'],
+            dailyOvertimeMaxLimit: item['daily_overtime_max_limit'],
+            additionalSettings: item['additional_settings'],
+            attendanceUnattenddeValue:
+                item['attendance_unattendde_value'],
+            attendanceUnattendedValue:
+                item['attendance_unattended_value'],
+            token: item['token'],
+            employeeCode: item['employee_code'],
+            employeeName: item['employee_name'],
+            userId: item['user_id'],
+            allowedAttendanceCodeForWorkAssignment:
+                (item['allowed_attendance_codes_for_work_assignment']
+                        as List<dynamic>)
+                    .map((item) => AllowedAttendanceCodeModel.fromJson(item))
+                    .toList(),
+            loginDeviceId: item['login_device_id'],
           ),
         )
         .toList();
