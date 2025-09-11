@@ -1,6 +1,15 @@
 import 'package:epms_tech/domain/entities/attendance.dart';
+import 'package:epms_tech/domain/entities/config.dart';
 import 'package:epms_tech/domain/entities/crop_type.dart';
+import 'package:epms_tech/domain/entities/destination.dart';
+import 'package:epms_tech/domain/entities/material_schema.dart';
+import 'package:epms_tech/domain/entities/oph_card.dart';
 import 'package:epms_tech/domain/entities/receiving_point.dart';
+import 'package:epms_tech/domain/entities/roles.dart';
+import 'package:epms_tech/domain/entities/spb_card.dart';
+import 'package:epms_tech/domain/entities/tph.dart';
+import 'package:epms_tech/domain/entities/uom.dart';
+import 'package:epms_tech/domain/entities/user_assignment.dart';
 import 'package:epms_tech/domain/entities/vra.dart';
 import 'package:epms_tech/domain/entities/vra_type.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
@@ -13,8 +22,8 @@ final sl = GetIt.instance;
 class ExampleHiveDataScreen extends StatelessWidget {
   const ExampleHiveDataScreen({super.key});
 
-  Future<List<RecevingPoint>> _load() => // set here JANGAN HAPUS
-    sl<MasterDataRepository>().getReceivingPoint();
+  Future<List<Roles>> _load() => // set here JANGAN HAPUS
+      sl<MasterDataRepository>().getRole();
 
   // Future<List<CropType>> _load() =>
   //   sl<MasterDataRepository>().getCropType();
@@ -28,8 +37,9 @@ class ExampleHiveDataScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Hive Data Local')),
-      body: FutureBuilder<List<RecevingPoint>>(// set here JANGAN HAPUS
-        future: _load(), 
+      body: FutureBuilder<List<Roles>>(
+        // set here JANGAN HAPUS
+        future: _load(),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -44,16 +54,16 @@ class ExampleHiveDataScreen extends StatelessWidget {
             itemBuilder: (context, i) {
               final c = items[i];
               return ListTile(
-                title: Text(c.receivingPointId.toString()),
-                subtitle: Text('${c.receivingPointCode} • ${c.receivingPointCode}'),
+                title: Text(c.userId.toString()),
+                subtitle: Text('${c.userId} • ${c.userRoles}'),
                 // trailing: Icon(
                 //   c.canHarvest == 'false' ? Icons.cancel : Icons.check_circle,
                 // ),
               );
             },
           );
-        }
-        )
+        },
+      ),
     );
   }
 }

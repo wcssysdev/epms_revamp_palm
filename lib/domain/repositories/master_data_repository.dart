@@ -11,6 +11,7 @@ import 'package:epms_tech/domain/entities/master_block.dart';
 import 'package:epms_tech/domain/entities/material_schema.dart';
 import 'package:epms_tech/domain/entities/oph_card.dart';
 import 'package:epms_tech/domain/entities/receiving_point.dart';
+import 'package:epms_tech/domain/entities/roles.dart';
 import 'package:epms_tech/domain/entities/spb_card.dart';
 import 'package:epms_tech/domain/entities/tph.dart';
 import 'package:epms_tech/domain/entities/uom.dart';
@@ -92,4 +93,7 @@ abstract class MasterDataRepository {
 
   Future<void> saveConfig(List<Config> config);
   Future<List<Config>> getConfig();
+
+  Future<void> saveRole(List<Roles> role);
+  Future<List<Roles>> getRole();
 }

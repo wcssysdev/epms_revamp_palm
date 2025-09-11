@@ -22,5 +22,5 @@ class GlobalAnnotationSchema {
   static const int mUomAnnotation = 25;
   static const int mConfigAnnotation = 26;
   static const int mAllowedAttendanceCodeAnnotation = 27;
-  static const int rolesAnnotation = 28;
+  static const int mRolesAnnotation = 28;
 }

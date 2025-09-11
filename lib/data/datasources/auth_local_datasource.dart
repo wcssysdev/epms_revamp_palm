@@ -9,7 +9,7 @@ class AuthLocalDatasource {
     final mVraTypeSchema = AppConstants.mVraTypeSchema;
     final mUomSchema = AppConstants.mUomSchema;
     final mNpMaterialSchema = AppConstants.mNpMaterialSchema;
-    final rolesSchema = AppConstants.rolesSchema;
+    final rolesSchema = AppConstants.mRolesSchema;
 
     final userRoles = parsedData['global'][rolesSchema][0]['user_roles'];
     print('$userRoles');

@@ -12,6 +12,7 @@ import 'package:epms_tech/domain/entities/master_block.dart';
 import 'package:epms_tech/domain/entities/material_schema.dart';
 import 'package:epms_tech/domain/entities/oph_card.dart';
 import 'package:epms_tech/domain/entities/receiving_point.dart';
+import 'package:epms_tech/domain/entities/roles.dart';
 import 'package:epms_tech/domain/entities/spb_card.dart';
 import 'package:epms_tech/domain/entities/tph.dart';
 import 'package:epms_tech/domain/entities/uom.dart';
@@ -815,6 +816,32 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
                     .map((item) => AllowedAttendanceCodeModel.fromJson(item))
                     .toList(),
             loginDeviceId: item['login_device_id'],
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> saveRole(List<Roles> role) async {
+    final List<Map<String, dynamic>> dataToStore =
+        role.map((item) {
+          return {
+            "user_id": item.userId,
+            "user_roles": item.userRoles,
+          };
+        }).toList();
+    await box.put(AppConstants.mRolesSchema, dataToStore);
+  }
+
+  @override
+  Future<List<Roles>> getRole() async {
+    final data = box.get(AppConstants.mRolesSchema, defaultValue: []);
+    final role = (data as List).cast<Map<String, dynamic>>();
+    return role
+        .map(
+          (item) => Roles(
+            userId: item['user_id'],
+            userRoles: item['user_roles']
           ),
         )
         .toList();
