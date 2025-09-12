@@ -59,6 +59,15 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthBloc, AuthState> (
         builder: (context, state) {
           if (state is Authenticated) {
+            /*
+            bila user_role = 'harvester' 
+            ? add_mandor_screen.dart => tekan SAVE -> main_screen.dart
+            : bila user_role = 'transporter'
+              ? ramp_setup_screen.dart  => tekan SAVE => mill_destination_screen.dart => tekan SAVE => main_screen.dart
+              : main_screen.dart
+             */
+
+            
             return const ExampleHiveDataScreen(); //HomeScreen();
           } else {
             return const LoginScreen();

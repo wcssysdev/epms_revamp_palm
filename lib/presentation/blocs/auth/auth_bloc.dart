@@ -12,28 +12,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.loginUsecase, this.authRepository) : super(AuthInitial()) {
     // AuthBloc(this.loginUsecase) = nerima objec loginUsecase dan simpan di property class
     on<AppStarted>(_onAppStarted);
-    // on<LoggedIn>(_onLoggedIn);
-    // on<LoggedOut>(_onLoggedOut);
     on<UsernameChanged>(_onUsernameChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<LoginRequestedEvent>(_onLoginRequested);
     on<SaveIpAddressEvent>(_onSaveIpAddress);
   }
-
-  // Future<void> _onLoggedIn(LoggedIn event, Emitter<AuthState> emit) async {
-  //   // LoggedIn = nama event
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.setBool('isLoggedIn', true);
-  //   await prefs.setString('username', event.username);
-  //   emit(Authenticated(username: event.username, password: event.password));
-  // }
-
-  // Future<void> _onLoggedOut(LoggedOut event, Emitter<AuthState> emit) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.setBool('isLoggedIn', false);
-  //   await prefs.remove('username');
-  //   emit(Unauthenticated());
-  // }
 
   void _onUsernameChanged(UsernameChanged event, Emitter<AuthState> emit) {
     if(state is Authenticated) {
