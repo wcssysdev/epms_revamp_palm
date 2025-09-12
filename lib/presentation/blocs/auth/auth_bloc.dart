@@ -42,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ipAddress: event.ipAddress
       );
       if (result.isSuccess) {
-        emit(Authenticated(username: event.username, password: event.password, ipAddress: event.ipAddress, userRole: result.userRole ));
+        emit(Authenticated(username: event.username, password: event.password, ipAddress: event.ipAddress, userRole: result.userRole ));// update user role
       } else {
         emit(AuthFailure(message: 'Invalid credentials', ipAddress: event.ipAddress));// untuk tetap update IP super state class JANGAN HAPUS
       }
@@ -77,14 +77,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final savedIp = await authRepository.getIpAddress();
       final savedFdnWithoutCp = await authRepository.getFdnWithoutCp();
 
-      print(' Saved FDN CP: $savedFdnWithoutCp ');
-      print(' Saved IP Address: $savedIp ');
       final ipAddress = (savedIp != null && savedIp.trim().isNotEmpty)
         ? savedIp.trim()
         : state.ipAddress;
       final fdnWithoutCp = savedFdnWithoutCp ?? state.fdnWithoutCp; // null || boolean
-      print(' Effective FDN CP: $fdnWithoutCp ');
-      print(' Effective IP Address: $ipAddress ');
 
       final prefs = await SharedPreferences.getInstance();
       final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;

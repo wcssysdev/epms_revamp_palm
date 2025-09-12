@@ -2,7 +2,10 @@ import 'package:epms_tech/core/di/service_locator.dart';
 import 'package:epms_tech/data/repository/master_data_repository_impl.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
+import 'package:epms_tech/presentation/screens/add_mandor_screen.dart';
 import 'package:epms_tech/presentation/screens/example_hive_data_screen.dart';
+import 'package:epms_tech/presentation/screens/main_screen.dart';
+import 'package:epms_tech/presentation/screens/ramp_setup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -59,15 +62,17 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthBloc, AuthState> (
         builder: (context, state) {
           if (state is Authenticated) {
-            /*
-            bila user_role = 'harvest_clerk' 
-            ? add_mandor_screen.dart => tekan SAVE -> main_screen.dart
-            : bila user_role = 'transport_clerk'
-              ? ramp_setup_screen.dart  => tekan SAVE => mill_destination_screen.dart => tekan SAVE => main_screen.dart
-              : main_screen.dart
-             */
-            // state.userRole = harvest_clerk || field_staff || transport_clerk || assistant_manager (contoh agung a.k.a Asisten Divisi)
-            return const ExampleHiveDataScreen(); //HomeScreen();
+            switch (state.userRole) {
+              case 'harvest_clerk':
+                return AddMandorScreen();
+              case 'transport_clerk':
+                return RampSetupScreen();
+              case 'field_staff':
+              case 'assistant_manager':
+              default:
+                return MainScreen();
+            }
+            // return const ExampleHiveDataScreen(); JANGAN HAPUS TUK HIVE
           } else {
             return const LoginScreen();
           }
@@ -76,6 +81,9 @@ class MyApp extends StatelessWidget {
         routes: {
         'ip_server': (context) => IpServerScreen(),
         'example': (context) => ExampleHiveDataScreen(),
+        'add_mandor': (context) => AddMandorScreen(),
+        'ramp_setup': (context) => RampSetupScreen(),
+        'main_screen': (context) => MainScreen(),
       },
     );
 
