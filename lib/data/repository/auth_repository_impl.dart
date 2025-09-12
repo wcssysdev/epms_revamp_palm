@@ -1,6 +1,7 @@
 import 'package:epms_tech/core/constants/app_constants.dart';
 import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/data/datasources/auth_remote_datasource.dart';
+import 'package:epms_tech/domain/entities/login_result.dart';
 import 'package:epms_tech/domain/model/activity_model.dart';
 import 'package:epms_tech/domain/model/attendance_model.dart';
 import 'package:epms_tech/domain/model/config_model.dart';
@@ -42,7 +43,8 @@ class AuthRepositoryImpl implements AuthRepository {
        localDatasource = local ?? AuthLocalDatasource();
 
   @override
-  Future<bool> login(
+  Future<LoginResult> login(
+    // cek model di lib/domain/repositories.auth_repository.dart JANGAN HAPUS
     String username,
     String password, {
     String? ipAddress,
@@ -189,7 +191,7 @@ class AuthRepositoryImpl implements AuthRepository {
           .toList(),
     );
 
-    return true;
+    return LoginResult(isSuccess: true, userRole: masterDataGlobal[AppConstants.mRolesSchema][0]['user_roles']);
   }
 
   @override

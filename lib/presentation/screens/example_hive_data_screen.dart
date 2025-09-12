@@ -56,9 +56,6 @@ class ExampleHiveDataScreen extends StatelessWidget {
               return ListTile(
                 title: Text(c.userId.toString()),
                 subtitle: Text('${c.userId} • ${c.userRoles}'),
-                // trailing: Icon(
-                //   c.canHarvest == 'false' ? Icons.cancel : Icons.check_circle,
-                // ),
               );
             },
           );

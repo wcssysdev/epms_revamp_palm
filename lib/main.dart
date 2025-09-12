@@ -60,14 +60,13 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           if (state is Authenticated) {
             /*
-            bila user_role = 'harvester' 
+            bila user_role = 'harvest_clerk' 
             ? add_mandor_screen.dart => tekan SAVE -> main_screen.dart
-            : bila user_role = 'transporter'
+            : bila user_role = 'transport_clerk'
               ? ramp_setup_screen.dart  => tekan SAVE => mill_destination_screen.dart => tekan SAVE => main_screen.dart
               : main_screen.dart
              */
-
-            
+            // state.userRole = harvest_clerk || field_staff || transport_clerk || assistant_manager (contoh agung a.k.a Asisten Divisi)
             return const ExampleHiveDataScreen(); //HomeScreen();
           } else {
             return const LoginScreen();
@@ -108,6 +107,7 @@ lib/
                 ├── crop_type.dart
                 ├── employee.dart
                 ├── harvesting_method.dart
+                ├── login_result.dart
           └── repositories/
                 ├── auth_repository.dart
                 └── master_data_repository.dart
