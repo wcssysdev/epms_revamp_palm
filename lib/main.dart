@@ -135,6 +135,9 @@ lib/
       ├── screens/         # Semua UI screen
           └── login_screen.dart
           └── ip_server_screen.dart
+          └── add_mandor_screen.dart
+          └── ramp_setup_screen.dart
+          └── main_screen.dart
       └── widgets/         # Reusable widget
           └── logo_section.dart
           └── submit_button_section.dart

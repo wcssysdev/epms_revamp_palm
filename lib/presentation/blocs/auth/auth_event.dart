@@ -5,7 +5,10 @@ abstract class AuthEvent extends Equatable{
   List<Object?> get props => [];// Object bersifat opsional
 }
 
-class AppStarted extends AuthEvent{} // props = [] OK
+class AppStarted extends AuthEvent{
+  @override
+  List<Object?> get props => [];
+}
 
 class LoggedIn extends AuthEvent{
   final String username;

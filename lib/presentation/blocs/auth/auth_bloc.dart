@@ -1,3 +1,4 @@
+import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/domain/repositories/auth_repository.dart';
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
@@ -70,6 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // termasuk cek token di storage 
     // Emitter = alat flutter_bloc tuk kirim state baru
     // emit = alat tuk ubah state di BLoC
+    final localDataSource = AuthLocalDatasource();
 
     emit(AuthLoading());
 
@@ -83,9 +85,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final fdnWithoutCp = savedFdnWithoutCp ?? state.fdnWithoutCp; // null || boolean
 
       final prefs = await SharedPreferences.getInstance();
-      final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
-      if (isLoggedIn) {
+      final loginResult = await localDataSource.getUserRolesAuthed();
+      if (loginResult.isSuccess) {
         final username = prefs.getString('username') ?? '';
         final password = prefs.getString('password') ?? '';
 
@@ -93,7 +94,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           username: username, 
           password: password, 
           ipAddress: ipAddress,
-          fdnWithoutCp: fdnWithoutCp
+          fdnWithoutCp: fdnWithoutCp,
+          userRole: loginResult.userRole
         ));
 
       } else {
@@ -108,23 +110,3 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 }
-
-    /*
-    AuthEvent = berisi event yang akan di kirim ke AuthBloc
-      AppStarted
-      LoggedIn
-      LoggedOut
-    AuthState = state dari status authentikasi
-      AuthInitial
-      AuthLoading
-      Authenticated
-      Unauthenticated
-     */
-
-    /*
-    1. CEK AUTH STATE
-    tuk ip address
-
-
-    
-     */

@@ -191,7 +191,15 @@ class AuthRepositoryImpl implements AuthRepository {
           .toList(),
     );
 
-    return LoginResult(isSuccess: true, userRole: masterDataGlobal[AppConstants.mRolesSchema][0]['user_roles']);
+    localDatasource.saveUserRoleAuthed(
+      true,
+      masterDataGlobal[AppConstants.mRolesSchema][0]['user_roles'],
+    );
+
+    return LoginResult(
+      isSuccess: true,
+      userRole: masterDataGlobal[AppConstants.mRolesSchema][0]['user_roles'],
+    );
   }
 
   @override
