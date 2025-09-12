@@ -46,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 64),
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
-                    print('+++ ${state.fdnWithoutCp}');
                     if (state is AuthFailure) {
                       showErrorSnackbar(context, state.message);
                     }

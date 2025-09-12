@@ -21,7 +21,6 @@ import 'package:epms_tech/domain/entities/vra.dart';
 import 'package:epms_tech/domain/entities/vra_type.dart';
 import 'package:epms_tech/domain/entities/work_center.dart';
 import 'package:epms_tech/domain/entities/work_type.dart';
-// import 'package:epms_tech/domain/model/harvesting_method_model.dart';
 
 abstract class MasterDataRepository {
   // INTERFACE

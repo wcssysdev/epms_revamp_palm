@@ -743,7 +743,6 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
 
   @override
   Future<void> saveConfig(List<Config> config) async {
-    print('888888888888 $config');
     final List<Map<String, dynamic>> dataToStore =
         config.map((item) {
           return {

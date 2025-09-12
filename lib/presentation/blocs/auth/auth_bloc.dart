@@ -1,3 +1,4 @@
+import 'package:epms_tech/data/datasources/auth_local_datasource.dart';
 import 'package:epms_tech/domain/repositories/auth_repository.dart';
 import 'package:epms_tech/domain/usecases/login_usecase.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
@@ -36,13 +37,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLoginRequested(LoginRequestedEvent event, Emitter<AuthState>emit) async {
     emit(AuthLoading());
     try {
-      final isSuccess = await loginUsecase.execute(
+      final result = await loginUsecase.execute(
         event.username,
         event.password,
         ipAddress: event.ipAddress
       );
-      if (isSuccess) {
-        emit(Authenticated(username: event.username, password: event.password, ipAddress: event.ipAddress));
+      if (result.isSuccess) {
+        emit(Authenticated(username: event.username, password: event.password, ipAddress: event.ipAddress, userRole: result.userRole ));// update user role
       } else {
         emit(AuthFailure(message: 'Invalid credentials', ipAddress: event.ipAddress));// untuk tetap update IP super state class JANGAN HAPUS
       }
@@ -70,6 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // termasuk cek token di storage 
     // Emitter = alat flutter_bloc tuk kirim state baru
     // emit = alat tuk ubah state di BLoC
+    final localDataSource = AuthLocalDatasource();
 
     emit(AuthLoading());
 
@@ -77,19 +79,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final savedIp = await authRepository.getIpAddress();
       final savedFdnWithoutCp = await authRepository.getFdnWithoutCp();
 
-      print(' Saved FDN CP: $savedFdnWithoutCp ');
-      print(' Saved IP Address: $savedIp ');
       final ipAddress = (savedIp != null && savedIp.trim().isNotEmpty)
         ? savedIp.trim()
         : state.ipAddress;
       final fdnWithoutCp = savedFdnWithoutCp ?? state.fdnWithoutCp; // null || boolean
-      print(' Effective FDN CP: $fdnWithoutCp ');
-      print(' Effective IP Address: $ipAddress ');
 
       final prefs = await SharedPreferences.getInstance();
-      final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-
-      if (isLoggedIn) {
+      final loginResult = await localDataSource.getUserRolesAuthed();
+      if (loginResult.isSuccess) {
         final username = prefs.getString('username') ?? '';
         final password = prefs.getString('password') ?? '';
 
@@ -97,7 +94,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           username: username, 
           password: password, 
           ipAddress: ipAddress,
-          fdnWithoutCp: fdnWithoutCp
+          fdnWithoutCp: fdnWithoutCp,
+          userRole: loginResult.userRole
         ));
 
       } else {
@@ -112,23 +110,3 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 }
-
-    /*
-    AuthEvent = berisi event yang akan di kirim ke AuthBloc
-      AppStarted
-      LoggedIn
-      LoggedOut
-    AuthState = state dari status authentikasi
-      AuthInitial
-      AuthLoading
-      Authenticated
-      Unauthenticated
-     */
-
-    /*
-    1. CEK AUTH STATE
-    tuk ip address
-
-
-    
-     */
