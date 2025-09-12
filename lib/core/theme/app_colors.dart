@@ -8,6 +8,7 @@ class AppColors {
   static const Color textRegular = Colors.black;
 
   static const Color primary = Color(0XFF016773);
+  static const Color primaryTitle = Color.fromARGB(255, 3, 67, 74);
   static const Color white = Colors.white;
   static const Color green = Color(0XFF96fa9e);
   static const Color red = Color(0XFFc73f36);
