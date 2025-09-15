@@ -22,8 +22,8 @@ final sl = GetIt.instance;
 class ExampleHiveDataScreen extends StatelessWidget {
   const ExampleHiveDataScreen({super.key});
 
-  Future<List<Roles>> _load() => // set here JANGAN HAPUS
-      sl<MasterDataRepository>().getRole();
+  Future<List<UserAssignment>> _load() => // set here JANGAN HAPUS
+      sl<MasterDataRepository>().getUserAssignment();
 
   // Future<List<CropType>> _load() =>
   //   sl<MasterDataRepository>().getCropType();
@@ -37,13 +37,14 @@ class ExampleHiveDataScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Hive Data Local')),
-      body: FutureBuilder<List<Roles>>(
+      body: FutureBuilder<List<UserAssignment>>(
         // set here JANGAN HAPUS
         future: _load(),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
+          print('---${snap.data}');
           final items = snap.data ?? [];
           if (items.isEmpty) {
             return const Center(child: Text('No data'));
@@ -54,8 +55,8 @@ class ExampleHiveDataScreen extends StatelessWidget {
             itemBuilder: (context, i) {
               final c = items[i];
               return ListTile(
-                title: Text(c.userId.toString()),
-                subtitle: Text('${c.userId} • ${c.userRoles}'),
+                title: Text(c.employeeName.toString()),
+                subtitle: Text('${c.employeeCode} • ${c.mandorEmployeeName}'),
               );
             },
           );
