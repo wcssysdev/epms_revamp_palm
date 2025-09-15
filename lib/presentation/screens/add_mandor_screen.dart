@@ -16,22 +16,32 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            LogoSection(),
-            SizedBox(height: 16),
-            Text('Mandor Setup', style: AppTextStyles.screenTitle),
-            SizedBox(height: 24),
-
-            OutlineIconButton(
-              icon: Icon(Icons.add),
-              label: "Add Mandor",
-              onPressed: () {},
-              borderColor: AppColors.primary,
-            ),
-          ],
+      body: Padding(
+        padding: EdgeInsetsGeometry.all(24),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LogoSection(),
+              SizedBox(height: 16),
+              Text('Mandor Setup', style: AppTextStyles.screenTitle),
+              SizedBox(height: 18),
+              OutlineIconButton(
+                icon: Text(
+                  "+",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                  ),
+                ),
+                label: "Add Mandor",
+                onPressed: () {},
+                borderColor: AppColors.primary,
+                outlineHeight: 40,
+              ),
+            ],
+          ),
         ),
       ),
     );

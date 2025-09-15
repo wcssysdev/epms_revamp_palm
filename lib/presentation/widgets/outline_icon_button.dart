@@ -11,6 +11,7 @@ class OutlineIconButton extends StatelessWidget {
   final TextStyle? textStyle;
   final double gap; //
   final double elevationOnPress; // optional shadow
+  final double outlineHeight;
 
   const OutlineIconButton({
     Key? key,
@@ -24,6 +25,7 @@ class OutlineIconButton extends StatelessWidget {
     this.textStyle,
     this.gap = 10,
     this.elevationOnPress = 0,
+    this.outlineHeight = 0,
   }) : super(key: key);
 
   @override
@@ -31,45 +33,50 @@ class OutlineIconButton extends StatelessWidget {
     final Color effectiveBorder = borderColor ?? Theme.of(context).primaryColor;
     final Color effectiveForeground = foregroundColor ?? effectiveBorder;
 
-    return OutlinedButton(
-      onPressed: onPressed,
-      style: OutlinedButton.styleFrom(
-        minimumSize: const Size.fromHeight(48),
-        side: BorderSide(color: effectiveBorder, width: 1.6),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+    return Material(
+      elevation: 4, // bayangan timbul
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          minimumSize: Size.fromHeight(outlineHeight),
+          side: BorderSide(color: effectiveBorder, width: 1.6),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          padding: padding,
+          foregroundColor: effectiveForeground,
+        ).copyWith(
+          overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
+            if (states.contains(MaterialState.pressed)) {
+              return effectiveForeground.withOpacity(0.08);
+            }
+            return null;
+          }),
         ),
-        padding: padding,
-        foregroundColor: effectiveForeground,
-      ).copyWith(
-        overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
-          if (states.contains(MaterialState.pressed)) {
-            return effectiveForeground.withOpacity(0.08);
-          }
-          return null;
-        }),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconTheme(
-            data: IconThemeData(color: effectiveForeground),
-            child: icon,
-          ),
-          SizedBox(width: gap),
-          Text(
-            label,
-            style:
-                textStyle ??
-                TextStyle(
-                  color: effectiveForeground,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-          ),
-        ],
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            IconTheme(
+              data: IconThemeData(color: effectiveForeground),
+              child: icon,
+            ),
+            SizedBox(width: gap),
+            Text(
+              label,
+              style:
+                  textStyle ??
+                  TextStyle(
+                    color: effectiveForeground,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
