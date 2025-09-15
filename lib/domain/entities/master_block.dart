@@ -20,4 +20,21 @@ class MasterBlock {
     required this.blockState,
     required this.blockCropType,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'blockId': blockId,
+      'blockCompanyCode': blockCompanyCode,
+      'blockEstateCode': blockEstateCode,
+      'blockDivisionCode': blockDivisionCode,
+      'blockCode': blockCode,
+      'blockName': blockName,
+      'blockHectarage': blockHectarage,
+      'blockState': blockState,
+      'blockCropType': blockCropType,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

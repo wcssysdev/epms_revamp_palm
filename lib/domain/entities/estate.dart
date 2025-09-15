@@ -12,4 +12,17 @@ class Estate {
     required this.estateName,
     required this.estatePlantCode,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'estateId': estateId,
+      'estateCompanyCode': estateCompanyCode,
+      'estateCode': estateCode,
+      'estateName': estateName,
+      'estatePlantCode': estatePlantCode,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

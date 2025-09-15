@@ -20,4 +20,21 @@ class Vra {
     required this.vraMeasPoint,
     required this.vraEquipment,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'vraId': vraId,
+      'vraLicenseNumber': vraLicenseNumber,
+      'vraOrderNumber': vraOrderNumber,
+      'vraEquipmentCode': vraEquipmentCode,
+      'vraObjectType': vraObjectType,
+      'vraPlantCode': vraPlantCode,
+      'vraMeasUnit': vraMeasUnit,
+      'vraMeasPoint': vraMeasPoint,
+      'vraEquipment': vraEquipment,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

@@ -16,4 +16,19 @@ class WorkCenter {
     required this.workCenterEstateCode,
     required this.workCenterDivisionCode,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'workCenterId': workCenterId,
+      'workCenterCode': workCenterCode,
+      'workCenterName': workCenterName,
+      'workCenterCompanyCode': workCenterCompanyCode,
+      'workCenterPlantCode': workCenterPlantCode,
+      'workCenterEstateCode': workCenterEstateCode,
+      'workCenterDivisionCode': workCenterDivisionCode,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

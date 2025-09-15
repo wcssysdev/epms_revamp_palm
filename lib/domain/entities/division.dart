@@ -12,4 +12,17 @@ class Division {
     required this.divisionCode,
     required this.divisionName,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'divisionId': divisionId,
+      'divisionCompanyCode': divisionCompanyCode,
+      'divisionEstateCode': divisionEstateCode,
+      'divisionCode': divisionCode,
+      'divisionName': divisionName,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

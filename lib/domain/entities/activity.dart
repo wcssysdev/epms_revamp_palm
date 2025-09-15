@@ -32,4 +32,27 @@ class Activity {
     required this.activityGroupCode,
     required this.activityIsWbsRequired,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'activityId': activityId,
+      'activityCode': activityCode,
+      'activityName': activityName,
+      'activityUom': activityUom,
+      'activityCostByBlock': activityCostByBlock,
+      'activityCostByAuc': activityCostByAuc,
+      'activityCostByOrderNumber': activityCostByOrderNumber,
+      'activityCostByCostCenter': activityCostByCostCenter,
+      'activityBlockIsLc': activityBlockIsLc,
+      'activityBlockIsImmature': activityBlockIsImmature,
+      'activityBlockIsMature': activityBlockIsMature,
+      'activityBlockIsScout': activityBlockIsScout,
+      'activityUomName': activityUomName,
+      'activityGroupCode': activityGroupCode,
+      'activityIsWbsRequired': activityIsWbsRequired,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

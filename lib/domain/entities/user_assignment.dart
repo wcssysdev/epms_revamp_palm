@@ -14,4 +14,20 @@ class UserAssignment {
     required this.employeeCode,
     required this.employeeName,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "mandorId": mandorId,
+      "profileName": profileName,
+      "mandorEmployeeCode": mandorEmployeeCode,
+      "mandorEmployeeName": mandorEmployeeName,
+      "employeeCode": employeeCode,
+      "employeeName": employeeName,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString(); // 
+  // toJson().toString() berjalan bareng => untuk return data object list <Map<String, dynamic>> dynamically
+  // JANGAN HAPUS
 }

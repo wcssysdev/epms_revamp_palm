@@ -8,4 +8,15 @@ class Destination {
     required this.destinationCode,
     required this.destinationName,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'destinationId': destinationId,
+      'destinationCode': destinationCode,
+      'destinationName': destinationName,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

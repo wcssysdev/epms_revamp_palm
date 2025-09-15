@@ -1,6 +1,7 @@
 import 'package:epms_tech/core/di/service_locator.dart';
 import 'package:epms_tech/data/repository/master_data_repository_impl.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
+import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_bloc.dart';
 import 'package:epms_tech/presentation/blocs/auth/auth_event.dart';
 import 'package:epms_tech/presentation/screens/add_mandor_screen.dart';
 import 'package:epms_tech/presentation/screens/example_hive_data_screen.dart';
@@ -43,6 +44,7 @@ Future<void> main() async {
           BlocProvider(
             create: (_) => AuthBloc(loginUsecase, authRepository)..add(AppStarted()),// tuk trigger Hive Ip Address
           ),
+          BlocProvider(create: (_) => AddMandorBloc(masterDataRepository: masterDataRepository))
         ],
         child: const MyApp(),
       ),
@@ -135,13 +137,15 @@ lib/
       ├── screens/         # Semua UI screen
           └── login_screen.dart
           └── ip_server_screen.dart
-          └── add_mandor_screen.dart
+          └── add_mandor_screen.dart <-----
           └── ramp_setup_screen.dart
           └── main_screen.dart
       └── widgets/         # Reusable widget
           └── logo_section.dart
           └── submit_button_section.dart
           └── text_input_section.dart
+          └── outline_icon_button.dart
+          └── drop_down_search_row.dart
 
 Teori Dependency Injection (DI)
 - tidak boleh action langsung pada data/repository/MasterDataRepositoryImpl

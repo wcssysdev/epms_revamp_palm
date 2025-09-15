@@ -22,4 +22,22 @@ class Tph {
     required this.tphLongitude,
     required this.tphPalmTotal,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'tphId': tphId,
+      'tphCompanyCode': tphCompanyCode,
+      'tphEstateCode': tphEstateCode,
+      'tphDivisionCode': tphDivisionCode,
+      'tphBlockCode': tphBlockCode,
+      'tphSectionCode': tphSectionCode,
+      'tphCode': tphCode,
+      'tphLatitude': tphLatitude,
+      'tphLongitude': tphLongitude,
+      'tphPalmTotal': tphPalmTotal,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

@@ -20,4 +20,21 @@ class MaterialSchema {
     required this.materialGroup,
     required this.materialType,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'materialId': materialId,
+      'materialCode': materialCode,
+      'materialName': materialName,
+      'materialUom': materialUom,
+      'materialPlantCode': materialPlantCode,
+      'materialSloc': materialSloc,
+      'materialBatch': materialBatch,
+      'materialGroup': materialGroup,
+      'materialType': materialType,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }

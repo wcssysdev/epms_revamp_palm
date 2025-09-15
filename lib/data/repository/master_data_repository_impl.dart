@@ -58,7 +58,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
       AppConstants.mHarvestingMethodSchema,
       defaultValue: [],
     );
-    final harvestMethods = (data as List).cast<Map<String, dynamic>>();
+    final harvestMethods = data as List;
 
     return harvestMethods
         .map(
@@ -94,7 +94,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   Future<List<Employee>> getEmployee() async {
     // Employee dari Entities JANGAN HAPUS
     final data = box.get(AppConstants.mEmployeeSchema, defaultValue: []);
-    final employees = (data as List).cast<Map<String, dynamic>>();
+    final employees = data as List;
     // harus di CAST agar tidak bersifat dynamic tapi bersifat Map -- JANGAN HAPUS
 
     return employees
@@ -129,7 +129,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<CropType>> getCropType() async {
     final data = box.get(AppConstants.mCropTypeSchema, defaultValue: []);
-    final cropTypes = (data as List).cast<Map<String, dynamic>>();
+    final cropTypes = data as List;
 
     return cropTypes
         .map(
@@ -159,7 +159,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<WorkType>> getWorkType() async {
     final data = box.get(AppConstants.mWorkTypeSchema, defaultValue: []);
-    final worktypes = (data as List).cast<Map<String, dynamic>>();
+    final worktypes = data as List;
 
     return worktypes.map((item) {
       return WorkType(
@@ -190,7 +190,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<WorkCenter>> getWorkCenter() async {
     final data = box.get(AppConstants.mWorkCenterSchema, defaultValue: []);
-    final workCenter = (data as List).cast<Map<String, dynamic>>();
+    final workCenter = data as List;
 
     return workCenter
         .map(
@@ -225,7 +225,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Estate>> getEstate() async {
     final data = box.get(AppConstants.mEstateSchema, defaultValue: []);
-    final estates = (data as List).cast<Map<String, dynamic>>();
+    final estates = data as List;
 
     return estates
         .map(
@@ -258,7 +258,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Division>> getDivision() async {
     final data = box.get(AppConstants.mDivisionSchema, defaultValue: []);
-    final divisions = (data as List).cast<Map<String, dynamic>>();
+    final divisions = data as List;
 
     return divisions
         .map(
@@ -295,7 +295,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<MasterBlock>> getMasterBlock() async {
     final data = box.get(AppConstants.mBlockSchema, defaultValue: []);
-    final blocks = (data as List).cast<Map<String, dynamic>>();
+    final blocks = data as List;
     return blocks
         .map(
           (item) => MasterBlock(
@@ -330,7 +330,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Vendor>> getVendor() async {
     final data = box.get(AppConstants.mVendorSchema, defaultValue: []);
-    final vendors = (data as List).cast<Map<String, dynamic>>();
+    final vendors = data as List;
     return vendors
         .map(
           (item) => Vendor(
@@ -371,7 +371,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Activity>> getActivity() async {
     final data = box.get(AppConstants.mActivitySchema, defaultValue: []);
-    final activities = (data as List).cast<Map<String, dynamic>>();
+    final activities = data as List;
     return activities
         .map(
           (item) => Activity(
@@ -413,7 +413,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Attendance>> getAttendance() async {
     final data = box.get(AppConstants.mAttendanceSchema, defaultValue: []);
-    final attendances = (data as List).cast<Map<String, dynamic>>();
+    final attendances = data as List;
     return attendances
         .map(
           (item) => Attendance(
@@ -447,7 +447,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Vra>> getVra() async {
     final data = box.get(AppConstants.mVraSchema, defaultValue: []);
-    final vra = (data as List).cast<Map<String, dynamic>>();
+    final vra = data as List;
     return vra
         .map(
           (item) => Vra(
@@ -480,7 +480,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<VraType>> getVraType() async {
     final data = box.get(AppConstants.mVraTypeSchema, defaultValue: []);
-    final vraTypes = (data as List).cast<Map<String, dynamic>>();
+    final vraTypes = data as List;
     return vraTypes
         .map(
           (item) => VraType(
@@ -506,7 +506,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<RecevingPoint>> getReceivingPoint() async {
     final data = box.get(AppConstants.mReceivingPointSchema, defaultValue: []);
-    final receivingPoints = (data as List).cast<Map<String, dynamic>>();
+    final receivingPoints = data as List;
     return receivingPoints
         .map(
           (item) => RecevingPoint(
@@ -514,7 +514,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
             receivingPointCode: item['receiving_point_code'],
           ),
         )
-        .toList();
+        .toList();// [Instance of 'RecevingPoint', ....]
   }
 
   @override
@@ -533,7 +533,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Destination>> getDestination() async {
     final data = box.get(AppConstants.mDestinationSchema, defaultValue: []);
-    final destinations = (data as List).cast<Map<String, dynamic>>();
+    final destinations = data as List;
     return destinations
         .map(
           (item) => Destination(
@@ -567,7 +567,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<MaterialSchema>> getMaterial() async {
     final data = box.get(AppConstants.mMaterialSchema, defaultValue: []);
-    final materials = (data as List).cast<Map<String, dynamic>>();
+    final materials = data as List;
     return materials
         .map(
           (item) => MaterialSchema(
@@ -604,7 +604,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<UserAssignment>> getUserAssignment() async {
     final data = box.get(AppConstants.tUserAssignmentSchema, defaultValue: []);
-    final userAssignments = (data as List).cast<Map<String, dynamic>>();
+    final userAssignments = data as List;
     return userAssignments
         .map(
           (item) => UserAssignment(
@@ -642,7 +642,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Tph>> getTph() async {
     final data = box.get(AppConstants.mTphSchema, defaultValue: []);
-    final tph = (data as List).cast<Map<String, dynamic>>();
+    final tph = data as List;
     return tph
         .map(
           (item) => Tph(
@@ -676,7 +676,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<OphCard>> getOphCard() async {
     final data = box.get(AppConstants.mOphCardSchema, defaultValue: []);
-    final ophCards = (data as List).cast<Map<String, dynamic>>();
+    final ophCards = data as List;
     return ophCards
         .map(
           (item) => OphCard(
@@ -702,7 +702,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<SpbCard>> getSpbCard() async {
     final data = box.get(AppConstants.mSpbCardSchema, defaultValue: []);
-    final sphCards = (data as List).cast<Map<String, dynamic>>();
+    final sphCards = data as List;
     return sphCards
         .map(
           (item) => SpbCard(
@@ -729,7 +729,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Uom>> getUom() async {
     final data = box.get(AppConstants.mUomSchema, defaultValue: []);
-    final uom = (data as List).cast<Map<String, dynamic>>();
+    final uom = data as List;
     return uom
         .map(
           (item) => Uom(
@@ -782,7 +782,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Config>> getConfig() async {
     final data = box.get(AppConstants.mConfigSchema, defaultValue: []);
-    final config = (data as List).cast<Map<String, dynamic>>();
+    final config = data as List;
     return config
         .map(
           (item) => Config(
@@ -835,7 +835,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   @override
   Future<List<Roles>> getRole() async {
     final data = box.get(AppConstants.mRolesSchema, defaultValue: []);
-    final role = (data as List).cast<Map<String, dynamic>>();
+    final role = data as List;
     return role
         .map(
           (item) => Roles(

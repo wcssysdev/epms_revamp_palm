@@ -14,7 +14,7 @@ class OutlineIconButton extends StatelessWidget {
   final double outlineHeight;
 
   const OutlineIconButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.label,
     required this.onPressed,
@@ -26,7 +26,7 @@ class OutlineIconButton extends StatelessWidget {
     this.gap = 10,
     this.elevationOnPress = 0,
     this.outlineHeight = 0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

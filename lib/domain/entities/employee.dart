@@ -14,4 +14,18 @@ class Employee {
     required this.employeeProfile,
     required this.employeeGangAllotmentCode,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'employeeId': employeeId,
+      'employeeCode': employeeCode,
+      'employeeName': employeeName,
+      'employeeJobCode': employeeJobCode,
+      'employeeProfile': employeeProfile,
+      'employeeGangAllotmentCode': employeeGangAllotmentCode,
+    };
+  }
+
+  @override
+  String toString() => toJson().toString();
 }
