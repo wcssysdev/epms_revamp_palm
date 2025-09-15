@@ -32,7 +32,7 @@ class WorkTypeModel implements WorkType{
       );
   }
 
-  Map<String, dynamic> toJason() {
+  Map<String, dynamic> toJson() {
     return {
       'work_type_id': workTypeId,
       'work_type_code': workTypeCode,

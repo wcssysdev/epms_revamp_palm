@@ -21,7 +21,7 @@ class OphCardModel implements OphCard {
     );
   }
 
-  Map<String, dynamic> toJason() {
+  Map<String, dynamic> toJson() {
     return {'oph_card_id': ophCardId, 'oph_card_division': ophCardDivision};
   }
 }

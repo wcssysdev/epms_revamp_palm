@@ -30,7 +30,7 @@ class AttendanceModel implements Attendance {
     );
   }
 
-  Map<String, dynamic> toJason() {
+  Map<String, dynamic> toJson() {
     return {
       "attendance_id": attendanceId,
       "attendance_code": attendanceCode,
