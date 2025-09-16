@@ -1,7 +1,6 @@
 import 'package:epms_tech/core/utils/hive_master_data_helper.dart';
 import 'package:epms_tech/domain/entities/gang_allotment.dart';
 import 'package:epms_tech/domain/entities/user_assignment.dart';
-import 'package:epms_tech/domain/model/user_assignment_model.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_event.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_state.dart';
@@ -14,13 +13,15 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     required this.masterDataRepository,
   }) // wajib di declare dalam constructor JANGAN HAPUS
   : super(AddMandorInitial()) {
-    on<LoadMandorScreenData>(_onLoadMandorScreenData);
+    on<LoadMandorList>(_onLoadMandorList);
+    on<ClickAddButton>(_onClickAddButton);
   }
 
-  Future<void> _onLoadMandorScreenData(
-    LoadMandorScreenData event,
+  Future<void> _onLoadMandorList(
+    LoadMandorList event,
     Emitter<AddMandorState> emit,
   ) async {
+    // bila ada hubungan dengan Hive WAJIB Future<void> .... async {} JANGAN HAPUS
     try {
       emit(AddMandorLoading());
       final rawUserAssignmentList = await masterDataRepository.getUserAssignment();
@@ -36,10 +37,28 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
         rawUserAssignmentList, 
         keySelector: (u) => u.mandorEmployeeCode);
 
-      emit(AddMandorLoaded(listMandor: mandorSorted, gangAllotment: initGangAllotment));
+      emit(AddMandorLoaded(listMandor: mandorSorted, gangAllotment: initGangAllotment));// Update Parent State JANGAN HAPUS
     } catch (e) {
       print('Error ${e.toString()}');
       emit(AddMandorError(e.toString()));
+    }
+  }
+
+  Future<void> _onClickAddButton(
+    ClickAddButton event,
+    Emitter<AddMandorState> emit,
+  ) async {
+    if (state is MandorPickerSet) {
+      final currentState = state as MandorPickerSet;
+      final pickers = List<String?>.from(
+        currentState.mandorPickerList,
+      ); // menambahkan List existing JANGAN HAPUS
+      pickers.add("Picker ${pickers.length + 1}");
+      emit(MandorPickerSet(mandorPickerList: pickers));
+    } else {
+      final picker = ['Piker 1'];
+
+      emit(MandorPickerSet(mandorPickerList: picker));
     }
   }
 }

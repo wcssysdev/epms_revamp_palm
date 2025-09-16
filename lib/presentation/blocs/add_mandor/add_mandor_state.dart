@@ -13,7 +13,7 @@ abstract class AddMandorState extends Equatable {
 // kondisi = Initial, Loading, success/ data, error
 // JANGAN HAPUS
 
-// 1. Saat belum ada aksi JANGAN HAPUS
+// 1. WAJIB PERTAMA Saat belum ada aksi JANGAN HAPUS
 class AddMandorInitial extends AddMandorState {}
 
 // 2. Saat proses GET DATA JANGAN HAPUS
@@ -21,8 +21,8 @@ class AddMandorLoading extends AddMandorState{}
 
 // 3. saat data berhasil di dapat JANGAN HAPUS
 class AddMandorLoaded extends AddMandorState{
-  final List<UserAssignment> listMandor;
-  final List<GangAllotment> gangAllotment;
+  final List<UserAssignment> listMandor;// list mandor sorted
+  final List<GangAllotment> gangAllotment; // init gang allotment
 
   AddMandorLoaded({
     required this.listMandor,
@@ -32,6 +32,21 @@ class AddMandorLoaded extends AddMandorState{
   @override 
   List<Object?> get props => [listMandor];
 }
+
+class MandorPickerSet extends AddMandorState{
+  final List<String?> mandorPickerList;
+
+  MandorPickerSet({
+    required this.mandorPickerList,
+  });
+
+  @override
+  List<Object?> get props => [mandorPickerList];
+}
+
+class AddMandorSubmitting extends AddMandorState{}
+
+class AddMandorSuccess extends AddMandorState{}
 
 // 4. Misal saat Get error JANGAN HAPUS
 class AddMandorError extends AddMandorState {
