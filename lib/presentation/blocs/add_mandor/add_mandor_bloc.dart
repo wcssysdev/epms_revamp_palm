@@ -23,7 +23,6 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
   ) async {
     try {
       emit(AddMandorLoading());
-      // final listMandor = await masterDataRepository.getUserAssignment();
       final rawUserAssignmentList = await masterDataRepository.getUserAssignment();
 
       final List<GangAllotment> initGangAllotment = [

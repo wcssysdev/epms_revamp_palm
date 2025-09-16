@@ -27,7 +27,36 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
     super.initState();
     context.read<AddMandorBloc>().add(LoadMandorScreenData());// nama event
   }
+/*
 
+addMandor = () => {
+        var gangAllotment = this.state.gangAllotment.concat({
+            gang_allotment_id: Math.floor(Date.now() / 100),
+            gang_allotment_mandor_employee_code: "",
+            gang_allotment_mandor_employee_name: ""
+        })
+        this.setState({gangAllotment})
+    }
+
+deleteMandor = (index) => {
+        this._hideModal()
+        if (index != 1000) {
+            this.state.gangAllotment.splice(index, 1)
+            this.forceUpdate()
+        }
+    }
+
+SAVE
+simpan di T_Gang_Allotment_Schema
+
+'--- ', [ { gang_allotment_id: 17579962496,
+    gang_allotment_mandor_employee_code: '00/00EA/0313/197',
+    gang_allotment_mandor_employee_name: 'DEDE IRMAWAN' },
+  { gang_allotment_id: 17579962779,
+    gang_allotment_mandor_employee_code: '00/00EA/0220/1178',
+    gang_allotment_mandor_employee_name: 'ASEP RAHMAT' } ]
+
+ */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +93,7 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
                       ),
                     ),
                     label: "Add Mandor",
-                    onPressed: () {
+                    onPressed: () { // ------
                       setState(() {
                         selectedMandor.add(null);
                       });
@@ -72,7 +101,9 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
                     borderColor: AppColors.primary,
                     outlineHeight: 40,
                   ),
+
                   SizedBox(height: 24),
+
                   ...List.generate(selectedMandor.length, (index) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 16),
@@ -135,7 +166,9 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
                   }),
 
                   SizedBox(height: 20),
+
                   SubmitButtonSection(label: "SAVE", onPressed: () {}),
+
                   selectedMandor.isEmpty
                       ? Text(
                         "Please select Mandor!",
