@@ -33,15 +33,17 @@ class AddMandorLoaded extends AddMandorState{
   List<Object?> get props => [listMandor];
 }
 
-class MandorPickerSet extends AddMandorState{
+class MandorPickerSet extends AddMandorState {
+  final List<UserAssignment> listMandor;
   final List<String?> mandorPickerList;
 
   MandorPickerSet({
+    required this.listMandor,
     required this.mandorPickerList,
   });
 
   @override
-  List<Object?> get props => [mandorPickerList];
+  List<Object?> get props => [listMandor, mandorPickerList];
 }
 
 class AddMandorSubmitting extends AddMandorState{}

@@ -25,7 +25,7 @@ class DropdownSearchRow extends StatelessWidget {
       children: [
         Expanded(
           child: DropdownButtonFormField<String>(
-            value: value,
+            value: items.contains(value) ? value : null,
             isExpanded: true,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(

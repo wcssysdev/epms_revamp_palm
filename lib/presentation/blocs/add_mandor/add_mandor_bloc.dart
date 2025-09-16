@@ -24,7 +24,8 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     // bila ada hubungan dengan Hive WAJIB Future<void> .... async {} JANGAN HAPUS
     try {
       emit(AddMandorLoading());
-      final rawUserAssignmentList = await masterDataRepository.getUserAssignment();
+      final rawUserAssignmentList =
+          await masterDataRepository.getUserAssignment();
 
       final List<GangAllotment> initGangAllotment = [
         GangAllotment(
@@ -33,11 +34,18 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
           gangAllotmentMandorEmployeeName: '',
         ),
       ];
-      final List<UserAssignment> mandorSorted = await HiveMasterDataHelper.sortRawDataDistinct<UserAssignment>(
-        rawUserAssignmentList, 
-        keySelector: (u) => u.mandorEmployeeCode);
+      final List<UserAssignment> mandorSorted =
+          await HiveMasterDataHelper.sortRawDataDistinct<UserAssignment>(
+            rawUserAssignmentList,
+            keySelector: (u) => u.mandorEmployeeCode,
+          );
 
-      emit(AddMandorLoaded(listMandor: mandorSorted, gangAllotment: initGangAllotment));// Update Parent State JANGAN HAPUS
+      emit(
+        AddMandorLoaded(
+          listMandor: mandorSorted,
+          gangAllotment: initGangAllotment,
+        ),
+      ); // Update Parent State JANGAN HAPUS
     } catch (e) {
       print('Error ${e.toString()}');
       emit(AddMandorError(e.toString()));
@@ -53,12 +61,32 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
       final pickers = List<String?>.from(
         currentState.mandorPickerList,
       ); // menambahkan List existing JANGAN HAPUS
-      pickers.add("Picker ${pickers.length + 1}");
-      emit(MandorPickerSet(mandorPickerList: pickers));
-    } else {
-      final picker = ['Piker 1'];
+      final defaultValue =
+          currentState.listMandor.isNotEmpty
+              ? currentState.listMandor.first.employeeName
+              : null;
 
-      emit(MandorPickerSet(mandorPickerList: picker));
+      pickers.add(defaultValue);
+
+      emit(
+        MandorPickerSet(
+          listMandor: currentState.listMandor,
+          mandorPickerList: pickers,
+        ),
+      );
+    } else if (state is AddMandorLoaded) {
+      final currentState = state as AddMandorLoaded;
+      final picker = [
+        currentState.listMandor.isNotEmpty
+            ? currentState.listMandor.first.employeeName
+            : null,
+      ];
+      emit(
+        MandorPickerSet(
+          listMandor: currentState.listMandor,
+          mandorPickerList: picker,
+        ),
+      );
     }
   }
 }
