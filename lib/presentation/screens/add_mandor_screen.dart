@@ -1,6 +1,7 @@
 // import 'package:flutter/cupertino.dart';
 import 'package:epms_tech/core/theme/app_colors.dart';
 import 'package:epms_tech/core/theme/app_text_style.dart';
+import 'package:epms_tech/domain/entities/user_assignment.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_bloc.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_event.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_state.dart';
@@ -19,12 +20,13 @@ class AddMandorScreen extends StatefulWidget {
 }
 
 class _AddMandorScreenState extends State<AddMandorScreen> {
+  List<UserAssignment> mandor = [];
   List<String?> selectedMandor = [];
 
   @override
   void initState() {
     super.initState();
-    context.read<AddMandorBloc>().add(LoadMandorScreenData());
+    context.read<AddMandorBloc>().add(LoadMandorScreenData());// nama event
   }
 
   @override
@@ -36,14 +38,18 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (state is AddMandorLoaded)  {
             final mandors = state.listMandor;
-            print('++==+ $mandors');
+            final gangAllotment = state.gangAllotment;
+            print('== $mandors');
+            print('++==+ $gangAllotment');
+            // this.setState(() {
+            //   mandor = mandors;
+            // });
             /*
             [
               {mandorId: 43898, profileName: ESTATE A, mandorEmployeeCode: 00/00EA/1114/122, mandorEmployeeName: FLORIANUS JEMADU, employeeCode: 00/00EA/0120/1130, employeeName: YOSEPH SABULON}, 
-              {mandorId: 43901, profileName: ESTATE A, mandorEmployeeCode: 00/00EA/0521/1901, mandorEmployeeName: THOMAS AQUINO KELU, employeeCode: 00/00EA/0120/1135, employeeName: SERGIUS KOMI}, 
-              {mandorId: 43902, profileName: ESTATE A, mandorEmployeeCode: 00/00EA/0812/162, mandorEmployeeName: URBANUS SARENG, employeeCode: 00/00EA/0120/1139, employeeName: CLEMENS KAUT KANIMU}, 
               {mandorId: 43903, profileName: ESTATE A, mandorEmployeeCode: 00/00EA/0814/199, mandorEmployeeName: SUKIRNO, employeeCode: 00/00EA/0120/1146, employeeName: DEKI KINDEM},
              */
+
           } else if (state is AddMandorError) {
             return Center(child: Text('Error: ${state.message}'));
           }
@@ -88,7 +94,7 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
                                 index.toString() +
                                     (selectedMandor[index] ?? ""),
                               ),
-                              items: ['A', 'B', 'C', 'D', 'E'],
+                              items: ['m','n','o'],
                               value: selectedMandor[index],
                               onChanged: (val) {
                                 if (val == null) return;

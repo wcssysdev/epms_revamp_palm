@@ -10,5 +10,5 @@ class LoadMandorScreenData extends AddMandorEvent {
   // syarat nya => 
   // 1. main.dart -> daftarkan BLoC ini pada BlocProvider
   // 2. AddMandorScreen -> void initState() { context.read<AddMandorBloc>().add(LoadMandorScreenData())}
-  
+  // JANGAN HAPUS
 }
