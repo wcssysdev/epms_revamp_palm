@@ -1,4 +1,7 @@
+import 'package:epms_tech/core/utils/hive_master_data_helper.dart';
 import 'package:epms_tech/domain/entities/gang_allotment.dart';
+import 'package:epms_tech/domain/entities/user_assignment.dart';
+import 'package:epms_tech/domain/model/user_assignment_model.dart';
 import 'package:epms_tech/domain/repositories/master_data_repository.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_event.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_state.dart';
@@ -20,7 +23,9 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
   ) async {
     try {
       emit(AddMandorLoading());
-      final listMandor = await masterDataRepository.getUserAssignment();
+      // final listMandor = await masterDataRepository.getUserAssignment();
+      final rawUserAssignmentList = await masterDataRepository.getUserAssignment();
+
       final List<GangAllotment> initGangAllotment = [
         GangAllotment(
           gangAllotmentId: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -28,8 +33,11 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
           gangAllotmentMandorEmployeeName: '',
         ),
       ];
+      final List<UserAssignment> mandorSorted = await HiveMasterDataHelper.sortRawDataDistinct<UserAssignment>(
+        rawUserAssignmentList, 
+        keySelector: (u) => u.mandorEmployeeCode);
 
-      emit(AddMandorLoaded(listMandor: listMandor, gangAllotment: initGangAllotment));
+      emit(AddMandorLoaded(listMandor: mandorSorted, gangAllotment: initGangAllotment));
     } catch (e) {
       print('Error ${e.toString()}');
       emit(AddMandorError(e.toString()));

@@ -20,7 +20,6 @@ class AddMandorScreen extends StatefulWidget {
 }
 
 class _AddMandorScreenState extends State<AddMandorScreen> {
-  List<UserAssignment> mandor = [];
   List<String?> selectedMandor = [];
 
   @override
@@ -34,21 +33,12 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
     return Scaffold(
       body: BlocBuilder<AddMandorBloc, AddMandorState>(
         builder: (context, state)  {
+          List<UserAssignment> mandorList = [];
           if (state is AddMandorLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is AddMandorLoaded)  {
-            final mandors = state.listMandor;
+          } else if (state is AddMandorLoaded) {
+            mandorList = state.listMandor;
             final gangAllotment = state.gangAllotment;
-            print('== $mandors');
-            print('++==+ $gangAllotment');
-            // this.setState(() {
-            //   mandor = mandors;
-            // });
-            /*
-            [
-              {mandorId: 43898, profileName: ESTATE A, mandorEmployeeCode: 00/00EA/1114/122, mandorEmployeeName: FLORIANUS JEMADU, employeeCode: 00/00EA/0120/1130, employeeName: YOSEPH SABULON}, 
-              {mandorId: 43903, profileName: ESTATE A, mandorEmployeeCode: 00/00EA/0814/199, mandorEmployeeName: SUKIRNO, employeeCode: 00/00EA/0120/1146, employeeName: DEKI KINDEM},
-             */
 
           } else if (state is AddMandorError) {
             return Center(child: Text('Error: ${state.message}'));
@@ -94,7 +84,9 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
                                 index.toString() +
                                     (selectedMandor[index] ?? ""),
                               ),
-                              items: ['m','n','o'],
+                              items: mandorList
+                                    .map((e) => e.mandorEmployeeName)
+                                    .toList(),
                               value: selectedMandor[index],
                               onChanged: (val) {
                                 if (val == null) return;
