@@ -106,6 +106,7 @@ lib/
                 ├── app_colors.dart
           └── utils/
                 ├── json_parser.dart
+                ├── hive_master_data_helper.dart
   ├── data/                # Data source, API, model, repository impl
           └── repository/
                 ├── auth_repository_impl.dart
@@ -134,6 +135,10 @@ lib/
       │         ├── auth_bloc.dart
       │         ├── auth_event.dart
       │         └── auth_state.dart
+      │    └── add_mandor/
+      │         ├── add_mandor_bloc.dart
+      │         ├── add_mandor_event.dart
+      │         └── add_mandor_state.dart
       ├── screens/         # Semua UI screen
           └── login_screen.dart
           └── ip_server_screen.dart
