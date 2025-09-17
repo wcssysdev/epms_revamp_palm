@@ -2,41 +2,36 @@ import 'package:epms_tech/domain/entities/gang_allotment.dart';
 import 'package:epms_tech/domain/entities/user_assignment.dart';
 import 'package:equatable/equatable.dart';
 
-
 abstract class AddMandorState extends Equatable {
   final List<GangAllotment> mandorSelected;
 
-  const AddMandorState({
-    this.mandorSelected = const [],
-  });
+  const AddMandorState({this.mandorSelected = const []});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [mandorSelected];
 }
-// kelas dasar / parent tapi tidak bisa langsung create object  JANGAN HAPUS
 // equatable = BANDING 2 OBJECT =bila ada data baru yang sama (sumber dari child) maka data di parent tidak akan terupadate
 // props => [] ; parent menyediakan kerangka kosong []
-// kondisi = Initial, Loading, success/ data, error
 // JANGAN HAPUS
 
 // 1. WAJIB PERTAMA Saat belum ada aksi JANGAN HAPUS
 class AddMandorInitial extends AddMandorState {}
 
 // 2. Saat proses GET DATA JANGAN HAPUS
-class AddMandorLoading extends AddMandorState{}
+class AddMandorLoading extends AddMandorState {}
 
 // 3. saat data berhasil di dapat JANGAN HAPUS
-class AddMandorLoaded extends AddMandorState{
-  final List<UserAssignment> listMandor;// list mandor sorted
+class AddMandorLoaded extends AddMandorState {
+  final List<UserAssignment> listMandor; // list mandor sorted
   final List<GangAllotment> gangAllotment; // init gang allotment
 
   const AddMandorLoaded({
     required this.listMandor,
     required this.gangAllotment,
+    required super.mandorSelected,
   });
-
-  @override 
-  List<Object?> get props => [listMandor];
+  @override
+  List<Object?> get props => [listMandor, mandorSelected];
 }
 
 class MandorPickerSet extends AddMandorState {
@@ -46,16 +41,16 @@ class MandorPickerSet extends AddMandorState {
   const MandorPickerSet({
     required this.listMandor,
     required this.mandorPickerList,
-    super.mandorSelected // update parent state
+    required super.mandorSelected,
   });
 
   @override
   List<Object?> get props => [listMandor, mandorPickerList, mandorSelected];
 }
 
-class AddMandorSubmitting extends AddMandorState{}
+class AddMandorSubmitting extends AddMandorState {}
 
-class AddMandorSuccess extends AddMandorState{}
+class AddMandorSuccess extends AddMandorState {}
 
 // 4. Misal saat Get error JANGAN HAPUS
 class AddMandorError extends AddMandorState {

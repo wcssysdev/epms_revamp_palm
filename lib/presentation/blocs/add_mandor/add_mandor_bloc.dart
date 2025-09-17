@@ -13,7 +13,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     required this.masterDataRepository,
   }) // wajib di declare dalam constructor JANGAN HAPUS
   : super(AddMandorInitial()) {
-    on<LoadMandorList>(_onLoadMandorList);
+    on<LoadMandorList>(_onLoadMandorList); 
     on<ClickAddButton>(_onClickAddButton);
     on<UpdateMandorPicker>(_onUpdateMandorPicker);
   }
@@ -40,11 +40,13 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
             rawUserAssignmentList,
             keySelector: (u) => u.mandorEmployeeCode,
           );
+      final currentStatus = state as AddMandorState;
 
       emit(
         AddMandorLoaded(
           listMandor: mandorSorted,
           gangAllotment: initGangAllotment,
+          mandorSelected: currentStatus.mandorSelected,
         ),
       ); // Update Parent State JANGAN HAPUS
     } catch (e) {
@@ -66,17 +68,19 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
           currentState.listMandor.isNotEmpty
               ? currentState.listMandor.first.employeeName
               : null;
-
+      final currentStatus = state as AddMandorState;
       pickers.add(defaultValue);
-
       emit(
         MandorPickerSet(
           listMandor: currentState.listMandor,
           mandorPickerList: pickers,
+          mandorSelected: currentStatus.mandorSelected,
         ),
       );
     } else if (state is AddMandorLoaded) {
       final currentState = state as AddMandorLoaded;
+      final currentStatus = state as AddMandorState;
+
       final picker = [
         currentState.listMandor.isNotEmpty
             ? currentState.listMandor.first.employeeName
@@ -86,6 +90,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
         MandorPickerSet(
           listMandor: currentState.listMandor,
           mandorPickerList: picker,
+          mandorSelected: currentStatus.mandorSelected
         ),
       );
     }
@@ -125,15 +130,25 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
       ); // data parent state
       if (event.index < mandorSelectedList.length) {
         mandorSelectedList[event.index] = gangAllotment;
+        emit(
+          MandorPickerSet(
+            listMandor: currentState.listMandor,
+            mandorPickerList: updatedPickers,
+            mandorSelected:
+                mandorSelectedList,
+          ),
+        );
       } else {
         mandorSelectedList.add(gangAllotment);
+        emit(
+          MandorPickerSet(
+            listMandor: currentState.listMandor,
+            mandorPickerList: updatedPickers,
+            mandorSelected:
+                mandorSelectedList,
+          ),
+        );
       }
-      emit(
-        MandorPickerSet(
-          listMandor: currentState.listMandor,
-          mandorPickerList: updatedPickers,
-        ),
-      );
     }
   }
 }

@@ -8,6 +8,7 @@ import 'package:epms_tech/presentation/widgets/logo_section.dart';
 import 'package:epms_tech/presentation/widgets/mandor_picker_section.dart';
 import 'package:epms_tech/presentation/widgets/outline_icon_button.dart';
 import 'package:epms_tech/presentation/widgets/submit_button_section.dart';
+import 'package:epms_tech/presentation/widgets/text_pressable_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -77,14 +78,14 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
                   MandorPickerSection(
                     mandorList: mandorList,
                     mandorPickerList: mandorPickerList,
-                    onChanged:
-                        (index, value) => context.read<AddMandorBloc>().add(
-                          UpdateMandorPicker(index: index, selectedName: value),
-                        ),
                   ),
 
                   SizedBox(height: 20),
                   SubmitButtonSection(label: "SAVE", onPressed: () {}),
+                  TextPressableSection(label: 'cek go', onPressed: () {
+                    print(state.mandorSelected);
+                    print(state.mandorSelected.length);
+                  })
                 ],
               ),
             ),
