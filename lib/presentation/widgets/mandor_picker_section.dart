@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 class MandorPickerSection extends StatelessWidget {
   final List<UserAssignment> mandorList;
   final List<String?> mandorPickerList;
+  final Function(int index, String? value) onChanged;
 
   const MandorPickerSection({
     super.key,
     required this.mandorList,
     required this.mandorPickerList,
+    required this.onChanged,
   });
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,12 +30,12 @@ class MandorPickerSection extends StatelessWidget {
                       index.toString() + (mandorPickerList[index] ?? ""),
                     ),
                     items: mandorList
-                        .map((e) => e.mandorEmployeeName)
+                        .map((e) {
+                          return e.mandorEmployeeName;
+                        })
                         .toList(),
                     value: mandorPickerList[index],
-                    onChanged: (val) {
-                      // dispatch event update
-                    },
+                    onChanged:(value) => onChanged(index, value),
                     onSearch: () {},
                     onDelete: () {},
                   ),

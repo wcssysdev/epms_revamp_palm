@@ -4,6 +4,12 @@ import 'package:equatable/equatable.dart';
 
 
 abstract class AddMandorState extends Equatable {
+  final List<GangAllotment> mandorSelected;
+
+  const AddMandorState({
+    this.mandorSelected = const [],
+  });
+
   @override
   List<Object?> get props => [];
 }
@@ -24,7 +30,7 @@ class AddMandorLoaded extends AddMandorState{
   final List<UserAssignment> listMandor;// list mandor sorted
   final List<GangAllotment> gangAllotment; // init gang allotment
 
-  AddMandorLoaded({
+  const AddMandorLoaded({
     required this.listMandor,
     required this.gangAllotment,
   });
@@ -37,13 +43,14 @@ class MandorPickerSet extends AddMandorState {
   final List<UserAssignment> listMandor;
   final List<String?> mandorPickerList;
 
-  MandorPickerSet({
+  const MandorPickerSet({
     required this.listMandor,
     required this.mandorPickerList,
+    super.mandorSelected // update parent state
   });
 
   @override
-  List<Object?> get props => [listMandor, mandorPickerList];
+  List<Object?> get props => [listMandor, mandorPickerList, mandorSelected];
 }
 
 class AddMandorSubmitting extends AddMandorState{}
@@ -53,7 +60,7 @@ class AddMandorSuccess extends AddMandorState{}
 // 4. Misal saat Get error JANGAN HAPUS
 class AddMandorError extends AddMandorState {
   final String message;
-  AddMandorError(this.message);
+  const AddMandorError(this.message);
 
   @override
   List<Object?> get props => [message];

@@ -20,6 +20,19 @@ class ClickAddButton extends AddMandorEvent {
 
 class AddMandor extends AddMandorEvent{}
 
+class UpdateMandorPicker extends AddMandorEvent {
+  final int index;
+  final String? selectedName;
+
+  UpdateMandorPicker({
+    required this.index,
+    required this.selectedName,
+  });
+
+  @override
+  List<Object?> get props => [index, selectedName];
+}
+
 class RemoveMandor extends AddMandorEvent{
   final int index;
   RemoveMandor(this.index);

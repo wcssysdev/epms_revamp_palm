@@ -1,4 +1,3 @@
-// import 'package:flutter/cupertino.dart';
 import 'package:epms_tech/core/theme/app_colors.dart';
 import 'package:epms_tech/core/theme/app_text_style.dart';
 import 'package:epms_tech/domain/entities/user_assignment.dart';
@@ -23,7 +22,7 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AddMandorBloc>().add(LoadMandorList()); // nama event
+    context.read<AddMandorBloc>().add(LoadMandorList());
   }
 
   @override
@@ -73,27 +72,19 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
                     borderColor: AppColors.primary,
                     outlineHeight: 40,
                   ),
-
                   SizedBox(height: 24),
 
                   MandorPickerSection(
-                    mandorList: mandorList, // []
-                    mandorPickerList:
-                        mandorPickerList, // [Piker 1, Picker 2, Picker 3]
+                    mandorList: mandorList,
+                    mandorPickerList: mandorPickerList,
+                    onChanged:
+                        (index, value) => context.read<AddMandorBloc>().add(
+                          UpdateMandorPicker(index: index, selectedName: value),
+                        ),
                   ),
 
                   SizedBox(height: 20),
-
                   SubmitButtonSection(label: "SAVE", onPressed: () {}),
-
-                  mandorPickerList.isEmpty
-                      ? Text(
-                        "Please select Mandor!",
-                        style: TextStyle(color: AppColors.red),
-                      )
-                      : Text(
-                        'Selected Mandor: ${mandorPickerList.where((e) => e != null).join(",")}',
-                      ),
                 ],
               ),
             ),

@@ -15,6 +15,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
   : super(AddMandorInitial()) {
     on<LoadMandorList>(_onLoadMandorList);
     on<ClickAddButton>(_onClickAddButton);
+    on<UpdateMandorPicker>(_onUpdateMandorPicker);
   }
 
   Future<void> _onLoadMandorList(
@@ -85,6 +86,52 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
         MandorPickerSet(
           listMandor: currentState.listMandor,
           mandorPickerList: picker,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onUpdateMandorPicker(
+    UpdateMandorPicker event,
+    Emitter<AddMandorState> emit,
+  ) async {
+    if (state is MandorPickerSet) {
+      final currentState = state as MandorPickerSet;
+
+      //clone mandor picker list
+      final updatedPickers = List<String?>.from(currentState.mandorPickerList);
+      updatedPickers[event.index] = event.selectedName;
+      final selectedMandor = currentState.listMandor.firstWhere(
+        (e) => e.mandorEmployeeName == event.selectedName,
+        orElse:
+            () => UserAssignment(
+              mandorId: 0,
+              profileName: '',
+              mandorEmployeeCode: '',
+              mandorEmployeeName: '',
+              employeeCode: '',
+              employeeName: '',
+            ),
+      );
+
+      final gangAllotment = GangAllotment(
+        gangAllotmentId: DateTime.now().microsecondsSinceEpoch.toString(),
+        gangAllotmentMandorEmployeeCode: selectedMandor.mandorEmployeeCode,
+        gangAllotmentMandorEmployeeName: selectedMandor.mandorEmployeeName,
+      );
+
+      final mandorSelectedList = List<GangAllotment>.from(
+        currentState.mandorSelected,
+      ); // data parent state
+      if (event.index < mandorSelectedList.length) {
+        mandorSelectedList[event.index] = gangAllotment;
+      } else {
+        mandorSelectedList.add(gangAllotment);
+      }
+      emit(
+        MandorPickerSet(
+          listMandor: currentState.listMandor,
+          mandorPickerList: updatedPickers,
         ),
       );
     }
