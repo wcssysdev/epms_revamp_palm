@@ -13,7 +13,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     required this.masterDataRepository,
   }) // wajib di declare dalam constructor JANGAN HAPUS
   : super(AddMandorInitial()) {
-    on<LoadMandorList>(_onLoadMandorList); 
+    on<LoadMandorList>(_onLoadMandorList);
     on<ClickAddButton>(_onClickAddButton);
     on<UpdateMandorPicker>(_onUpdateMandorPicker);
   }
@@ -40,13 +40,13 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
             rawUserAssignmentList,
             keySelector: (u) => u.mandorEmployeeCode,
           );
-      final currentStatus = state as AddMandorState;
+      final parentState = state;
 
       emit(
         AddMandorLoaded(
           listMandor: mandorSorted,
           gangAllotment: initGangAllotment,
-          mandorSelected: currentStatus.mandorSelected,
+          mandorSelected: parentState.mandorSelected,
         ),
       ); // Update Parent State JANGAN HAPUS
     } catch (e) {
@@ -68,18 +68,18 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
           currentState.listMandor.isNotEmpty
               ? currentState.listMandor.first.employeeName
               : null;
-      final currentStatus = state as AddMandorState;
+      final parentState = state;
       pickers.add(defaultValue);
       emit(
         MandorPickerSet(
           listMandor: currentState.listMandor,
           mandorPickerList: pickers,
-          mandorSelected: currentStatus.mandorSelected,
+          mandorSelected: parentState.mandorSelected,
         ),
       );
     } else if (state is AddMandorLoaded) {
       final currentState = state as AddMandorLoaded;
-      final currentStatus = state as AddMandorState;
+      final parentState = state;
 
       final picker = [
         currentState.listMandor.isNotEmpty
@@ -90,7 +90,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
         MandorPickerSet(
           listMandor: currentState.listMandor,
           mandorPickerList: picker,
-          mandorSelected: currentStatus.mandorSelected
+          mandorSelected: parentState.mandorSelected,
         ),
       );
     }
@@ -101,13 +101,14 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     Emitter<AddMandorState> emit,
   ) async {
     if (state is MandorPickerSet) {
+
       final currentState = state as MandorPickerSet;
 
       //clone mandor picker list
       final updatedPickers = List<String?>.from(currentState.mandorPickerList);
-      updatedPickers[event.index] = event.selectedName;
 
-      final selectedMandor = currentState.listMandor.firstWhere(//
+      updatedPickers[event.index] = event.selectedName;
+      final selectedMandor = currentState.listMandor.firstWhere(
         (e) => e.mandorEmployeeName == event.selectedName,
         orElse:
             () => UserAssignment(
@@ -129,7 +130,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
       final mandorSelectedList = List<GangAllotment>.from(
         currentState.mandorSelected,
       );
-      if (event.index < mandorSelectedList.length) {//
+      if (event.index < mandorSelectedList.length) {
         final alreadyExist = mandorSelectedList.any(
           (item) =>
               item.gangAllotmentMandorEmployeeCode ==
@@ -138,6 +139,8 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
         if (alreadyExist) {
           final String message =
               '${gangAllotment.gangAllotmentMandorEmployeeName} already existed';
+
+          updatedPickers.removeAt(event.index);
 
           emit(AddMandorError(message));
           emit(
@@ -164,9 +167,10 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
               gangAllotment.gangAllotmentMandorEmployeeCode,
         );
         if (alreadyExist) {
+          updatedPickers.removeAt(event.index);
           final String message =
               '${gangAllotment.gangAllotmentMandorEmployeeName} already existed';
-          
+
           emit(AddMandorError(message));
           emit(
             MandorPickerSet(
