@@ -106,7 +106,8 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
       //clone mandor picker list
       final updatedPickers = List<String?>.from(currentState.mandorPickerList);
       updatedPickers[event.index] = event.selectedName;
-      final selectedMandor = currentState.listMandor.firstWhere(
+
+      final selectedMandor = currentState.listMandor.firstWhere(//
         (e) => e.mandorEmployeeName == event.selectedName,
         orElse:
             () => UserAssignment(
@@ -119,7 +120,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
             ),
       );
 
-      final gangAllotment = GangAllotment(
+      late final gangAllotment = GangAllotment(
         gangAllotmentId: DateTime.now().microsecondsSinceEpoch.toString(),
         gangAllotmentMandorEmployeeCode: selectedMandor.mandorEmployeeCode,
         gangAllotmentMandorEmployeeName: selectedMandor.mandorEmployeeName,
@@ -127,27 +128,63 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
 
       final mandorSelectedList = List<GangAllotment>.from(
         currentState.mandorSelected,
-      ); // data parent state
-      if (event.index < mandorSelectedList.length) {
-        mandorSelectedList[event.index] = gangAllotment;
-        emit(
-          MandorPickerSet(
-            listMandor: currentState.listMandor,
-            mandorPickerList: updatedPickers,
-            mandorSelected:
-                mandorSelectedList,
-          ),
+      );
+      if (event.index < mandorSelectedList.length) {//
+        final alreadyExist = mandorSelectedList.any(
+          (item) =>
+              item.gangAllotmentMandorEmployeeCode ==
+              gangAllotment.gangAllotmentMandorEmployeeCode,
         );
+        if (alreadyExist) {
+          final String message =
+              '${gangAllotment.gangAllotmentMandorEmployeeName} already existed';
+
+          emit(AddMandorError(message));
+          emit(
+            MandorPickerSet(
+              listMandor: currentState.listMandor,
+              mandorPickerList: updatedPickers,
+              mandorSelected: mandorSelectedList,
+            ),
+          );
+        } else {
+          mandorSelectedList[event.index] = gangAllotment;
+          emit(
+            MandorPickerSet(
+              listMandor: currentState.listMandor,
+              mandorPickerList: updatedPickers,
+              mandorSelected: mandorSelectedList,
+            ),
+          );
+        }
       } else {
-        mandorSelectedList.add(gangAllotment);
-        emit(
-          MandorPickerSet(
-            listMandor: currentState.listMandor,
-            mandorPickerList: updatedPickers,
-            mandorSelected:
-                mandorSelectedList,
-          ),
+        final alreadyExist = mandorSelectedList.any(
+          (item) =>
+              item.gangAllotmentMandorEmployeeCode ==
+              gangAllotment.gangAllotmentMandorEmployeeCode,
         );
+        if (alreadyExist) {
+          final String message =
+              '${gangAllotment.gangAllotmentMandorEmployeeName} already existed';
+          
+          emit(AddMandorError(message));
+          emit(
+            MandorPickerSet(
+              listMandor: currentState.listMandor,
+              mandorPickerList: updatedPickers,
+              mandorSelected: mandorSelectedList,
+            ),
+          );
+        } else {
+          mandorSelectedList.add(gangAllotment);
+          emit(
+            MandorPickerSet(
+              listMandor: currentState.listMandor,
+              mandorPickerList: updatedPickers,
+              mandorSelected: mandorSelectedList,
+            ),
+          );
+        }
       }
     }
   }
