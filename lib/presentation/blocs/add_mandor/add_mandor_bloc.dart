@@ -127,7 +127,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
       final mandorSelectedList = List<GangAllotment>.from(
         currentState.mandorSelected,
       );
-      if (mandorSelectedList.length > 0 && (event.index < mandorSelectedList.length)) {
+      if (mandorSelectedList.isNotEmpty && (event.index < mandorSelectedList.length)) {
         final alreadyExist = mandorSelectedList.any(
           (item) =>
               item.gangAllotmentMandorEmployeeCode ==
