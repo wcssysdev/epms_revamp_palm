@@ -4,6 +4,7 @@ import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_bloc.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_event.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_state.dart';
 import 'package:epms_tech/presentation/widgets/dropdown_search_row.dart';
+import 'package:epms_tech/presentation/widgets/modal_bottom_sheet_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +20,23 @@ class MandorPickerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddMandorBloc, AddMandorState>(
+    return BlocConsumer<AddMandorBloc, AddMandorState>(
+      listener:
+          (context, state) => {
+            if (state is ShowMandorSearchModal)
+              {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder:
+                      (_) => ModalBottomSheetSection(
+                        index: state.index,
+                        bottomSheetTitle: 'Search Mandor Name',
+                        placeholderTitle: 'Enter the Mandor name',
+                      ),
+                ),
+              },
+          },
       builder: (context, state) {
         return Column(
           children: [
@@ -59,7 +76,6 @@ class MandorPickerSection extends StatelessWidget {
                         },
                       ),
                     ),
-                    //
                   ],
                 ),
               );

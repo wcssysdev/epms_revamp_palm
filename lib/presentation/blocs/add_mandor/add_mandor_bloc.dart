@@ -219,8 +219,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
 
   _onIconSearchClicked(IconSearchClicked event, Emitter<AddMandorState> emit) {
     final currentState = state as MandorPickerSet;
-    print('index picker =${event.index}');
-    emit(IconSearchClickedState(showPopup: true, index: event.index));
+    emit(ShowMandorSearchModal(index: event.index));
     emit(
       MandorPickerSet(
         listMandor: currentState.listMandor,

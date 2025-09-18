@@ -49,6 +49,7 @@ class MandorPickerSet extends AddMandorState {
 }
 
 class IconSearchClickedState extends AddMandorState {
+  //
   final bool showPopup;
   final int index;
 
@@ -56,6 +57,11 @@ class IconSearchClickedState extends AddMandorState {
 
   @override
   List<Object?> get props => [showPopup, index];
+}
+
+class ShowMandorSearchModal extends AddMandorState {
+  final int index;
+  const ShowMandorSearchModal({required this.index});
 }
 
 class AddMandorSubmitting extends AddMandorState {}

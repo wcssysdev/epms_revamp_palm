@@ -47,9 +47,6 @@ class UpdateMandor extends AddMandorEvent {
 class IconSearchClicked extends AddMandorEvent {
   final int index;
   IconSearchClicked({required this.index});
-
-  @override
-  List<Object?> get props => [index];
 }
 
 class SubmitMandorSelection extends AddMandorEvent {}
