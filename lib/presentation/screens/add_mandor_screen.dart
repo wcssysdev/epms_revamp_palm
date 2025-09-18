@@ -50,7 +50,7 @@ class _AddMandorScreenState extends State<AddMandorScreen> {
                   } else if (state is AddMandorLoaded) {
                     mandorList = state.listMandor;
                     mandorPickerList = [];
-                    final gangAllotment = state.gangAllotment;
+                    // final gangAllotment = state.gangAllotment;
                   } else if (state is MandorPickerSet) {
                     mandorList = state.listMandor; // tetap bawa listMandor
                     mandorPickerList = state.mandorPickerList;

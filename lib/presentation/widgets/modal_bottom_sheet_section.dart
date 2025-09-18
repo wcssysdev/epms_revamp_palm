@@ -5,12 +5,16 @@ class ModalBottomSheetSection extends StatelessWidget {
   final int index;
   final String bottomSheetTitle;
   final String placeholderTitle;
+  final TextEditingController inputTextController;
+  final ValueChanged<String> onChanged;
 
   const ModalBottomSheetSection({
     super.key,
     required this.index,
     required this.bottomSheetTitle,
     required this.placeholderTitle,
+    required this.inputTextController,
+    required this.onChanged,
   });
 
   @override
@@ -28,6 +32,8 @@ class ModalBottomSheetSection extends StatelessWidget {
         children: <Widget>[
           ListTile(title: Text(bottomSheetTitle)),
           TextField(
+            controller: inputTextController,
+            onChanged: onChanged,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               icon: Icon(Icons.supervised_user_circle),
