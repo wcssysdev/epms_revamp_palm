@@ -101,12 +101,9 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     Emitter<AddMandorState> emit,
   ) async {
     if (state is MandorPickerSet) {
-
       final currentState = state as MandorPickerSet;
 
-      //clone mandor picker list
       final updatedPickers = List<String?>.from(currentState.mandorPickerList);
-
       updatedPickers[event.index] = event.selectedName;
       final selectedMandor = currentState.listMandor.firstWhere(
         (e) => e.mandorEmployeeName == event.selectedName,
@@ -130,7 +127,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
       final mandorSelectedList = List<GangAllotment>.from(
         currentState.mandorSelected,
       );
-      if (event.index < mandorSelectedList.length) {
+      if (mandorSelectedList.length > 0 && (event.index < mandorSelectedList.length)) {
         final alreadyExist = mandorSelectedList.any(
           (item) =>
               item.gangAllotmentMandorEmployeeCode ==
@@ -141,6 +138,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
               '${gangAllotment.gangAllotmentMandorEmployeeName} already existed';
 
           updatedPickers.removeAt(event.index);
+          mandorSelectedList.removeAt(event.index);
 
           emit(AddMandorError(message));
           emit(
@@ -168,6 +166,8 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
         );
         if (alreadyExist) {
           updatedPickers.removeAt(event.index);
+          mandorSelectedList.removeAt(event.index);
+
           final String message =
               '${gangAllotment.gangAllotmentMandorEmployeeName} already existed';
 
