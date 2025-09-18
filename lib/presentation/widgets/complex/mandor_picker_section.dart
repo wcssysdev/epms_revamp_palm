@@ -28,12 +28,16 @@ class MandorPickerSection extends StatelessWidget {
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
-                  builder:
-                      (_) => ModalBottomSheetSection(
+                  builder: (context) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom
+                    ),
+                    child: ModalBottomSheetSection(
                         index: state.index,
                         bottomSheetTitle: 'Search Mandor Name',
                         placeholderTitle: 'Enter the Mandor name',
                       ),
+                  )
                 ),
               },
           },

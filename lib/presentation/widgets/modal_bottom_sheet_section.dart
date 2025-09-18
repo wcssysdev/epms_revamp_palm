@@ -15,14 +15,16 @@ class ModalBottomSheetSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SingleChildScrollView(
+      child: Container(
       height: 350,
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary, width: 2.0),
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: ListView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(title: Text(bottomSheetTitle)),
           TextField(
@@ -32,6 +34,7 @@ class ModalBottomSheetSection extends StatelessWidget {
               labelText: placeholderTitle,
             ),
           ),
+          const SizedBox(height: 16),
           Container(
             alignment: Alignment.center,
             child: ElevatedButton.icon(
@@ -41,7 +44,8 @@ class ModalBottomSheetSection extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      )
+    ),
     );
   }
 }
