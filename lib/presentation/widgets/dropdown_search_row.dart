@@ -20,12 +20,12 @@ class DropdownSearchRow extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {// <---- HARUS DI LISTENED
     return Row(
       children: [
         Expanded(
           child: DropdownButtonFormField<String>(
-            value: value,
+            value: items.contains(value) ? value : null,
             isExpanded: true,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(
@@ -52,7 +52,7 @@ class DropdownSearchRow extends StatelessWidget {
         if (showDelete && onDelete != null)
           IconButton(
             onPressed: onDelete,
-            icon: Icon(Icons.close, color: AppColors.red),
+            icon: Icon(Icons.close, color: AppColors.red, fontWeight: FontWeight.bold,),
           ),
       ],
     );

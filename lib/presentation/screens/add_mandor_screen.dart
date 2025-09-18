@@ -1,14 +1,15 @@
-// import 'package:flutter/cupertino.dart';
 import 'package:epms_tech/core/theme/app_colors.dart';
 import 'package:epms_tech/core/theme/app_text_style.dart';
+import 'package:epms_tech/core/utils/snackbar_ui.dart';
 import 'package:epms_tech/domain/entities/user_assignment.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_bloc.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_event.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_state.dart';
-import 'package:epms_tech/presentation/widgets/dropdown_search_row.dart';
 import 'package:epms_tech/presentation/widgets/logo_section.dart';
+import 'package:epms_tech/presentation/widgets/mandor_picker_section.dart';
 import 'package:epms_tech/presentation/widgets/outline_icon_button.dart';
 import 'package:epms_tech/presentation/widgets/submit_button_section.dart';
+import 'package:epms_tech/presentation/widgets/text_pressable_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,186 +21,97 @@ class AddMandorScreen extends StatefulWidget {
 }
 
 class _AddMandorScreenState extends State<AddMandorScreen> {
-  List<String?> selectedMandor = [];
-
   @override
   void initState() {
     super.initState();
-    context.read<AddMandorBloc>().add(LoadMandorScreenData());// nama event
+    context.read<AddMandorBloc>().add(LoadMandorList());
   }
-/*
 
-addMandor = () => {
-        var gangAllotment = this.state.gangAllotment.concat({
-            gang_allotment_id: Math.floor(Date.now() / 100),
-            gang_allotment_mandor_employee_code: "",
-            gang_allotment_mandor_employee_name: ""
-        })
-        this.setState({gangAllotment})
-    }
-
-deleteMandor = (index) => {
-        this._hideModal()
-        if (index != 1000) {
-            this.state.gangAllotment.splice(index, 1)
-            this.forceUpdate()
-        }
-    }
-
-SAVE
-simpan di T_Gang_Allotment_Schema
-
-'--- ', [ { gang_allotment_id: 17579962496,
-    gang_allotment_mandor_employee_code: '00/00EA/0313/197',
-    gang_allotment_mandor_employee_name: 'DEDE IRMAWAN' },
-  { gang_allotment_id: 17579962779,
-    gang_allotment_mandor_employee_code: '00/00EA/0220/1178',
-    gang_allotment_mandor_employee_name: 'ASEP RAHMAT' } ]
-
- */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<AddMandorBloc, AddMandorState>(
-        builder: (context, state)  {
-          List<UserAssignment> mandorList = [];
-          if (state is AddMandorLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is AddMandorLoaded) {
-            mandorList = state.listMandor;
-            final gangAllotment = state.gangAllotment;
+      body: Padding(
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          children: [
+            BlocListener<AddMandorBloc, AddMandorState>(
+              listener: (context, state) {
+                if (state is AddMandorError) {
+                  showErrorSnackbar(context, state.message);
+                }
+              },
+              child: BlocBuilder<AddMandorBloc, AddMandorState>(
+                // child
+                builder: (context, state) {
+                  List<UserAssignment> mandorList = [];
+                  List<String?> mandorPickerList = [];
+                  if (state is AddMandorLoading) {// sate
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is AddMandorLoaded) {
+                    mandorList = state.listMandor;
+                    mandorPickerList = [];
+                    final gangAllotment = state.gangAllotment;
+                  } else if (state is MandorPickerSet) {
+                    mandorList = state.listMandor; // tetap bawa listMandor
+                    mandorPickerList = state.mandorPickerList;
+                  }
 
-          } else if (state is AddMandorError) {
-            return Center(child: Text('Error: ${state.message}'));
-          }
-
-          return Padding(
-            padding: EdgeInsetsGeometry.all(24),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  LogoSection(),
-                  SizedBox(height: 16),
-                  Text('Mandor Setup', style: AppTextStyles.screenTitle),
-                  SizedBox(height: 24),
-                  OutlineIconButton(
-                    icon: Text(
-                      "+",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    label: "Add Mandor",
-                    onPressed: () { // ------
-                      setState(() {
-                        selectedMandor.add(null);
-                      });
-                    },
-                    borderColor: AppColors.primary,
-                    outlineHeight: 40,
-                  ),
-
-                  SizedBox(height: 24),
-
-                  ...List.generate(selectedMandor.length, (index) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 16),
-                      child: Row(
+                  return Padding(
+                    padding: EdgeInsetsGeometry.all(24),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: DropdownSearchRow(
-                              key: ValueKey(
-                                index.toString() +
-                                    (selectedMandor[index] ?? ""),
-                              ),
-                              items: mandorList
-                                    .map((e) => e.mandorEmployeeName)
-                                    .toList(),
-                              value: selectedMandor[index],
-                              onChanged: (val) {
-                                if (val == null) return;
-                                bool isDuplicate = selectedMandor
-                                    .where((e) => e != null)
-                                    .contains(val);
-                                if (isDuplicate &&
-                                    val != selectedMandor[index]) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Mandor $val sudah dipilih!',
-                                      ),
-                                      backgroundColor: AppColors.red,
-                                      duration: Duration(seconds: 2),
-                                    ),
-                                  );
-                                  Future.delayed(Duration.zero, () {
-                                    setState(() {
-                                      selectedMandor[index] = null;
-                                    });
-                                  });
-                                  return;
-                                }
-                                setState(() {
-                                  selectedMandor[index] = val;
-                                });
-                              },
-                              onSearch: () {
-                                print('search mandor $selectedMandor');
-                              },
-                            ),
+                          LogoSection(),
+                          SizedBox(height: 16),
+                          Text(
+                            'Mandor Setup',
+                            style: AppTextStyles.screenTitle,
                           ),
-                          if (selectedMandor[index] != null)
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedMandor.removeAt(index);
-                                });
-                              },
-                              icon: Icon(Icons.delete, color: AppColors.red),
+                          SizedBox(height: 24),
+                          OutlineIconButton(
+                            icon: Text(
+                              "+",
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primary,
+                              ),
                             ),
+                            label: "Add Mandor",
+                            onPressed:
+                                () => context.read<AddMandorBloc>().add(
+                                  ClickAddButton(),
+                                ),
+                            borderColor: AppColors.primary,
+                            outlineHeight: 40,
+                          ),
+                          SizedBox(height: 24),
+
+                          MandorPickerSection(
+                            mandorList: mandorList,
+                            mandorPickerList: mandorPickerList,
+                          ),
+
+                          SizedBox(height: 20),
+                          SubmitButtonSection(label: "SAVE", onPressed: () {}),
+                          TextPressableSection(
+                            label: 'cek go',
+                            onPressed: () {
+                              print(state.mandorSelected);
+                              print(state.mandorSelected.length);
+                            },
+                          ),
                         ],
                       ),
-                    );
-                  }),
-
-                  SizedBox(height: 20),
-
-                  SubmitButtonSection(label: "SAVE", onPressed: () {}),
-
-                  selectedMandor.isEmpty
-                      ? Text(
-                        "Please select Mandor!",
-                        style: TextStyle(color: AppColors.red),
-                      )
-                      : Text(
-                        'Selected Mandor: ${selectedMandor.where((e) => e != null).join(",")}',
-                      ),
-                ],
+                    ),
+                  );
+                },
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
 }
-
-/*
-note BLoC
-saat masuk screen add_mandor_screen.dart
-  GET DATA
-  T_User_Assignment_Schema = data
-    list_mandor = data 
-  T_Gang_Allotment_Schema = data   
-
-  add_mandor_event == aktifitas user / system
-  
-  1. add_mandor_event.dart
-  abstract parent class -> get props => []
-  class untuk LoadData saat pertama kali terrender
-  2. add_mandor_state
-
- */
