@@ -5,7 +5,7 @@ class DropdownSearchRow extends StatelessWidget {
   final List<String> items;
   final String? value;
   final ValueChanged<String?> onChanged;
-  final VoidCallback onSearch;
+  final VoidCallback onIconSearchClicked;
   final VoidCallback? onDelete;
   final bool showDelete;
 
@@ -14,7 +14,7 @@ class DropdownSearchRow extends StatelessWidget {
     required this.items,
     required this.value,
     required this.onChanged,
-    required this.onSearch,
+    required this.onIconSearchClicked,
     this.onDelete,
     this.showDelete = false,
   });
@@ -46,7 +46,7 @@ class DropdownSearchRow extends StatelessWidget {
 
         SizedBox(width: 8),
         IconButton(
-          onPressed: onSearch,
+          onPressed: onIconSearchClicked,
           icon: Icon(Icons.search, color: AppColors.primary),
         ),
         if (showDelete && onDelete != null)

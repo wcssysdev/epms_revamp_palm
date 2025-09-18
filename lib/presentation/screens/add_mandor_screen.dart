@@ -6,7 +6,7 @@ import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_bloc.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_event.dart';
 import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_state.dart';
 import 'package:epms_tech/presentation/widgets/logo_section.dart';
-import 'package:epms_tech/presentation/widgets/mandor_picker_section.dart';
+import 'package:epms_tech/presentation/widgets/complex/mandor_picker_section.dart';
 import 'package:epms_tech/presentation/widgets/outline_icon_button.dart';
 import 'package:epms_tech/presentation/widgets/submit_button_section.dart';
 import 'package:epms_tech/presentation/widgets/text_pressable_section.dart';
