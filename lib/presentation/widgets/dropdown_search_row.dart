@@ -20,7 +20,7 @@ class DropdownSearchRow extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {// <---- HARUS DI LISTENED
     return Row(
       children: [
         Expanded(
@@ -52,7 +52,7 @@ class DropdownSearchRow extends StatelessWidget {
         if (showDelete && onDelete != null)
           IconButton(
             onPressed: onDelete,
-            icon: Icon(Icons.close, color: AppColors.red),
+            icon: Icon(Icons.close, color: AppColors.red, fontWeight: FontWeight.bold,),
           ),
       ],
     );

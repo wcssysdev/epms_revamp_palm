@@ -16,6 +16,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     on<LoadMandorList>(_onLoadMandorList);
     on<ClickAddButton>(_onClickAddButton);
     on<UpdateMandorPicker>(_onUpdateMandorPicker);
+    on<DeleteMandorSelected>(_onDeleteMandorSelected);
   }
 
   Future<void> _onLoadMandorList(
@@ -127,7 +128,8 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
       final mandorSelectedList = List<GangAllotment>.from(
         currentState.mandorSelected,
       );
-      if (mandorSelectedList.isNotEmpty && (event.index < mandorSelectedList.length)) {
+      if (mandorSelectedList.isNotEmpty &&
+          (event.index < mandorSelectedList.length)) {
         final alreadyExist = mandorSelectedList.any(
           (item) =>
               item.gangAllotmentMandorEmployeeCode ==
@@ -135,7 +137,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
         );
         if (alreadyExist) {
           final String message =
-              '${gangAllotment.gangAllotmentMandorEmployeeName} already existed';
+              '${gangAllotment.gangAllotmentMandorEmployeeName} is already existed';
 
           updatedPickers.removeAt(event.index);
           mandorSelectedList.removeAt(event.index);
@@ -164,10 +166,8 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
               item.gangAllotmentMandorEmployeeCode ==
               gangAllotment.gangAllotmentMandorEmployeeCode,
         );
-        if (alreadyExist) {
+        if (alreadyExist && mandorSelectedList.isNotEmpty) {
           updatedPickers.removeAt(event.index);
-          mandorSelectedList.removeAt(event.index);
-
           final String message =
               '${gangAllotment.gangAllotmentMandorEmployeeName} already existed';
 
@@ -191,5 +191,28 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
         }
       }
     }
+  }
+
+  Future<void> _onDeleteMandorSelected(
+    DeleteMandorSelected event,
+    Emitter<AddMandorState> emit,
+  ) async {
+    final currentState = state as MandorPickerSet;
+    final parentState = state;
+    final updatedMandorPickerList = List<String?>.from(
+      currentState.mandorPickerList,
+    );
+    final updatedMandorSelected = parentState.mandorSelected;
+
+    updatedMandorPickerList.removeAt(event.index);
+    updatedMandorSelected.removeAt(event.index);
+
+    emit(
+      MandorPickerSet(
+        listMandor: currentState.listMandor,
+        mandorPickerList: updatedMandorPickerList,
+        mandorSelected: updatedMandorSelected,
+      ),
+    );
   }
 }

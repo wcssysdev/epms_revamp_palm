@@ -33,9 +33,12 @@ class UpdateMandorPicker extends AddMandorEvent {
   List<Object?> get props => [index, selectedName];
 }
 
-class RemoveMandor extends AddMandorEvent{
+class DeleteMandorSelected extends AddMandorEvent{
   final int index;
-  RemoveMandor(this.index);
+  DeleteMandorSelected({required this.index});
+
+  @override
+  List<Object?> get props => [index];
 }
 
 class UpdateMandor extends AddMandorEvent {
