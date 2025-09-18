@@ -47,7 +47,11 @@ class MandorPickerSection extends StatelessWidget {
                           );
                         },
                         showDelete: true,
-                        onSearch: () {},
+                        onIconSearchClicked: () {
+                          context.read<AddMandorBloc>().add(
+                            IconSearchClicked(index: index),
+                          );
+                        },
                         onDelete: () {
                           context.read<AddMandorBloc>().add(
                             DeleteMandorSelected(index: index),
