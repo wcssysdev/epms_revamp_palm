@@ -1,4 +1,6 @@
 import 'package:epms_tech/core/theme/app_text_style.dart';
+import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_bloc.dart';
+import 'package:epms_tech/presentation/blocs/add_mandor/add_mandor_event.dart';
 import 'package:epms_tech/presentation/widgets/app_bar_section.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +23,9 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
   void _defaultOnChanged(String value) {
     // nothing (noop)
     print('dika ----$initBLoC');
-    print('dika ----$textController');
+    print('dika ----${textController.text.trim()}');
+
+
   }
 
   
@@ -39,6 +43,15 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
     index = args != null && args['index'] != null ? args['index'] as int : 0;
     title = args != null && args['title'] != null ? args['title'] as String : '';
     initBLoC = args != null && args['initBLoC'] != null ? args['initBLoC'] : 'add_mandor';
+  }
+
+  void _onSearchData(context) {
+    if(initBLoC == 'add_mandor') {
+      print('run add mandor bloc');
+      context.read<AddMandorBloc>().add(
+        AddMandorBySearchedEvent(index: index, name: textController.text.trim())
+      );
+    }
   }
 
 
@@ -59,6 +72,10 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
                 border: OutlineInputBorder(),
                 icon: Icon(Icons.supervised_user_circle),
                 labelText: 'Enter $title',
+                suffixIcon: IconButton(
+                  onPressed: _onSearchData(context), 
+                  icon: Icon(Icons.search_off_sharp)
+                  ),
               ),
             ),
           ],
