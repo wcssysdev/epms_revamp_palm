@@ -44,9 +44,10 @@ class UpdateMandor extends AddMandorEvent {
   UpdateMandor(this.index, this.mandorName);
 }
 
-class IconSearchClicked extends AddMandorEvent {
-  final int index;
-  IconSearchClicked({required this.index});
-}
-
 class SubmitMandorSelection extends AddMandorEvent {}
+
+class AddMandorBySearchedEvent extends AddMandorEvent {
+  final int index;
+  final String name;
+  AddMandorBySearchedEvent({required this.index, required this.name});
+}

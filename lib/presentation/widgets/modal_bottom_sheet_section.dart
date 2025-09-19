@@ -22,7 +22,7 @@ class ModalBottomSheetSection extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
       height: 350,
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(left: 8, right: 16, bottom: 16),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary, width: 2.0),
         borderRadius: BorderRadius.circular(8.0),

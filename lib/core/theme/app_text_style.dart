@@ -8,6 +8,11 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
     color: AppColors.primaryTitle,
   );
+  static final TextStyle screenTitle24 = GoogleFonts.poppins(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: AppColors.primaryTitle,
+  );
 
   static final TextStyle subtitle = GoogleFonts.poppins(
     fontSize: 14,

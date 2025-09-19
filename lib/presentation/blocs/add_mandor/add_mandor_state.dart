@@ -76,3 +76,16 @@ class AddMandorError extends AddMandorState {
   @override
   List<Object?> get props => [message];
 }
+
+class AddMandorBySearched extends AddMandorState {
+  final int index;
+  final String name;
+
+  const AddMandorBySearched({
+    required this.index,
+    required this.name,
+  });
+
+  @override
+  List<Object?> get props => [index, name];
+}

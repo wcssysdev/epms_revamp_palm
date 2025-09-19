@@ -1,5 +1,3 @@
-import 'package:hive/hive.dart';
-
 class HiveMasterDataHelper {
   static Future<List<T>> sortRawDataDistinct<T>(
     List<T> allData,

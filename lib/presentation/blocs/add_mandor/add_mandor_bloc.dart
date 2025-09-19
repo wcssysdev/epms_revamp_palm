@@ -17,7 +17,7 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     on<ClickAddButton>(_onClickAddButton);
     on<UpdateMandorPicker>(_onUpdateMandorPicker);
     on<DeleteMandorSelected>(_onDeleteMandorSelected);
-    on<IconSearchClicked>(_onIconSearchClicked);
+    on<AddMandorBySearchedEvent>(_onAddMandorBySearchedEvent);
   }
 
   Future<void> _onLoadMandorList(
@@ -217,15 +217,17 @@ class AddMandorBloc extends Bloc<AddMandorEvent, AddMandorState> {
     );
   }
 
-  _onIconSearchClicked(IconSearchClicked event, Emitter<AddMandorState> emit) {
-    final currentState = state as MandorPickerSet;
-    emit(ShowMandorSearchModal(index: event.index));
+  Future<void> _onAddMandorBySearchedEvent(
+    AddMandorBySearchedEvent event,
+    Emitter<AddMandorState> emit
+  ) async {
+
     emit(
-      MandorPickerSet(
-        listMandor: currentState.listMandor,
-        mandorPickerList: currentState.mandorPickerList,
-        mandorSelected: currentState.mandorSelected,
-      ),
+      AddMandorBySearched(
+        index: event.index,// event.index
+        name: event.name,// event.name
+        )
     );
   }
+
 }

@@ -7,6 +7,7 @@ import 'package:epms_tech/presentation/screens/add_mandor_screen.dart';
 import 'package:epms_tech/presentation/screens/example_hive_data_screen.dart';
 import 'package:epms_tech/presentation/screens/main_screen.dart';
 import 'package:epms_tech/presentation/screens/ramp_setup_screen.dart';
+import 'package:epms_tech/presentation/screens/search_data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -86,6 +87,7 @@ class MyApp extends StatelessWidget {
         'add_mandor': (context) => AddMandorScreen(),
         'ramp_setup': (context) => RampSetupScreen(),
         'main_screen': (context) => MainScreen(),
+        'search_screen': (context) => SearchDataScreen(),
       },
     );
 
